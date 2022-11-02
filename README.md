@@ -1,5 +1,5 @@
 # ASWE
--![Design](https://www.google.com/url?sa=i&url=https%3A%2F%2Fmakeagif.com%2Fgif%2F2012-earthquake-in-la-scene-rQfjpl&psig=AOvVaw36ZyaDaR-DJbqbceRpb3ff&ust=1667483468430000&source=images&cd=vfe&ved=0CA0QjRxqFwoTCPDygZHSj_sCFQAAAAAdAAAAABAR)
+-![Design](https://thumbs.gfycat.com/SneakyEminentClam-size_restricted.gif)
 
 ## Add your files
 
