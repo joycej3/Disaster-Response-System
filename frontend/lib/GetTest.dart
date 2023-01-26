@@ -12,7 +12,7 @@ Future<DisasterResponse> fetchAlbum() async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    print(jsonDecode(response.body));
+    print(getPrettyJSONString(response.body));
     return DisasterResponse.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
@@ -21,19 +21,21 @@ Future<DisasterResponse> fetchAlbum() async {
   }
 }
 
+String getPrettyJSONString(jsonObject){
+  var encoder = new JsonEncoder.withIndent("     ");
+  return encoder.convert(jsonObject);
+}
+
 class DisasterResponse {
-  final bool disaster;
-  final bool sad;
+  final String response;
 
   const DisasterResponse({
-    required this.disaster,
-    required this.sad,
+    required this.response
   });
 
   factory DisasterResponse.fromJson(Map<String, dynamic> json) {
     return DisasterResponse(
-      disaster: json['disaster'],
-      sad: json['sad'],
+      response: getPrettyJSONString(json)
     );
   }
 }
@@ -89,8 +91,7 @@ class _MyAppState extends State<MyApp> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Text(
-                        "disaster: ${snapshot.data!.disaster}\n"
-                            "sad: ${snapshot.data!.sad}"
+                        snapshot.data!.response
                     );
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
