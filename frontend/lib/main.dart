@@ -45,7 +45,6 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
-
 class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -107,8 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
+//testing push
 class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -121,7 +119,6 @@ class GeneratorPage extends StatelessWidget {
     } else {
       icon = Icons.favorite_border;
     }
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
