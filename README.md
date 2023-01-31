@@ -1,7 +1,7 @@
 # ASWE
 -![Design](https://thumbs.gfycat.com/SneakyEminentClam-size_restricted.gif)
 
--[Trello](https://trello.com/invite/aswe9/ATTIfbf5bf52be13f2d2e59880fafe831f798CEDBBA0)
+- [ ] [Trello](https://trello.com/invite/aswe9/ATTIfbf5bf52be13f2d2e59880fafe831f798CEDBBA0)
 
 ## Add your files
 
