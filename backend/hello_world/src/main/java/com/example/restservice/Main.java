@@ -2,12 +2,20 @@ package com.example.restservice;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileInputStream;
 
+import com.google.api.core.ApiFuture;
+import com.google.api.core.ApiFutureCallback;
+import com.google.api.core.ApiFutures;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.*;
 import com.google.firebase.database.*;
@@ -18,6 +26,7 @@ public class Main {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	private final FirebaseDatabase database;
+	DatabaseReference disasterRef;
 	private Emergency recentEmergency = new Emergency("n/a", "n/a");
 
 	public Main() throws java.io.FileNotFoundException, java.io.IOException {
@@ -33,10 +42,10 @@ public class Main {
         FirebaseApp.initializeApp(options);
 
 		database = FirebaseDatabase.getInstance();
-		DatabaseReference ref = database.getReference("test/disasters");
+		disasterRef = database.getReference("test/disasters");
 		
 		// Attach a listener to read the data at our posts reference
-		ref.addChildEventListener(new ChildEventListener() {
+		disasterRef.addChildEventListener(new ChildEventListener() {
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
 				System.out.println("child added");
@@ -74,9 +83,19 @@ public class Main {
 		return new GreetingRecord(counter.incrementAndGet(), String.format(template, name));
 	}
 
-	@GetMapping("/firebase")
+	@GetMapping("/firebase_get")
 	public EmergencyRecord firebase() {
 		return new EmergencyRecord(recentEmergency.type, recentEmergency.time);
+	}
+
+	@PostMapping(path = "/firebase_push", 
+        consumes = MediaType.APPLICATION_JSON_VALUE, 
+        produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {
+		System.out.println("Attempting firebase push");
+		System.out.println("Type: " + emergency.type + ", time: " + emergency.time);
+		disasterRef.push().setValueAsync(emergency);
+		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}
 
 }

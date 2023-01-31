@@ -8,11 +8,9 @@ public class Emergency {
     public Emergency(String time, String type) {
     }
 
-    public Emergency() {
-      time = "fail";
-      type = "fail";
+    public Emergency(){
+      
     }
-  
   }
   
 
