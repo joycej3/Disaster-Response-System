@@ -32,7 +32,7 @@ public class Main {
 	public Main() throws java.io.FileNotFoundException, java.io.IOException {
 		System.out.println("Initialising firebase");
 		FileInputStream serviceAccount =
-        new FileInputStream("src/main/java/com/example/restservice/firebase_service_account/group-9-c4e02-firebase-adminsdk-n4ryk-412aeb9e07.json");
+        new FileInputStream("src/main/java/com/example/restservice/firebase_service_account/private_key.json");
 
         FirebaseOptions options = new FirebaseOptions.Builder()
         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
