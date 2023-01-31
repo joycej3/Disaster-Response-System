@@ -1,6 +1,8 @@
 # ASWE
 -![Design](https://thumbs.gfycat.com/SneakyEminentClam-size_restricted.gif)
 
+-[Trello](https://trello.com/invite/aswe9/ATTIfbf5bf52be13f2d2e59880fafe831f798CEDBBA0)
+
 ## Add your files
 
 - [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
