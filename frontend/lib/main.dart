@@ -76,26 +76,38 @@ class MyApp extends StatelessWidget {
     );
 
     return MaterialApp(
-      title: 'Disaster Response System 9000',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Disaster Response System 9000'),
+        theme: ThemeData(
+          primarySwatch: Colors.red,
         ),
-        body: ListView(
-          children: [
-            Image.asset(
-              'images/disaster.png',
-              width: 100,
-              height: 200,
-              fit: BoxFit.cover,
+        title: 'Disaster Response System 9000',
+        home: DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Disaster Response System 9000'),
+              bottom: const TabBar(
+                tabs: [
+                  Tab(icon: Icon(Icons.home)),
+                  Tab(icon: Icon(Icons.report)),
+                  Tab(icon: Icon(Icons.directions))
+                ],
+              ),
             ),
-            titleSection,
-            buttonSection,
-            textSection,
-          ],
-        ),
-      ),
-    );
+            body: ListView(
+              children: [
+                Image.asset(
+                  'images/disaster.png',
+                  width: 100,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+                titleSection,
+                buttonSection,
+                textSection,
+              ],
+            ),
+          ),
+        ));
   }
 }
 
