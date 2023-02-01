@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:window_size/window_size.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isWindows) {
+    setWindowTitle('Disaster Response System');
+    setWindowMinSize(const Size(600, 950));
+    setWindowMaxSize(const Size(600, 950));
+  }
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,13 +32,13 @@ class MyApp extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: const Text(
-                    'EVACUATE NOW',
+                    'Disaster Response System',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.red),
                   ),
                 ),
                 Text(
-                  'Nuclear Event',
+                  'Use App for safe evacuation',
                   style: TextStyle(
                     color: Colors.grey[500],
                   ),
@@ -35,42 +46,37 @@ class MyApp extends StatelessWidget {
               ],
             ),
           ),
-          /*3*/
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          const Text('41'),
         ],
       ),
     );
 
-    Color color = Theme.of(context).primaryColor;
+    Color color = Colors.red;
 
     Widget buttonSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildButtonColumn(color, Icons.call, 'CALL'),
-        _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
-        _buildButtonColumn(color, Icons.share, 'SHARE'),
+        //_buildButtonColumn(color, Icons.call, 'EMERGNECY SERVICES'),
+        _buildButtonColumn(color, Icons.report, 'REPORT AN EVENT'),
+        _buildButtonColumn(color, Icons.directions, 'EVACUATION ROUTES'),
       ],
     );
 
     Widget textSection = const Padding(
       padding: EdgeInsets.all(32),
       child: Text(
-        'Nuclear explosions can cause '
-        'significant damage and casualties '
-        'from blast, heat, and radiation'
-        'but you can keep your family safe'
-        'by knowing what to do and being'
-        'prepared if it occurs.',
+        'Disasters are serious disruptions to '
+        'the functioning of a community that exceed '
+        'its capacity to cope using its own resources. '
+        'Disasters can be caused by natural, man-made '
+        'and technological hazards, as well as various '
+        'factors that influence the exposure and vulnerability '
+        'of a community. ',
         softWrap: true,
       ),
     );
 
     return MaterialApp(
-      title: 'Disaster Respons System 9000',
+      title: 'Disaster Response System 9000',
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Disaster Response System 9000'),
@@ -78,7 +84,7 @@ class MyApp extends StatelessWidget {
         body: ListView(
           children: [
             Image.asset(
-              'images/nuke.jpg',
+              'images/disaster.png',
               width: 100,
               height: 200,
               fit: BoxFit.cover,
