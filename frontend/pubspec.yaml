@@ -27,3 +27,4 @@ flutter:
   assets:
     - images/lake.jpg 
     - images/nuke.jpg
+    - config/api.json

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'dart:developer' as developer;
 
 Future<Map> readJsonFile(String filePath) async {
   var input = await File(filePath).readAsString();
@@ -12,10 +13,10 @@ Future<Map> readJsonFile(String filePath) async {
 
 
 class ApiHandler{
-  Map nameToApiInfo = Map();
+  Map nameToApiInfo = {};
   bool configReady = false;
 
-  call_api(String apiName) async {
+  callApi(String apiName) async {
     if (!configReady){
       nameToApiInfo = await readJsonFile("config/api.json");
       configReady = true;
