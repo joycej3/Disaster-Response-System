@@ -11,12 +11,22 @@ Future<Map> readJsonFile(String filePath) async {
   return map;
 }
 
+<<<<<<< HEAD
 class ApiHandler {
   Map nameToApiInfo = Map();
   bool configReady = false;
 
   call_api(String apiName) async {
     if (!configReady) {
+=======
+
+class ApiHandler{
+  Map nameToApiInfo = {};
+  bool configReady = false;
+
+  callApi(String apiName) async {
+    if (!configReady){
+>>>>>>> ef4d3ffa21b045ba9f5069fe076777dacd2fa0a4
       nameToApiInfo = await readJsonFile("config/api.json");
       configReady = true;
     }
