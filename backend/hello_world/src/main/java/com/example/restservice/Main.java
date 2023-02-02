@@ -58,6 +58,7 @@ public class Main {
 		  
 			@Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+				recentEmergency = dataSnapshot.getValue(Emergency.class);
 				System.out.println("changed");
 			}
 		  
