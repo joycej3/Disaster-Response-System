@@ -13,6 +13,77 @@ void main() {
   runApp(const MyApp());
 }
 
+/////////
+// Create a Form widget.
+class MyCustomForm extends StatefulWidget {
+  const MyCustomForm({super.key});
+
+  @override
+  MyCustomFormState createState() {
+    return MyCustomFormState();
+  }
+}
+
+// Create a corresponding State class.
+// This class holds data related to the form.
+class MyCustomFormState extends State<MyCustomForm> {
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form.
+  //
+  // Note: This is a GlobalKey<FormState>,
+  // not a GlobalKey<MyCustomFormState>.
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    // Build a Form widget using the _formKey created above.
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Emergency Description: "),
+          TextFormField(
+            // The validator receives the text that the user has entered.
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter a description of your emergency';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            // The validator receives the text that the user has entered.
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your location';
+              }
+              return null;
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Validate returns true if the form is valid, or false otherwise.
+                if (_formKey.currentState!.validate()) {
+                  // If the form is valid, display a snackbar. In the real world,
+                  // you'd often call a server or save the information in a database.
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processing Data')),
+                  );
+                }
+              },
+              child: const Text('Submit'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+//////////
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -30,7 +101,7 @@ class MyApp extends StatelessWidget {
               children: [
                 /*2*/
                 Container(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: const Text(
                     'Disaster Response System',
                     style: TextStyle(
@@ -46,12 +117,6 @@ class MyApp extends StatelessWidget {
               ],
             ),
           ),
-          /*3*/
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          const Text('41'),
         ],
       ),
     );
@@ -68,7 +133,7 @@ class MyApp extends StatelessWidget {
     );
 
     Widget textSection = const Padding(
-      padding: EdgeInsets.all(32),
+      padding: EdgeInsets.fromLTRB(32, 0, 32, 10),
       child: Text(
         'Disasters are serious disruptions to '
         'the functioning of a community that exceed '
@@ -79,6 +144,20 @@ class MyApp extends StatelessWidget {
         'of a community. ',
         softWrap: true,
       ),
+    );
+
+    Widget homePage = ListView(
+      children: [
+        Image.asset(
+          'images/disaster.png',
+          width: 100,
+          height: 200,
+          fit: BoxFit.cover,
+        ),
+        titleSection,
+        textSection,
+        //buttonSection,
+      ],
     );
 
     return MaterialApp(
@@ -92,6 +171,9 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Disaster Response System 9000'),
               bottom: const TabBar(
+                indicator: BoxDecoration(color: Colors.orangeAccent),
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorWeight: 10,
                 tabs: [
                   Tab(icon: Icon(Icons.home)),
                   Tab(icon: Icon(Icons.report)),
@@ -99,17 +181,23 @@ class MyApp extends StatelessWidget {
                 ],
               ),
             ),
-            body: ListView(
+            // body: ListView(
+            //   children: [
+            //     Image.asset(
+            //       'images/disaster.png',
+            //       width: 100,
+            //       height: 200,
+            //       fit: BoxFit.cover,
+            //     ),
+            //     titleSection,
+            //     buttonSection,
+            //     textSection,
+            //   ],
+            body: TabBarView(
               children: [
-                Image.asset(
-                  'images/disaster.png',
-                  width: 100,
-                  height: 200,
-                  fit: BoxFit.cover,
-                ),
-                titleSection,
-                buttonSection,
-                textSection,
+                homePage,
+                MyCustomForm(),
+                Icon(Icons.report),
               ],
             ),
           ),
