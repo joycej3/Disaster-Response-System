@@ -42,10 +42,12 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(padding: const EdgeInsets.symmetric(vertical: 10.0)),
-          Text(
-            "Emergency Description: ",
-            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          Padding(
+            padding: EdgeInsets.all(15), //apply padding to all four sides
+            child: Text(
+              "Emergency Description: ",
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            ),
           ),
           TextFormField(
             // The validator receives the text that the user has entered.
@@ -56,10 +58,12 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-          Padding(padding: const EdgeInsets.symmetric(vertical: 10.0)),
-          Text(
-            "Emergency Location: ",
-            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          Padding(
+            padding: EdgeInsets.all(15), //apply padding to all four sides
+            child: Text(
+              "Emergency Location: ",
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            ),
           ),
           TextFormField(
             // The validator receives the text that the user has entered.
@@ -70,9 +74,13 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
+          Center(
+            heightFactor: 5,
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5))),
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
