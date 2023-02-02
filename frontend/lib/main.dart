@@ -42,7 +42,11 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Emergency Description: "),
+          Padding(padding: const EdgeInsets.symmetric(vertical: 10.0)),
+          Text(
+            "Emergency Description: ",
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          ),
           TextFormField(
             // The validator receives the text that the user has entered.
             validator: (value) {
@@ -51,6 +55,11 @@ class MyCustomFormState extends State<MyCustomForm> {
               }
               return null;
             },
+          ),
+          Padding(padding: const EdgeInsets.symmetric(vertical: 10.0)),
+          Text(
+            "Emergency Location: ",
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
           ),
           TextFormField(
             // The validator receives the text that the user has entered.
@@ -62,7 +71,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: ElevatedButton(
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
@@ -91,7 +100,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // #docregion titleSection
     Widget titleSection = Container(
-      padding: const EdgeInsets.all(32),
+      padding: const EdgeInsets.fromLTRB(32, 10, 10, 10),
       child: Row(
         children: [
           Expanded(
@@ -111,7 +120,7 @@ class MyApp extends StatelessWidget {
                 Text(
                   'Use App for safe evacuation',
                   style: TextStyle(
-                    color: Colors.grey[500],
+                    color: Colors.blueGrey,
                   ),
                 ),
               ],
@@ -133,7 +142,7 @@ class MyApp extends StatelessWidget {
     );
 
     Widget textSection = const Padding(
-      padding: EdgeInsets.fromLTRB(32, 0, 32, 10),
+      padding: EdgeInsets.fromLTRB(32, 0, 32, 5),
       child: Text(
         'Disasters are serious disruptions to '
         'the functioning of a community that exceed '
@@ -141,9 +150,20 @@ class MyApp extends StatelessWidget {
         'Disasters can be caused by natural, man-made '
         'and technological hazards, as well as various '
         'factors that influence the exposure and vulnerability '
-        'of a community. ',
+        'of a community. '
+        '\n'
+        '\n',
         softWrap: true,
       ),
+    );
+
+    Widget textSection2 = const Padding(
+      padding: EdgeInsets.fromLTRB(32, 0, 32, 5),
+      child: Text(
+          'Please use this app to report and get routes away from disasters.',
+          softWrap: true,
+          style:
+              TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
     );
 
     Widget homePage = ListView(
@@ -156,6 +176,7 @@ class MyApp extends StatelessWidget {
         ),
         titleSection,
         textSection,
+        textSection2,
         //buttonSection,
       ],
     );
@@ -164,7 +185,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),
-        title: 'Disaster Response System 9000',
+        title: 'Disaster Response System-9000',
         home: DefaultTabController(
           length: 3,
           child: Scaffold(
