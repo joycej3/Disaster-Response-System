@@ -34,7 +34,7 @@ public class Main {
 		FileInputStream serviceAccount =
         new FileInputStream("src/main/java/com/example/restservice/firebase_service_account/private_key.json");
 
-        FirebaseOptions options = new FirebaseOptions.Builder()
+        FirebaseOptions options =  FirebaseOptions.builder()
         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
         .setDatabaseUrl("https://group-9-c4e02-default-rtdb.europe-west1.firebasedatabase.app")
         .build();
