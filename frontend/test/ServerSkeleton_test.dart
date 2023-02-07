@@ -5,6 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:flutter_frontend/api.dart';
+import 'package:flutter_frontend/api.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter/material.dart';
@@ -17,37 +19,36 @@ import 'ServerSkeleton_test.mocks.dart';
 const String SERVER_URL = 'http://localhost:8080/firebase_get';
 
 
-@GenerateMocks([http.Client])
+@GenerateMocks([ApiHandler, http.Response, http.Client])
 void main() {
 
   test(' GIVEN a http client WHEN the http call completes successfully THEN returns a DisasterResponse', () async {
     //GIVEN
-    final client = MockClient();
-
+    final apiHandler = MockApiHandler();
     // Use Mockito to return a successful response when it calls the
     // provided http.Client.
     //WHEN
-    when(client
-        .get(Uri.parse(SERVER_URL)))
+    when(apiHandler
+        .callApi(any))
         .thenAnswer((_) async =>
         http.Response('{"DisasterType": "Hurricane", "DisasterTime": "12:06"}', 200));
 
     //THEN
-    expect(await fetchAlbum(client), isA<DisasterResponse>());
+    expect(await fetchAlbum(apiHandler), isA<DisasterResponse>());
   });
 
   test("GIVEN a http client WHEN 404 is returned THEN throws exception", () {
     //GIVEN
-    final client = MockClient();
+     final apiHandler = MockApiHandler();
     String mockResponse = 'Not Found';
 
     //WHEN
-    when(client
-        .get(Uri.parse(SERVER_URL)))
+    when(apiHandler
+        .callApi(any))
         .thenAnswer((_) async =>
         http.Response(mockResponse, 404));
 
-    expect(fetchAlbum(client), throwsException);
+    expect(fetchAlbum(apiHandler), throwsException);
   });
 
   test("Empty test", ()

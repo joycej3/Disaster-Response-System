@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_frontend/main.dart';
 import 'package:http/http.dart' as http;
 
-const String SERVER_URL = 'http://localhost:8080/firebase_get';
+import "api.dart";
 
-Future<DisasterResponse> fetchAlbum(http.Client client) async {
-  final response = await client
-      .get(Uri.parse(SERVER_URL));
+Future<DisasterResponse> fetchAlbum(ApiHandler apiHandler) async {
+  final response = await apiHandler.callApi("database_get");
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -57,14 +56,14 @@ class _MyAppState extends State<MyApp> {
   void fetch() {
 
     setState(() {
-      futureAlbum = fetchAlbum(http.Client());
+      futureAlbum = fetchAlbum(ApiHandler());
     });
   }
 
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum(http.Client());
+    futureAlbum = fetchAlbum(ApiHandler());
   }
 
   @override
