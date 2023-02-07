@@ -21,7 +21,7 @@
 
 test:
   stage: test
-  image: "cirrusci/flutter:1.22.5"
+  image: cirrusci/flutter:latest
   before_script:
     - cd frontend
     - pub global activate junitreport
