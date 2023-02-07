@@ -1,10 +1,22 @@
+import 'dart:async';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'dart:io';
 import 'package:window_size/window_size.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-void main() {
+import 'firebase_options.dart';
+import 'package:flutter_frontend/screens/login/login.dart';
+import 'package:flutter_frontend/screens/report_form/myCustomForm.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isWindows) {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  if (UniversalPlatform.isWindows) {
     setWindowTitle('Disaster Response System');
     setWindowMinSize(const Size(600, 950));
     setWindowMaxSize(const Size(600, 950));
@@ -14,6 +26,54 @@ void main() {
 }
 
 /////////
+
+// Create a Google Maps widget.
+class MapSample extends StatefulWidget {
+  const MapSample({Key? key}) : super(key: key);
+
+  @override
+  State<MapSample> createState() => MapSampleState();
+}
+
+class MapSampleState extends State<MapSample> {
+  final Completer<GoogleMapController> _controller =
+  Completer<GoogleMapController>();
+
+  static const CameraPosition Dublin = CameraPosition(
+    target: LatLng(53.3458, -6.2543577),
+    zoom: 14,
+  );
+
+  static const CameraPosition Trinity = CameraPosition(
+      bearing: 50,
+      target: LatLng(53.3447406, -6.2584452),
+      tilt: 40,
+      zoom: 18);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GoogleMap(
+        mapType: MapType.hybrid,
+        initialCameraPosition: Dublin,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _goToCollege,
+        label: const Text('To College!'),
+        icon: const Icon(Icons.school),
+      ),
+    );
+  }
+
+  Future<void> _goToCollege() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(Trinity));
+  }
+}
+
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({super.key});
@@ -42,13 +102,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.all(15), //apply padding to all four sides
-            child: Text(
-              "Emergency Description: ",
-              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-            ),
-          ),
+          Text("Emergency Description: "),
           TextFormField(
             // The validator receives the text that the user has entered.
             validator: (value) {
@@ -57,13 +111,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               }
               return null;
             },
-          ),
-          Padding(
-            padding: EdgeInsets.all(15), //apply padding to all four sides
-            child: Text(
-              "Emergency Location: ",
-              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-            ),
           ),
           TextFormField(
             // The validator receives the text that the user has entered.
@@ -74,17 +121,13 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-          Center(
-            heightFactor: 5,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5))),
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
+                  // If the form is valid, display a snack bar. In the real world,
                   // you'd often call a server or save the information in a database.
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Processing Data')),
@@ -108,7 +151,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // #docregion titleSection
     Widget titleSection = Container(
-      padding: const EdgeInsets.fromLTRB(32, 10, 10, 10),
+      padding: const EdgeInsets.all(32),
       child: Row(
         children: [
           Expanded(
@@ -143,7 +186,7 @@ class MyApp extends StatelessWidget {
     Widget buttonSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        //_buildButtonColumn(color, Icons.call, 'EMERGNECY SERVICES'),
+        //_buildButtonColumn(color, Icons.call, 'EMERGENCY SERVICES'),
         _buildButtonColumn(color, Icons.report, 'REPORT AN EVENT'),
         _buildButtonColumn(color, Icons.directions, 'EVACUATION ROUTES'),
       ],
@@ -225,8 +268,8 @@ class MyApp extends StatelessWidget {
             body: TabBarView(
               children: [
                 homePage,
-                MyCustomForm(),
-                Icon(Icons.report),
+                LoginForm(),
+                MapSample()
               ],
             ),
           ),
