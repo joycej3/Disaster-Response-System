@@ -7,7 +7,7 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
 
-code_quality:
+.code_quality:
   stage: test
   image: "cirrusci/flutter:1.22.5"
   before_script:
@@ -19,7 +19,7 @@ code_quality:
     reports:
       codequality: gl-code-quality-report.json
 
-test:
+.test:
   stage: test
   image: "cirrusci/flutter:1.22.5"
   before_script:
