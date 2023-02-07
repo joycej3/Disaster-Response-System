@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_frontend/main.dart';
 import 'package:http/http.dart' as http;
 
+import "api.dart";
+
 Future<DisasterResponse> fetchAlbum() async {
-  final response = await http
-      .get(Uri.parse('http://localhost:8080/firebase_get'));
+  ApiHandler apiHandler = ApiHandler();
+  final response = apiHandler.callApi("database_get");
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

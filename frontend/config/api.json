@@ -2,5 +2,11 @@
     "hello_world": {
         "primary": "http://localhost:8080/greeting",
         "fallback": "http://localhost:8080/greeting"
+    },
+    "database_get": {
+        "primary": "http://localhost:8080/firebase_get"
+    },
+    "database_push": {
+        "primary": "http://localhost:8080/firebase_push"
     }
 }
