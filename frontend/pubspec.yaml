@@ -9,6 +9,7 @@ environment:
   sdk: '>=2.18.4 <3.0.0'
 
 dependencies:
+  google_maps_flutter: ^2.2.3
   http: 0.13.5
   flutter:
     sdk: flutter
@@ -20,15 +21,18 @@ dependencies:
     git:
       url: https://github.com/google/flutter-desktop-embedding.git
       path: plugins/window_size
+  firebase_auth: ^4.2.5
+  firebase_core: ^2.4.1
+  universal_platform: ^1.0.0+1
+  flutter_bloc: any
   
-
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
-
+ 
 flutter:
   uses-material-design: true
   assets:
@@ -38,3 +42,11 @@ flutter:
     - images/response.jpg
     - images/disaster_zone.png
     - images/disaster.png
+
+firebase_core_platform_interface:
+  dependency: transitive
+  description:
+    name: firebase_core_platform_interface
+    url: "https://pub.dartlang.org"
+  source: hosted
+  version: "4.4.1"
