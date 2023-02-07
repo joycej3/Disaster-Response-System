@@ -19,11 +19,10 @@
     reports:
       codequality: gl-code-quality-report.json
 
-test:
+.test:
   stage: test
-  image: cirrusci/flutter:latest
+  image: cirrusci/flutter:stable
   before_script:
-    - cd frontend
     - pub global activate junitreport
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
