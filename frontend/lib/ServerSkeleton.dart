@@ -9,7 +9,7 @@ import "api.dart";
 
 Future<DisasterResponse> fetchAlbum() async {
   ApiHandler apiHandler = ApiHandler();
-  final response = apiHandler.callApi("database_get");
+  final response = await apiHandler.callApi("database_get");
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
