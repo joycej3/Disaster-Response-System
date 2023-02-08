@@ -8,7 +8,7 @@ public class TestModel {
 
   public static void main(String[] args) throws Exception {
     // Specifying the datasource
-    DataSource dataSource = new DataSource("/Users/dolapoadedokun/Desktop/Trinity/diabetes.arff");
+    DataSource dataSource = new DataSource("backend/hello_world/src/data/diabetes.arff");
     // Loading the dataset
   
     Instances dataInstances = dataSource.getDataSet();
