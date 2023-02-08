@@ -42,7 +42,7 @@
 frontend:
   trigger:
     include:
-       - local: frontend/frontend_gitlab_ci.yml
+       - local: frontend/.frontend_gitlab_ci.yml
 
 deploy:
   stage: deploy
