@@ -1,12 +1,3 @@
-# This file is a template, and might need editing before it works on your project.
-# You can copy and paste this template into a new `.gitlab-ci.yml` file.
-# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
-#
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/ee/development/cicd/templates.html
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
-
 .code_quality:
   stage: test
   image: "cirrusci/flutter:stable"
@@ -19,12 +10,11 @@
     reports:
       codequality: gl-code-quality-report.json
 
-.test:
+test:
   stage: test
   image: cirrusci/flutter:stable
   before_script:
-    - cd frontend
-    - flutter pub get 
+    - cd frontend 
     - flutter pub global activate junitreport
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
@@ -35,19 +25,10 @@
   artifacts:
     name: coverage
     paths:
+      - report.xml
       - $CI_PROJECT_DIR/coverage
     reports:
       junit: report.xml
-
-frontend:
-  trigger:
-    include:
-       - local: frontend/.frontend_gitlab_ci.yml
-
-backend:
-  trigger:
-    include:
-       - local: backend/backend_gitlab_ci.yml
 
 deploy:
   stage: deploy
