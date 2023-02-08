@@ -21,7 +21,7 @@
 
 .test:
   stage: test
-  image: "cirrusci/flutter:1.22.5"
+  image: cirrusci/flutter:stable
   before_script:
     - pub global activate junitreport
     - export PATH="$PATH:$HOME/.pub-cache/bin"
