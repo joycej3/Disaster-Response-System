@@ -1,4 +1,5 @@
 package com.example.restservice;
+import weka.classifiers.Evaluation;
 import weka.classifiers.trees.J48;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
@@ -22,6 +23,8 @@ public class TestModel {
     J48 treeClassifier = new J48();
     treeClassifier.setOptions(new String[] { "-U" });
     treeClassifier.buildClassifier(dataInstances);
-    
+    Evaluation eval = new Evaluation(dataInstances);
+    eval.evaluateModel(treeClassifier, dataInstances);
+    System.out.println(eval.toSummaryString("\nResults\n======\n", false));
 }
   }
