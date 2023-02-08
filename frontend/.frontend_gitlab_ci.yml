@@ -14,8 +14,7 @@ test:
   stage: test
   image: cirrusci/flutter:stable
   before_script:
-    - ls
-    - flutter pub get 
+    - cd frontend 
     - flutter pub global activate junitreport
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
