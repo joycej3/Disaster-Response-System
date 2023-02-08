@@ -19,7 +19,7 @@
     reports:
       codequality: gl-code-quality-report.json
 
-test:
+.test:
   stage: test
   image: cirrusci/flutter:stable
   before_script:
@@ -38,6 +38,11 @@ test:
       - $CI_PROJECT_DIR/coverage
     reports:
       junit: report.xml
+
+frontend:
+  trigger:
+    include:
+       - local: frontend/frontend_gitlab_ci.yml
 
 deploy:
   stage: deploy
