@@ -43,6 +43,10 @@ frontend:
   trigger:
     include:
        - local: frontend/.frontend_gitlab_ci.yml
+
+backend:
+  trigger:
+    include:
        - local: backend/backend_gitlab_ci.yml
 
 deploy:
