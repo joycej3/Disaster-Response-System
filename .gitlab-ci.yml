@@ -9,9 +9,9 @@
 
 .code_quality:
   stage: test
-  image: "cirrusci/flutter:1.22.5"
+  image: "cirrusci/flutter:stable"
   before_script:
-    - pub global activate dart_code_metrics
+    - flutter pub global activate dart_code_metrics
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
     - metrics lib -r codeclimate  > gl-code-quality-report.json
@@ -25,7 +25,7 @@ test:
   before_script:
     - cd frontend
     - flutter pub get 
-    - pub global activate junitreport
+    - flutter pub global activate junitreport
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
     - flutter test --machine --coverage | tojunit -o report.xml
