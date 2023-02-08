@@ -37,7 +37,7 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
 
   static const CameraPosition Dublin = CameraPosition(
     target: LatLng(53.3458, -6.2543577),
@@ -45,10 +45,7 @@ class MapSampleState extends State<MapSample> {
   );
 
   static const CameraPosition Trinity = CameraPosition(
-      bearing: 50,
-      target: LatLng(53.3447406, -6.2584452),
-      tilt: 40,
-      zoom: 18);
+      bearing: 50, target: LatLng(53.3447406, -6.2584452), tilt: 40, zoom: 18);
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +235,7 @@ class MyApp extends StatelessWidget {
         ),
         title: 'Disaster Response System-9000',
         home: DefaultTabController(
-          length: 3,
+          length: 4,
           child: Scaffold(
             appBar: AppBar(
               title: const Text('Disaster Response System 9000'),
@@ -249,7 +246,8 @@ class MyApp extends StatelessWidget {
                 tabs: [
                   Tab(icon: Icon(Icons.home)),
                   Tab(icon: Icon(Icons.report)),
-                  Tab(icon: Icon(Icons.directions))
+                  Tab(icon: Icon(Icons.directions)),
+                  Tab(icon: Icon(Icons.login)),
                 ],
               ),
             ),
@@ -266,11 +264,7 @@ class MyApp extends StatelessWidget {
             //     textSection,
             //   ],
             body: TabBarView(
-              children: [
-                homePage,
-                LoginForm(),
-                MapSample()
-              ],
+              children: [homePage, MyCustomForm(), MapSample(), LoginForm()],
             ),
           ),
         ));
