@@ -25,6 +25,7 @@ test:
   artifacts:
     name: coverage
     paths:
+      - report.xml
       - $CI_PROJECT_DIR/coverage
     reports:
       junit: report.xml
