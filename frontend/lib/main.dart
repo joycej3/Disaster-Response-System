@@ -46,6 +46,7 @@ class MapSampleState extends State<MapSample> {
 
   static const CameraPosition Trinity = CameraPosition(
       bearing: 50, target: LatLng(53.3447406, -6.2584452), tilt: 40, zoom: 18);
+      bearing: 50, target: LatLng(53.3447406, -6.2584452), tilt: 40, zoom: 18);
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +95,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    return Form(
+    return Scaffold(
+        body: Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +138,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 //////////
