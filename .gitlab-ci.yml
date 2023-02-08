@@ -19,10 +19,11 @@
     reports:
       codequality: gl-code-quality-report.json
 
-.test:
+test:
   stage: test
   image: cirrusci/flutter:stable
   before_script:
+    - flutter pub get 
     - pub global activate junitreport
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
