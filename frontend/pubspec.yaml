@@ -44,7 +44,6 @@ flutter:
   assets:
     - images/lake.jpg 
     - images/nuke.jpg
-    - config/api.json
     - images/response.jpg
     - images/disaster_zone.png
     - images/disaster.png
