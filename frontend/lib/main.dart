@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'firebase_options.dart';
 import 'package:flutter_frontend/screens/login/login.dart';
 import 'package:flutter_frontend/screens/report_form/myCustomForm.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -90,9 +91,16 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
+  String _description ='';
+  String _location='';
+
+
 
   @override
   Widget build(BuildContext context) {
+
+    DatabaseReference postListRef = FirebaseDatabase.instance.ref("posts");
+    DatabaseReference newPostRef = postListRef.push();
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
@@ -105,17 +113,23 @@ class MyCustomFormState extends State<MyCustomForm> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter a description of your emergency';
+              } else {
+                _description = value;
+                return null;
               }
-              return null;
             },
           ),
+          Text("Location: "),
           TextFormField(
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your location';
+              } else {
+                _location = value;
+                return null;
               }
-              return null;
+              
             },
           ),
           Padding(
@@ -126,6 +140,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                 if (_formKey.currentState!.validate()) {
                   // If the form is valid, display a snack bar. In the real world,
                   // you'd often call a server or save the information in a database.
+
+                  newPostRef.set({
+                    'location': _location,
+                    'description': _description
+                  });
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Processing Data')),
                   );
