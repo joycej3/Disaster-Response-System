@@ -4,12 +4,10 @@ import 'package:firebase_database/firebase_database.dart';
 /////////
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key});
+  MyCustomForm({Key? key}) : super(key: key);
 
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
+  MyCustomFormState createState() => MyCustomFormState();
 }
 
 // Create a corresponding State class.
@@ -31,7 +29,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     DatabaseReference newPostRef = postListRef.push();
 
     // Build a Form widget using the _formKey created above.
-    return Form(
+    return Scaffold(
+        body: Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,11 +65,8 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
-
-                  newPostRef.set({
-                    'location': _location,
-                    'description': _description
-                  });
+                  newPostRef.set(
+                      {'location': _location, 'description': _description});
 
                   // If the form is valid, display a snackbar. In the real world,
                   // you'd often call a server or save the information in a database.
@@ -84,7 +80,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 //////////

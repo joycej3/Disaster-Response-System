@@ -25,8 +25,6 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-/////////
-
 // Create a Google Maps widget.
 class MapSample extends StatefulWidget {
   const MapSample({Key? key}) : super(key: key);
@@ -170,9 +168,9 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Disaster Response System 9000'),
               bottom: const TabBar(
-                indicator: BoxDecoration(color: Colors.deepOrangeAccent),
+                indicator: BoxDecoration(color: Colors.orangeAccent),
                 indicatorSize: TabBarIndicatorSize.tab,
-                indicatorWeight: 5,
+                indicatorWeight: 10,
                 tabs: [
                   Tab(icon: Icon(Icons.home)),
                   Tab(icon: Icon(Icons.report)),
@@ -221,76 +219,3 @@ Column _buildButtonColumn(Color color, IconData icon, String label) {
     ],
   );
 }
-
-///// Put this above the main bit if we need it again
-
-// Create a Form widget.
-// class MyCustomForm extends StatefulWidget {
-//   const MyCustomForm({super.key});
-
-//   @override
-//   MyCustomFormState createState() {
-//     return MyCustomFormState();
-//   }
-// }
-
-// // Create a corresponding State class.
-// // This class holds data related to the form.
-// class MyCustomFormState extends State<MyCustomForm> {
-//   // Create a global key that uniquely identifies the Form widget
-//   // and allows validation of the form.
-//   //
-//   // Note: This is a GlobalKey<FormState>,
-//   // not a GlobalKey<MyCustomFormState>.
-//   final _formKey = GlobalKey<FormState>();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // Build a Form widget using the _formKey created above.
-//     return Form(
-//       key: _formKey,
-//       child: Row(
-//         //crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text("Emergency Description: "),
-//           TextFormField(
-//             // The validator receives the text that the user has entered.
-//             validator: (value) {
-//               if (value == null || value.isEmpty) {
-//                 return 'Please enter a description of your emergency';
-//               }
-//               return null;
-//             },
-//           ),
-//           Text("Emergency Location"),
-//           TextFormField(
-//             // The validator receives the text that the user has entered.
-//             validator: (value) {
-//               if (value == null || value.isEmpty) {
-//                 return 'Please enter your location';
-//               }
-//               return null;
-//             },
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.fromLTRB(32, 10, 32, 0),
-//             child: ElevatedButton(
-//               onPressed: () {
-//                 // Validate returns true if the form is valid, or false otherwise.
-//                 if (_formKey.currentState!.validate()) {
-//                   // If the form is valid, display a snack bar. In the real world,
-//                   // you'd often call a server or save the information in a database.
-//                   ScaffoldMessenger.of(context).showSnackBar(
-//                     const SnackBar(content: Text('Processing Data')),
-//                   );
-//                 }
-//               },
-//               child: const Text('Submit'),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-//////////
