@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 
 import com.google.api.core.ApiFuture;
 import com.google.api.core.ApiFutureCallback;
@@ -31,9 +32,8 @@ public class Main {
 
 	public Main() throws java.io.FileNotFoundException, java.io.IOException {
 		System.out.println("Initialising firebase");
-		FileInputStream serviceAccount =
-        new FileInputStream("src/main/java/com/example/restservice/firebase_service_account/private_key.json");
-
+		InputStream serviceAccount =
+        getClass().getResourceAsStream("/firebase_service_account/private_key.json");;
         FirebaseOptions options =  FirebaseOptions.builder()
         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
         .setDatabaseUrl("https://group-9-c4e02-default-rtdb.europe-west1.firebasedatabase.app")
