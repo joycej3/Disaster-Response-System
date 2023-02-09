@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_frontend/api.dart';
 
 /////////
 // Create a Form widget.
@@ -25,8 +26,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
-    DatabaseReference postListRef = FirebaseDatabase.instance.ref("posts");
-    DatabaseReference newPostRef = postListRef.push();
+    ApiHandler apiHandler = ApiHandler();
 
     // Build a Form widget using the _formKey created above.
     return Scaffold(
@@ -65,8 +65,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
-                  newPostRef.set(
-                      {'location': _location, 'description': _description});
+                  apiHandler.callApi("database_push",
+                  {'type': _location, 'time': _description}
+                  );
 
                   // If the form is valid, display a snackbar. In the real world,
                   // you'd often call a server or save the information in a database.
