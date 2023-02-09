@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/login/authentication.dart';
 //replace this with where to go
-import 'package:flutter_frontend/main.dart';
+import 'package:flutter_frontend/screens/report_form/myCustomForm.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({Key? key}) : super(key: key);
