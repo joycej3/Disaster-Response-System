@@ -1,63 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/login/authentication.dart';
-
-import 'package:flutter_frontend/screens/login/signup.dart';
-import 'package:flutter_frontend/screens/report_form/myCustomForm.dart';
-
-class Login extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.all(8.0),
-        children: <Widget>[
-          SizedBox(height: 80),
-          // logo
-          Column(
-            children: [
-              FlutterLogo(
-                size: 55,
-              ),
-              SizedBox(height: 50),
-              Text(
-                'Welcome back!',
-                style: TextStyle(fontSize: 24),
-              ),
-            ],
-          ),
-
-          SizedBox(
-            height: 50,
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: LoginForm(),
-          ),
-
-          SizedBox(height: 20),
-
-          Row(
-            children: <Widget>[
-              SizedBox(width: 50, height: 50),
-              Text('New here ? ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              GestureDetector(
-                onTap: () {
-                  // Navigator.pushNamed(context, '/signup');
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignupForm()));
-                },
-                child: Text('Get Registered Now!!',
-                    style: TextStyle(fontSize: 20, color: Colors.blue)),
-              )
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+//replace this with where to go
+import 'package:flutter_frontend/main.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({Key? key}) : super(key: key);
@@ -76,7 +20,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Scaffold(
+        body: Form(
       key: _formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -95,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter your email';
               }
               return null;
             },
@@ -135,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
             },
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter your password';
               }
               return null;
             },
@@ -143,6 +88,7 @@ class _LoginFormState extends State<LoginForm> {
 
           SizedBox(height: 30),
 
+          //login button
           SizedBox(
             height: 54,
             width: 184,
@@ -157,7 +103,7 @@ class _LoginFormState extends State<LoginForm> {
                       .signIn(email: email!, password: password!)
                       .then((result) {
                     if (result == null) {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => MyCustomForm()));
@@ -183,6 +129,6 @@ class _LoginFormState extends State<LoginForm> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
