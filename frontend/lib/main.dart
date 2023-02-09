@@ -46,7 +46,6 @@ class MapSampleState extends State<MapSample> {
 
   static const CameraPosition Trinity = CameraPosition(
       bearing: 50, target: LatLng(53.3447406, -6.2584452), tilt: 40, zoom: 18);
-      bearing: 50, target: LatLng(53.3447406, -6.2584452), tilt: 40, zoom: 18);
 
   @override
   Widget build(BuildContext context) {
