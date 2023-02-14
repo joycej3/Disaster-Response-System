@@ -1,4 +1,4 @@
-{
+Map<String, Map<String, dynamic>> nameToApiInfo = {
     "hello_world": {
         "primary": "localhost:8080",
         "fallback": "localhost:8080",
@@ -15,4 +15,4 @@
         "path": "/firebase_push",
         "type": "post"
     }
-}
+};
