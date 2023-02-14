@@ -5,12 +5,15 @@ test:
     - cd backend/hello_world
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
-    - mvn verify
+    - mvn verify 
   artifacts:
+    paths:
+      - $CI_PROJECT_DIR
     when: always
     reports:
       junit:
-        - target/surefire-reports/TEST-*.xml
-        - target/failsafe-reports/TEST-*.xml
+        - $CI_PROJECT_DIR/TEST-*.xml
+        - $CI_PROJECT_DIR/TEST-*.xml
+      expire_in: 1 week 
     
 
