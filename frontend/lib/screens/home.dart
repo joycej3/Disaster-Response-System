@@ -1,11 +1,4 @@
-import 'dart:async';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:universal_platform/universal_platform.dart';
-import 'package:window_size/window_size.dart';
-
-import 'package:flutter_frontend/services/firebase_options.dart';
 
 import 'package:flutter_frontend/screens/login.dart';
 import 'package:flutter_frontend/screens/custom_form.dart';

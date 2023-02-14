@@ -8,10 +8,6 @@ import 'package:window_size/window_size.dart';
 
 import 'services/firebase_options.dart';
 
-import 'package:flutter_frontend/screens/login.dart';
-import 'package:flutter_frontend/screens/custom_form.dart';
-import 'package:flutter_frontend/screens/map.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
