@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
+
 // import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:flutter_frontend/main.dart';
 import 'package:flutter_frontend/screens/sensitive/workerhome.dart';
 import 'package:flutter_frontend/screens/home.dart';
 
