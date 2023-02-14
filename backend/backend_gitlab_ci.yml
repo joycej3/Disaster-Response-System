@@ -13,7 +13,5 @@ test:
     reports:
       junit:
         - $CI_PROJECT_DIR/TEST-*.xml
-        - $CI_PROJECT_DIR/TEST-*.xml
-      expire_in: 1 week 
     
 
