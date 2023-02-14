@@ -1,17 +1,35 @@
-test:
+.code_quality:
   stage: test
-  image: maven:3.8.7-amazoncorretto-19
+  image: "cirrusci/flutter:1.22.5"
   before_script:
-    - cd backend/hello_world
+    - pub global activate dart_code_metrics
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
-    - mvn verify 
+    - metrics lib -r codeclimate  > gl-code-quality-report.json
   artifacts:
-    paths:
-      - $CI_PROJECT_DIR
-    when: always
     reports:
-      junit:
-        - $CI_PROJECT_DIR/TEST-*.xml
-    
+      codequality: gl-code-quality-report.json
 
+.test:
+  stage: test
+  image: java:19
+  before_script:
+    - cd backend
+    - pub global activate junitreport
+    - export PATH="$PATH:$HOME/.pub-cache/bin"
+  script:
+    - mvn test -Dtest=".**"
+    - lcov --summary coverage/lcov.info
+    - genhtml coverage/lcov.info --output=coverage
+  coverage: '/lines\.*: \d+\.\d+\%/'
+  artifacts:
+    name: coverage
+    paths:
+      - $CI_PROJECT_DIR/coverage
+    reports:
+      junit: report.xml
+
+deploy:
+  stage: deploy
+  script: echo "Define your deployment script!"
+  environment: production
