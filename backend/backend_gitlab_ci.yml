@@ -1,4 +1,3 @@
-
 test:
   stage: test
   image: maven:3.8.7-amazoncorretto-19
@@ -6,12 +5,12 @@ test:
     - cd backend/hello_world
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
-    - mvn clean test
-    - lcov --summary coverage/lcov.info
-    - genhtml coverage/lcov.info --output=coverage
-  coverage: '/lines\.*: \d+\.\d+\%/'
+    - mvn verify
   artifacts:
-    name: coverage
-    paths:
-      - $CI_PROJECT_DIR/coverage
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+        - target/failsafe-reports/TEST-*.xml
+    
 
