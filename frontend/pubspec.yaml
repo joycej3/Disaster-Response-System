@@ -9,6 +9,7 @@ environment:
   sdk: '>=2.18.4 <3.0.0'
 
 dependencies:
+  google_maps_flutter_web: ^0.3.2+2
   google_maps_flutter: ^2.2.3
   http: 0.13.5
   flutter:
@@ -28,8 +29,8 @@ dependencies:
   flutter_bloc: any
   firebase_database: ^10.0.10
   flutter_spinkit: ^5.1.0
-  
-  
+
+
 
 dev_dependencies:
   flutter_test:
