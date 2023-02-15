@@ -2,9 +2,11 @@ package com.example.restservice;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,27 +24,18 @@ import com.google.firebase.*;
 import com.google.firebase.database.*;
 
 @RestController
+@Component
 public class Main {
 
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
-	private final FirebaseDatabase database;
 	DatabaseReference disasterRef;
 	private Emergency recentEmergency = new Emergency("n/a", "n/a");
 
-	public Main() throws java.io.FileNotFoundException, java.io.IOException {
-		System.out.println("Initialising firebase");
-		InputStream serviceAccount =
-        getClass().getResourceAsStream("/firebase_service_account/private_key.json");;
-        FirebaseOptions options =  FirebaseOptions.builder()
-        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-        .setDatabaseUrl("https://group-9-c4e02-default-rtdb.europe-west1.firebasedatabase.app")
-        .build();
-
-        FirebaseApp.initializeApp(options);
-
-		database = FirebaseDatabase.getInstance();
-		disasterRef = database.getReference("test/disasters");
+	@Autowired
+	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
+		
+		disasterRef = getDatabase.getReference("test/disasters");
 		
 		// Attach a listener to read the data at our posts reference
 		disasterRef.addChildEventListener(new ChildEventListener() {

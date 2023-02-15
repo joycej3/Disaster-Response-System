@@ -15,41 +15,75 @@
  */
 package com.example.restservice;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.Test;
+import java.io.Console;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.matchers.Null;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import com.example.restservice.Main;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+
+
+
+@ExtendWith(MockitoExtension.class)
 public class MainTests {
+	@Mock	
+	FirebaseDatabase getDatabase;
+
+	@Mock
+	DatabaseReference databaseReference;
+
+	@Mock
+	Config config;
+	
 
 	@Autowired
 	private MockMvc mockMvc;
 
-	//@Test skipped due to integration
-	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
+	Main main;
 
-		this.mockMvc.perform(get("/greeting")).andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.content").value("Hello, World!"));
+	@BeforeEach
+	public void setUp() throws FileNotFoundException, IOException{
+		when(getDatabase.getReference(any())).thenReturn(databaseReference);
+		when(databaseReference.addChildEventListener(any())).thenReturn(null);
+		main = new Main(getDatabase);
 	}
 
-	//@Test due to integration
-	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
+	
+	@Test
+	public void GreetingRecordTest(){
+		//GIVEN
+		String name = "test";
+		long counter = 0;
+		GreetingRecord greetingRecord = new GreetingRecord(counter, String.format("Hello, %s!", name));
 
-		this.mockMvc.perform(get("/greeting").param("name", "Spring Community"))
-				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
+		//WHEN
+		
+		GreetingRecord recordReturned = main.greeting(name);
+
+		//THEN
+		assertEquals(greetingRecord.content(), recordReturned.content());
 	}
 
 }
