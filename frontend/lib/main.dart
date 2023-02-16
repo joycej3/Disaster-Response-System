@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -37,12 +38,12 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  static const CameraPosition Dublin = CameraPosition(
+  static const CameraPosition dublin = CameraPosition(
     target: LatLng(53.3458, -6.2543577),
     zoom: 14,
   );
 
-  static const CameraPosition Trinity = CameraPosition(
+  static const CameraPosition trinity = CameraPosition(
       bearing: 50, target: LatLng(53.3447406, -6.2584452), tilt: 40, zoom: 18);
 
   @override
@@ -50,7 +51,7 @@ class MapSampleState extends State<MapSample> {
     return Scaffold(
       body: GoogleMap(
         mapType: MapType.hybrid,
-        initialCameraPosition: Dublin,
+        initialCameraPosition: dublin,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
@@ -60,12 +61,13 @@ class MapSampleState extends State<MapSample> {
         label: const Text('To College!'),
         icon: const Icon(Icons.school),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   Future<void> _goToCollege() async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(Trinity));
+    controller.animateCamera(CameraUpdate.newCameraPosition(trinity));
   }
 }
 

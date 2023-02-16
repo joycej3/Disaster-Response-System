@@ -24,69 +24,82 @@ class _LoginFormState extends State<LoginForm> {
         body: Form(
       key: _formKey,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          SizedBox(height: 15),
+          Text("EMS Workers / Coordinator Login",
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+
           // email
-          TextFormField(
-            // initialValue: 'Input text',
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email_outlined),
-              labelText: 'Email',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  const Radius.circular(100.0),
+          SizedBox(height: 10),
+
+          SizedBox(
+            width: 450,
+            child: TextFormField(
+              // initialValue: 'Input text',
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.email_outlined),
+                labelText: 'Email',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    const Radius.circular(100.0),
+                  ),
                 ),
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your email';
+                }
+                return null;
+              },
+              onSaved: (val) {
+                email = val;
+              },
             ),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter your email';
-              }
-              return null;
-            },
-            onSaved: (val) {
-              email = val;
-            },
           ),
+          //gap between email and password
           SizedBox(
-            height: 20,
+            height: 30,
           ),
 
           // password
-          TextFormField(
-            // initialValue: 'Input text',
-            decoration: InputDecoration(
-              labelText: 'Password',
-              prefixIcon: Icon(Icons.lock_outline),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  const Radius.circular(100.0),
+          SizedBox(
+            width: 450,
+            child: TextFormField(
+              // initialValue: 'Input text',
+              decoration: InputDecoration(
+                labelText: 'Password',
+                prefixIcon: Icon(Icons.lock_outline),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    const Radius.circular(100.0),
+                  ),
+                ),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  child: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                  ),
                 ),
               ),
-              suffixIcon: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _obscureText = !_obscureText;
-                  });
-                },
-                child: Icon(
-                  _obscureText ? Icons.visibility_off : Icons.visibility,
-                ),
-              ),
+              obscureText: _obscureText,
+              onSaved: (val) {
+                password = val;
+              },
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
             ),
-            obscureText: _obscureText,
-            onSaved: (val) {
-              password = val;
-            },
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter your password';
-              }
-              return null;
-            },
           ),
-
-          SizedBox(height: 30),
+          //gap between password and login button
+          SizedBox(height: 20),
 
           //login button
           SizedBox(
