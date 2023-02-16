@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_frontend/main.dart';
-import 'package:http/http.dart' as http;
 
 import "api.dart";
 
@@ -22,22 +20,18 @@ Future<DisasterResponse> fetchAlbum(ApiHandler apiHandler) async {
   }
 }
 
-String getPrettyJSONString(jsonObject){
-  var encoder = new JsonEncoder.withIndent("     ");
+String getPrettyJSONString(jsonObject) {
+  var encoder = JsonEncoder.withIndent("     ");
   return encoder.convert(jsonObject);
 }
 
 class DisasterResponse {
   final String response;
 
-  const DisasterResponse({
-    required this.response
-  });
+  const DisasterResponse({required this.response});
 
   factory DisasterResponse.fromJson(Map<String, dynamic> json) {
-    return DisasterResponse(
-        response: getPrettyJSONString(json)
-    );
+    return DisasterResponse(response: getPrettyJSONString(json));
   }
 }
 
@@ -54,7 +48,6 @@ class _MyAppState extends State<MyApp> {
   late Future<DisasterResponse> futureAlbum;
 
   void fetch() {
-
     setState(() {
       futureAlbum = fetchAlbum(ApiHandler());
     });
@@ -81,19 +74,13 @@ class _MyAppState extends State<MyApp> {
           children: [
             Center(
                 child: ElevatedButton(
-                    onPressed: fetch,
-                    child: Text("fetch from server")
-                )
-            ),
-
+                    onPressed: fetch, child: Text("fetch from server"))),
             Center(
               child: FutureBuilder<DisasterResponse>(
                 future: futureAlbum,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text(
-                        snapshot.data!.response
-                    );
+                    return Text(snapshot.data!.response);
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
@@ -102,11 +89,9 @@ class _MyAppState extends State<MyApp> {
                   return const CircularProgressIndicator();
                 },
               ),
-
             ),
           ],
         ),
-
       ),
     );
   }

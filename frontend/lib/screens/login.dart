@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frontend/screens/login/authentication.dart';
+import 'package:flutter_frontend/services/authentication.dart';
 //replace this with where to go
-import 'package:flutter_frontend/screens/report_form/myCustomForm.dart';
+import 'package:flutter_frontend/screens/sensitive/worker.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({Key? key}) : super(key: key);
 
   @override
-  _LoginFormState createState() => _LoginFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
@@ -129,32 +129,31 @@ class _LoginFormState extends State<LoginForm> {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
 
-                    AuthenticationHelper()
-                        .signIn(email: email!, password: password!)
-                        .then((result) {
-                      if (result == null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyCustomForm()));
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                            result,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ));
-                      }
-                    });
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(24.0)))),
-                child: Text(
-                  'Login',
-                  style: TextStyle(fontSize: 24),
-                ),
+                  AuthenticationHelper()
+                      .signIn(email: email!, password: password!)
+                      .then((result) {
+                    if (result == null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkerPage()));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                          result,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ));
+                    }
+                  });
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(24.0)))),
+              child: Text(
+                'Login',
+                style: TextStyle(fontSize: 24),
               ),
             ),
           ),
