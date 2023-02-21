@@ -24,8 +24,6 @@ class _LoginFormState extends State<LoginForm> {
         body: Form(
       key: _formKey,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 15),
@@ -129,31 +127,32 @@ class _LoginFormState extends State<LoginForm> {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
 
-                  AuthenticationHelper()
-                      .signIn(email: email!, password: password!)
-                      .then((result) {
-                    if (result == null) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WorkerPage()));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                          result,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ));
-                    }
-                  });
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(24.0)))),
-              child: Text(
-                'Login',
-                style: TextStyle(fontSize: 24),
+                    AuthenticationHelper()
+                        .signIn(email: email!, password: password!)
+                        .then((result) {
+                      if (result == null) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WorkerPage()));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                            result,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ));
+                      }
+                    });
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(24.0)))),
+                child: Text(
+                  'Login',
+                  style: TextStyle(fontSize: 24),
+                ),
               ),
             ),
           ),
