@@ -24,8 +24,6 @@ class _LoginFormState extends State<LoginForm> {
         body: Form(
       key: _formKey,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 15),

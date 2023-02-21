@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_frontend/services/api.dart';
 
 /////////
@@ -9,6 +9,130 @@ class MyCustomForm extends StatefulWidget {
 
   @override
   MyCustomFormState createState() => MyCustomFormState();
+}
+
+const List<String> emergencyCategories = <String>[
+  'Building Fire',
+  'Flood',
+  'Traffic Incident',
+  'Aliens'
+];
+
+const List<String> injuryCategories = <String>[
+  'I am not injured',
+  'I am injured',
+  'I can see injured people',
+  'I have one leg hanging off'
+];
+
+///// Emergency Categories Dorpdown --- START ///////
+class DropdownButtonApp extends StatelessWidget {
+  const DropdownButtonApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: const Center(
+          child: EmergencyCategoryDropdown(),
+        ),
+      ),
+    );
+  }
+}
+
+class EmergencyCategoryDropdown extends StatefulWidget {
+  const EmergencyCategoryDropdown({super.key});
+
+  @override
+  State<EmergencyCategoryDropdown> createState() =>
+      _DropdownButtonExampleState();
+}
+
+class _DropdownButtonExampleState extends State<EmergencyCategoryDropdown> {
+  String dropdownValue = emergencyCategories.first;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.red, fontSize: 18),
+      underline: Container(
+        height: 2,
+        color: Colors.redAccent,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: emergencyCategories.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+}
+
+////// EMERGENCY CATEGORY DROPDOWN --- END ////
+///
+/////   INJURT DROPDOWN ---- START ////
+///// Emergency Categories Dorpdown --- START ///////
+class injuryDropApp extends StatelessWidget {
+  const injuryDropApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: const Center(
+          child: injuryCategoryDropdown(),
+        ),
+      ),
+    );
+  }
+}
+
+class injuryCategoryDropdown extends StatefulWidget {
+  const injuryCategoryDropdown({super.key});
+
+  @override
+  State<injuryCategoryDropdown> createState() => _injuryDropdownState();
+}
+
+class _injuryDropdownState extends State<injuryCategoryDropdown> {
+  String dropdownValue = injuryCategories.first;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.red, fontSize: 18),
+      underline: Container(
+        height: 2,
+        color: Colors.redAccent,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: injuryCategories.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
 }
 
 // Create a corresponding State class.
@@ -33,9 +157,24 @@ class MyCustomFormState extends State<MyCustomForm> {
         body: Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Emergency Description: "),
+          SizedBox(height: 15),
+          Text(
+            "Emergency Description: ",
+            style: TextStyle(
+                color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
+          ),
+          SizedBox(height: 15),
+          EmergencyCategoryDropdown(),
+          SizedBox(height: 15),
+          Text(
+            "Report Injuries: ",
+            style: TextStyle(
+                color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
+          ),
+          SizedBox(height: 30),
+          injuryCategoryDropdown(),
           TextFormField(
             // The validator receives the text that the user has entered.
             validator: (value) {
