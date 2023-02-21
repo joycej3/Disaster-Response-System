@@ -1,7 +1,7 @@
 class TFIDataModel {
   String? id;
   bool? isDeleted;
-  TripUpdate? tripUpdate;
+  TripUpdate? tripUpdate;  
 
   TFIDataModel({this.id, this.isDeleted, this.tripUpdate});
 
