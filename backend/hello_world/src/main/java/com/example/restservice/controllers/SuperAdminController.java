@@ -34,10 +34,10 @@ public class SuperAdminController {
 	
 	@GetMapping("data")
 	@IsSuper
-	public String getSuperData() {
-		System.out.println("controller: super admin");
-		String name = securityService.getUser().getName();
-		return name.split("\\s+")[0] + ", you have accessed super data from spring boot";
+	public String getAdminData() {
+		System.out.println("controller: admin");
+		String name = securityService.getUser().getUid();
+		return name.split("\\s+")[0] + ", you have accessed admin data from spring boot";
 	}
 
 }

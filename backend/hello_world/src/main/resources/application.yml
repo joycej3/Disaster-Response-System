@@ -24,7 +24,7 @@ security:
    allow-credentials: true
    allowed-origins:
     #  - https://${CORS_DOMAIN}
-   - http://localhost:58959
+   - http://localhost:52421
    allowed-methods:
    - GET
    - POST
@@ -51,16 +51,14 @@ security:
    - /session/login
    - /public/*
    - /test/**
-   - /firebase_get
+
    - /greeting
    exposed-headers:
    - X-Xsrf-Token
    valid-application-roles:
-   - ROLE_SUPER
    - ROLE_ADMIN
-   - ROLE_SELLER
-   - ROLE_CUSTOMER
-   super-admins: ["admin@test.com"]
+   - ROLE_WORKER
+   super-admins: ["super@gmail.com"]
    test:
      login:
        enabled: false

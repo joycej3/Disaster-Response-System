@@ -12,17 +12,17 @@ class AuthenticationHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   get user => _auth.currentUser;
-  String uri = 'http://localhost:8080/firebase_get';
+  String uri = 'http://localhost:8080/worker/data';
 
   handleAuth() {
     return StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
-            print("has_Data");
+            print("Logged in");
             return WorkerPage();
           } else {
-            print("has no Data");
+            print("Logged out");
             return Home();
           }
         });
@@ -59,16 +59,15 @@ class AuthenticationHelper {
       "Content-type": "application/json",
       "Authorization": "Bearer " + token
     };
-    print(headers);
+
     Response response = await get(Uri.parse(uri), headers: headers);
 
     int statusCode = response.statusCode;
-    print("test");
+
     print(statusCode);
     if (statusCode != 200) {
       return "Could not get input from server";
     }
-    print(response.body.toString());
     return response.body.toString();
   }
 

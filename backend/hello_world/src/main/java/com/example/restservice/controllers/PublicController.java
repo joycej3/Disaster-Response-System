@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("public")
 public class PublicController {
 
-	@GetMapping("/")
+	@GetMapping("data")
 	public String getPublicData() {
 		System.out.println("controller: public");
 		return "You have accessed public data from spring boot";

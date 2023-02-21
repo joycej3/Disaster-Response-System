@@ -44,7 +44,7 @@ public class SessionController {
 			cookieUtils.setSecureCookie("session", sessionCookieValue, sessionExpiryDays);
 			cookieUtils.setCookie("authenticated", Boolean.toString(true), sessionExpiryDays);
 			cookieUtils.setCookie("fullname", user.getName().replaceAll("\\s+", "_").toLowerCase(), sessionExpiryDays);
-			cookieUtils.setCookie("pic", user.getPicture(), sessionExpiryDays);
+;
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +64,6 @@ public class SessionController {
 		cookieUtils.deleteSecureCookie("session");
 		cookieUtils.deleteCookie("authenticated");
 		cookieUtils.deleteCookie("fullname");
-		cookieUtils.deleteCookie("pic");
 	}
 
 	@PostMapping("me")

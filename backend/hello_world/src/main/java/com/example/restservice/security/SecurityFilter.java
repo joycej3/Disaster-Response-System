@@ -117,17 +117,10 @@ public class SecurityFilter extends OncePerRequestFilter {
 			System.out.println("Token is not null");
 			user = new User();
 			user.setUid(decodedToken.getUid());
-			System.out.println(decodedToken.getUid());
 			user.setName(decodedToken.getName());
-			System.out.println(decodedToken.getName());
 			user.setEmail(decodedToken.getEmail());
 			System.out.println(decodedToken.getEmail());
-			user.setPicture(decodedToken.getPicture());
-			System.out.println(decodedToken.getPicture());
-			user.setIssuer(decodedToken.getIssuer());
-			System.out.println(decodedToken.getIssuer());
-			user.setEmailVerified(decodedToken.isEmailVerified());
-			System.out.println(decodedToken.isEmailVerified());
+
 		}
 		return user;
 	}
