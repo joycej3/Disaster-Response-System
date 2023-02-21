@@ -3,32 +3,39 @@ networks:
         driver: bridge
 
 services:
-    frontend1:
-        container_name: frontend
+    frontend:
         build:
             context: /../../frontend/
             dockerfile: Dockerfile
         image: awse/frontend
         ports:
-            - 9001:80
+            - "80"
         networks:
             - spring-cloud-network
-    backend1:
-        container_name: backend
+        deploy:
+            mode: replicated
+            replicas: 2
+        
+
+    backend:
         build:
             context: /../Api_Backend/
             dockerfile: Dockerfile
         image: awse/backend
         ports:
-            - 9000:8080
+            - "8080"
         networks:
             - spring-cloud-network
+        deploy:
+            mode: replicated
+            replicas: 2
+
     load:
         container_name: load
         build:
             dockerfile: Dockerfile
         image: awse/load
         ports:
-            - 8080:8080
+            - "8080:8080"
         networks:
             - spring-cloud-network

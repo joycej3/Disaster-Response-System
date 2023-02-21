@@ -3,6 +3,7 @@ package com.example.Load;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.netlib.util.booleanW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,6 +53,7 @@ public class Main {
 			URI.create("http://backend:8080" + fullPath))
 		.header("accept", "application/json")
 		.build();
+		System.out.println("backend request: " + request);
 
 		// use the client to send the request
 		var response = client.send(request, BodyHandlers.ofString());
@@ -76,6 +78,7 @@ public class Main {
 			URI.create("http://frontend:80" + fullPath))
 		.header("accept", "application/json")
 		.build(); 
+		System.out.println("frontend request: " + request);
 
 		// use the client to send the request
 		var response = client.send(request, BodyHandlers.ofByteArray());
