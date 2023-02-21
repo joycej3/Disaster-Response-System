@@ -26,7 +26,6 @@ class _WorkerHomeState extends State<WorkerHome> {
             ),
             ElevatedButton(
               onPressed: () {
-                print("custom_form 2");
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => WorkerPage()));
                 // MyCustomForm();

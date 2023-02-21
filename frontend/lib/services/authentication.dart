@@ -5,24 +5,24 @@ import 'dart:async';
 
 // import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:flutter_frontend/screens/sensitive/workerhome.dart';
+import 'package:flutter_frontend/screens/sensitive/worker.dart';
 import 'package:flutter_frontend/screens/home.dart';
 
 class AuthenticationHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   get user => _auth.currentUser;
-  String uri = 'http://localhost:8080/firebase_get';
+  String uri = 'http://localhost:8080/worker/data';
 
   handleAuth() {
     return StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
-            print("has_Data");
-            return WorkerHome();
+            print("Logged in");
+            return WorkerPage();
           } else {
-            print("has no Data");
+            print("Logged out");
             return Home();
           }
         });
@@ -59,9 +59,12 @@ class AuthenticationHelper {
       "Content-type": "application/json",
       "Authorization": "Bearer " + token
     };
-    print("Token " + token);
+
     Response response = await get(Uri.parse(uri), headers: headers);
+
     int statusCode = response.statusCode;
+
+    print(statusCode);
     if (statusCode != 200) {
       return "Could not get input from server";
     }

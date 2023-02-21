@@ -14,7 +14,6 @@ class ApiHandler {
 
     if (type == "get") {
       Uri uri = Uri.http(apiUrl, apiPath, arguements);
-      print("uri gotten");
       response = await http.get(uri);
     } else {
       Uri uri = Uri.http(apiUrl, apiPath);

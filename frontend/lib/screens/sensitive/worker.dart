@@ -21,15 +21,16 @@ class _WorkerPageState extends State<WorkerPage> {
             Container(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: Text(
-                'Place Holder 2',
+                textHolder,
                 style: TextStyle(fontSize: 21),
               ),
             ),
             ElevatedButton(
               onPressed: () {
                 print("custom_form 2");
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MyCustomForm()));
+                displaySecureResource();
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => MyCustomForm()));
                 // MyCustomForm();
               }, //displaySecureResource(),
               style: ElevatedButton.styleFrom(
