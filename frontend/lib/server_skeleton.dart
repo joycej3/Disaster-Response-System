@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import "api.dart";
+import "package:flutter_frontend/services/api.dart";
 
 Future<DisasterResponse> fetchAlbum(ApiHandler apiHandler) async {
   final response = await apiHandler.callApi("database_get");

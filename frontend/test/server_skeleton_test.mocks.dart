@@ -7,7 +7,7 @@ import 'dart:async' as _i5;
 import 'dart:convert' as _i6;
 import 'dart:typed_data' as _i4;
 
-import 'package:flutter_frontend/api.dart' as _i3;
+import 'package:flutter_frontend/services/api.dart' as _i3;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 

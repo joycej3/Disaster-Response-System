@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_frontend/api.dart';
+
+import 'package:flutter_frontend/services/api.dart';
 
 /////////
 // Create a Form widget.
@@ -66,8 +66,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   apiHandler.callApi("database_push",
-                  {'type': _location, 'time': _description}
-                  );
+                      {'type': _location, 'time': _description});
 
                   // If the form is valid, display a snackbar. In the real world,
                   // you'd often call a server or save the information in a database.

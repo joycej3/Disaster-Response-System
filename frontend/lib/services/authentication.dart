@@ -5,7 +5,7 @@ import 'dart:async';
 
 // import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:flutter_frontend/screens/sensitive/workerhome.dart';
+import 'package:flutter_frontend/screens/sensitive/worker.dart';
 import 'package:flutter_frontend/screens/home.dart';
 
 class AuthenticationHelper {
@@ -20,7 +20,7 @@ class AuthenticationHelper {
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
             print("has_Data");
-            return WorkerHome();
+            return WorkerPage();
           } else {
             print("has no Data");
             return Home();
@@ -59,12 +59,16 @@ class AuthenticationHelper {
       "Content-type": "application/json",
       "Authorization": "Bearer " + token
     };
-    print("Token " + token);
+    print(headers);
     Response response = await get(Uri.parse(uri), headers: headers);
+
     int statusCode = response.statusCode;
+    print("test");
+    print(statusCode);
     if (statusCode != 200) {
       return "Could not get input from server";
     }
+    print(response.body.toString());
     return response.body.toString();
   }
 
