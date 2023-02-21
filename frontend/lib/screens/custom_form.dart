@@ -12,10 +12,11 @@ class MyCustomForm extends StatefulWidget {
 }
 
 const List<String> emergencyCategories = <String>[
-  'Building Fire',
-  'Flood',
-  'Traffic Incident',
-  'Aliens'
+  'Natural Disaster',
+  'Fire Related',
+  'Traffic Related',
+  'Aliens',
+  'Other'
 ];
 
 const List<String> injuryCategories = <String>[
@@ -50,23 +51,33 @@ class EmergencyCategoryDropdown extends StatefulWidget {
 }
 
 class _DropdownButtonExampleState extends State<EmergencyCategoryDropdown> {
-  String dropdownValue = emergencyCategories.first;
+  String cat_dropdownValue = emergencyCategories.first;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.red, fontSize: 18),
-      underline: Container(
-        height: 2,
-        color: Colors.redAccent,
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(color: Colors.red, width: 5)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(color: Colors.red, width: 2)),
+        filled: true,
+        fillColor: Colors.redAccent,
       ),
+      dropdownColor: Colors.red,
+      value: cat_dropdownValue,
+      icon: const Icon(
+        Icons.arrow_downward,
+        color: Colors.white,
+      ),
+      elevation: 16,
+      style: const TextStyle(color: Colors.white, fontSize: 18),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
-          dropdownValue = value!;
+          cat_dropdownValue = value!;
         });
       },
       items: emergencyCategories.map<DropdownMenuItem<String>>((String value) {
@@ -80,9 +91,8 @@ class _DropdownButtonExampleState extends State<EmergencyCategoryDropdown> {
 }
 
 ////// EMERGENCY CATEGORY DROPDOWN --- END ////
-///
+
 /////   INJURT DROPDOWN ---- START ////
-///// Emergency Categories Dorpdown --- START ///////
 class injuryDropApp extends StatelessWidget {
   const injuryDropApp({super.key});
 
@@ -106,23 +116,37 @@ class injuryCategoryDropdown extends StatefulWidget {
 }
 
 class _injuryDropdownState extends State<injuryCategoryDropdown> {
-  String dropdownValue = injuryCategories.first;
+  String inj_dropdownValue = injuryCategories.first;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.red, fontSize: 18),
-      underline: Container(
-        height: 2,
-        color: Colors.redAccent,
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(color: Colors.red, width: 2)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide(color: Colors.red, width: 2)),
+        filled: true,
+        fillColor: Colors.redAccent,
       ),
+      dropdownColor: Colors.red,
+      value: inj_dropdownValue,
+      icon: const Icon(
+        Icons.arrow_downward,
+        color: Colors.white,
+      ),
+      elevation: 16,
+      style: const TextStyle(color: Colors.white, fontSize: 18),
+      // underline: Container(
+      //   height: 2,
+      //   color: Colors.redAccent,
+      //),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
-          dropdownValue = value!;
+          inj_dropdownValue = value!;
         });
       },
       items: injuryCategories.map<DropdownMenuItem<String>>((String value) {
@@ -134,6 +158,7 @@ class _injuryDropdownState extends State<injuryCategoryDropdown> {
     );
   }
 }
+////// INJURY CATEGORY DROPDOWN --- END ////
 
 // Create a corresponding State class.
 // This class holds data related to the form.
@@ -159,21 +184,22 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 15),
+          SizedBox(height: 25),
           Text(
-            "Emergency Description: ",
+            "Emergency Description",
             style: TextStyle(
                 color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
           ),
           SizedBox(height: 15),
           EmergencyCategoryDropdown(),
-          SizedBox(height: 15),
+          SizedBox(height: 40),
           Text(
-            "Report Injuries: ",
+            "Report Injuries",
             style: TextStyle(
                 color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 15),
+          //SizedBox(child: Tex)),
           injuryCategoryDropdown(),
           TextFormField(
             // The validator receives the text that the user has entered.
