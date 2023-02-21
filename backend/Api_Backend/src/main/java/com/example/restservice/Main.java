@@ -72,17 +72,17 @@ public class Main {
 		  });
 	}
 
-	@GetMapping("/greeting")
+	@GetMapping("/backend/greeting")
 	public GreetingRecord greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return new GreetingRecord(counter.incrementAndGet(), String.format(template, name));
 	}
 
-	@GetMapping("/firebase_get")
+	@GetMapping("/backend/firebase_get")
 	public EmergencyRecord firebase() {
 		return new EmergencyRecord(recentEmergency.type, recentEmergency.time);
 	}
 
-	@PostMapping(path = "/firebase_push", 
+	@PostMapping(path = "/backend/firebase_push", 
         consumes = MediaType.APPLICATION_JSON_VALUE, 
         produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {

@@ -40,14 +40,15 @@ import java.nio.file.Path;
 @Component
 public class Main {
 
-	@GetMapping("/greeting")
-	public HashMap greeting(@RequestParam(value = "name", defaultValue = "World") String name) throws IOException, InterruptedException {
-		
+	@GetMapping("/backend/**")
+	public HashMap backend(HttpServletRequest servletRequest) throws IOException, InterruptedException {
+		String fullPath = (String) servletRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+
 		// create a client
 		var client = HttpClient.newHttpClient();
 		// create a request
 		var request = HttpRequest.newBuilder(
-			URI.create("http://localhost:8081/greeting"))
+			URI.create("http://localhost:8081" + fullPath))
 		.header("accept", "application/json")
 		.build();
 
