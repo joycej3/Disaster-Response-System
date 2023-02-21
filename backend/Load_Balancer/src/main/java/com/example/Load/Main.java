@@ -27,6 +27,7 @@ import weka.core.converters.JSONLoader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Inet4Address;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -43,17 +44,18 @@ public class Main {
 	@GetMapping("/backend/**")
 	public HashMap backend(HttpServletRequest servletRequest) throws IOException, InterruptedException {
 		String fullPath = (String) servletRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-
+		System.out.println("back:fullpath: " + fullPath);
 		// create a client
 		var client = HttpClient.newHttpClient();
 		// create a request
 		var request = HttpRequest.newBuilder(
-			URI.create("http://localhost:8081" + fullPath))
+			URI.create("http://backend:8080" + fullPath))
 		.header("accept", "application/json")
 		.build();
 
 		// use the client to send the request
 		var response = client.send(request, BodyHandlers.ofString());
+		System.out.println("backend response: "+  response.body());
 
 		JsonObject jsonObject = new JsonParser().parse(response.body()).getAsJsonObject();
 		System.out.println(jsonObject);
@@ -66,16 +68,18 @@ public class Main {
 	@GetMapping("/**")
 	public byte[] frontend(HttpServletRequest servletRequest) throws IOException, InterruptedException {
 		String fullPath = (String) servletRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		System.out.println("front:fullpath: " + fullPath);
 		// create a client
 		var client = HttpClient.newHttpClient();
 		// create a request
 		var request = HttpRequest.newBuilder(
-			URI.create("http://localhost:80" + fullPath))
+			URI.create("http://frontend:80" + fullPath))
 		.header("accept", "application/json")
 		.build(); 
 
 		// use the client to send the request
 		var response = client.send(request, BodyHandlers.ofByteArray());
+		System.out.println("frontend response: " + response.body());
 
 		return response.body();
 	}

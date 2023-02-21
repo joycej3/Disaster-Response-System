@@ -26,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.Console;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,6 +48,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @ExtendWith(MockitoExtension.class)
 public class MainTests {
-	
+    @Test
+    void MyIP() throws UnknownHostException{
+	    System.out.println("http://" + Inet4Address.getLocalHost().getHostAddress() + ":80");
+    }
 
 }
