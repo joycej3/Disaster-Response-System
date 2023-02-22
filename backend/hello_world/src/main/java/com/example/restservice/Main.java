@@ -13,14 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 
-import com.google.api.core.ApiFuture;
-import com.google.api.core.ApiFutureCallback;
-import com.google.api.core.ApiFutures;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.*;
 import com.google.firebase.database.*;
 
 @RestController
@@ -79,6 +72,7 @@ public class Main {
 
 	@GetMapping("/backend/firebase_get")
 	public EmergencyRecord firebase() {
+        System.out.println("/firebase_get passed");
 		return new EmergencyRecord(recentEmergency.type, recentEmergency.time);
 	}
 
@@ -91,5 +85,13 @@ public class Main {
 		disasterRef.push().setValueAsync(emergency);
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}
+
+	// @CrossOrigin(origins = "*")
+	// @GetMapping("/secure_get")
+	// public EmergencyRecord firebase() {
+	// 	return new EmergencyRecord(recentEmergency.type, recentEmergency.time);
+	// }
+	// FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+
 
 }
