@@ -24,7 +24,7 @@ security:
    allow-credentials: true
    allowed-origins:
     #  - https://${CORS_DOMAIN}
-   - http://*
+   - http://**
    allowed-methods:
    - GET
    - POST
@@ -52,7 +52,6 @@ security:
    - /public/*
    - /test/**
    - /backend/**
-
    - /greeting
    exposed-headers:
    - X-Xsrf-Token
