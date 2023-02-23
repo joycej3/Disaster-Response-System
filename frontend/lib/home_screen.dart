@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
 
-      var entities = data["Entity"];
+      var entities = data["StopTimeUpdate"];
       if (entities != null) {
         List<dynamic> body = entities;
         model =
