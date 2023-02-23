@@ -24,7 +24,7 @@ security:
    allow-credentials: true
    allowed-origins:
     #  - https://${CORS_DOMAIN}
-   - http://localhost:52421
+   - http://*
    allowed-methods:
    - GET
    - POST
@@ -51,6 +51,7 @@ security:
    - /session/login
    - /public/*
    - /test/**
+   - /backend/**
 
    - /greeting
    exposed-headers:
