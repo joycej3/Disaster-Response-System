@@ -205,7 +205,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               filled: true,
               fillColor: Colors.redAccent,
             ),
-            dropdownColor: Colors.red,
+            dropdownColor: Colors.redAccent,
             value: cat_dropdownValue,
             icon: const Icon(
               Icons.arrow_downward,
@@ -254,7 +254,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 filled: true,
                 fillColor: Colors.redAccent,
               ),
-              dropdownColor: Colors.red,
+              dropdownColor: Colors.redAccent,
               value: inj_dropdownValue,
               icon: const Icon(
                 Icons.arrow_downward,
@@ -299,10 +299,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   apiHandler.callApi("database_push", {
-                    'Emergency Category': _emrgencyCat,
-                    'Injury Category': _injuryCat
+                    'type': _emrgencyCat,
+                    'time': _injuryCat,
                   });
-
                   // If the form is valid, display a snackbar. In the real world,
                   // you'd often call a server or save the information in a database.
                   ScaffoldMessenger.of(context).showSnackBar(
