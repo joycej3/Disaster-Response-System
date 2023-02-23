@@ -19,11 +19,11 @@ def main():
     
     data = {'ip': ip}
     data_json = json.dumps(data)
-    
+    print(data_json)
     # Use the credentials object to authenticate a Requests session.
     authed_session = AuthorizedSession(credentials)
-    response = authed_session.post(
-        "https://group-9-c4e02-default-rtdb.europe-west1.firebasedatabase.app/test.json", data_json)
+    response = authed_session.patch(
+        "https://group-9-c4e02-default-rtdb.europe-west1.firebasedatabase.app/ip/.json", data_json)
     
     print(response.text)
     
