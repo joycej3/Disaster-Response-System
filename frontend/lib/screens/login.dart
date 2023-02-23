@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/services/authentication.dart';
@@ -28,7 +30,7 @@ class _LoginFormState extends State<LoginForm> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 15),
-            Text("EMS Worker / Coordinator Login",
+            Text("Emergency Services Login",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.red,
@@ -43,6 +45,8 @@ class _LoginFormState extends State<LoginForm> {
             //     height: 40,
             // child:
             TextFormField(
+              style: TextStyle(color: Colors.white),
+              cursorColor: Colors.white,
               // initialValue: 'Input text',
               decoration: InputDecoration(
                 prefixIcon: Icon(
@@ -50,7 +54,14 @@ class _LoginFormState extends State<LoginForm> {
                   color: Colors.white,
                 ),
                 labelText: 'Email',
-                labelStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                labelStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide(color: Colors.red, width: 2)),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
                     borderSide: BorderSide(color: Colors.red, width: 2)),
@@ -81,14 +92,20 @@ class _LoginFormState extends State<LoginForm> {
             // ),
             //gap between email and password
             SizedBox(
-              height: 15,
+              height: 30,
             ),
             TextFormField(
+              style: TextStyle(color: Colors.white),
+              cursorColor: Colors.white,
               // initialValue: 'Input text',
               decoration: InputDecoration(
                 labelText: 'Password',
+                floatingLabelBehavior: FloatingLabelBehavior.never,
                 prefixIcon: Icon(Icons.lock_outline, color: Colors.white),
                 labelStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide(color: Colors.red, width: 2)),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
                     borderSide: BorderSide(color: Colors.red, width: 2)),
@@ -107,22 +124,8 @@ class _LoginFormState extends State<LoginForm> {
                       _obscureText = !_obscureText;
                     });
                   },
-                  // suffixIcon: IconButton(
-                  //   icon: _obscureText ? Icons.visibility_off : Icons.visibility,
-                  //   color: Colors.white,
-                  //   )
-                  // onTap: () {
-                  //   setState(() {
-                  //     _obscureText = !_obscureText;
-                  //   });
-                  // },
-                  // child: Icon(
-                  //   _obscureText ? Icons.visibility_off : Icons.visibility,
-                  //   color: Colors.white,
-                  // ),
                 ),
               ),
-              //Decoration(color: Colors.white),
               obscureText: _obscureText,
               onSaved: (val) {
                 password = val;
@@ -135,7 +138,7 @@ class _LoginFormState extends State<LoginForm> {
               },
             ),
             //gap between password and login button
-            SizedBox(width: 10, height: 20),
+            SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
                 // Respond to button press
