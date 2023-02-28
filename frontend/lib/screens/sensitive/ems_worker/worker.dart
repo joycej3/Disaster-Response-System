@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frontend/screens/sensitive/worker_map.dart';
-import 'package:flutter_frontend/screens/sensitive/workerhome.dart';
+import 'package:flutter_frontend/screens/sensitive/ems_worker/worker_map.dart';
+import 'package:flutter_frontend/screens/sensitive/ems_worker/workerhome.dart';
 import 'package:flutter_frontend/services/authentication.dart';
-// import 'package:flutter_frontend/screens/sensitive/home.dart';
-import 'package:flutter_frontend/screens/map.dart';
 
 class WorkerPage extends StatefulWidget {
   @override

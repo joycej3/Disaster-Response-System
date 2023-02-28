@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frontend/screens/sensitive/worker.dart';
+import 'package:flutter_frontend/screens/sensitive/ems_worker/worker.dart';
 
 class Coordinator extends StatefulWidget {
   @override

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/services/authentication.dart';
-import 'package:flutter_frontend/screens/sensitive/worker.dart';
-import 'package:flutter_frontend/screens/sensitive/coordinator.dart';
+import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator.dart';
 
 class WorkerHome extends StatefulWidget {
   @override
@@ -37,18 +36,17 @@ class _WorkerHomeState extends State<WorkerHome> {
               padding: EdgeInsets.zero,
               child: ElevatedButton(
                 onPressed: () {
-                  print("custom_form 2");
                   displaySecureResource();
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Coordinator()));
                   Coordinator();
                 }, //displaySecureResource(),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow,
-                    foregroundColor: Colors.black),
+                    backgroundColor: Colors.black, foregroundColor: Colors.red),
                 child: const Text('Coordinator Page'),
               ),
             ),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () => AuthenticationHelper().signOut(),
               style: ElevatedButton.styleFrom(

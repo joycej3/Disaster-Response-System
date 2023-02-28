@@ -1,10 +1,9 @@
 import 'dart:html';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/services/authentication.dart';
 //replace this with where to go
-import 'package:flutter_frontend/screens/sensitive/worker.dart';
+import 'package:flutter_frontend/screens/sensitive/ems_worker/worker.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({Key? key}) : super(key: key);
