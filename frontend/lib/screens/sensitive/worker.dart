@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_frontend/screens/sensitive/worker_map.dart';
 import 'package:flutter_frontend/screens/sensitive/workerhome.dart';
 import 'package:flutter_frontend/services/authentication.dart';
 // import 'package:flutter_frontend/screens/sensitive/home.dart';
@@ -84,7 +85,7 @@ class _WorkerPageState extends State<WorkerPage> {
             body: TabBarView(
               children: [
                 WorkerHome(),
-                MapSample(),
+                WorkerMap(),
               ],
             ),
           ),
