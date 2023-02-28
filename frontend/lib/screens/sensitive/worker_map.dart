@@ -3,14 +3,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
 // Create a Google Maps widget.
-class MapSample extends StatefulWidget {
-  const MapSample({Key? key}) : super(key: key);
+class WorkerMap extends StatefulWidget {
+  const WorkerMap({Key? key}) : super(key: key);
 
   @override
-  State<MapSample> createState() => MapSampleState();
+  State<WorkerMap> createState() => WorkerMapState();
 }
 
-class MapSampleState extends State<MapSample> {
+class WorkerMapState extends State<WorkerMap> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
@@ -38,8 +38,15 @@ class MapSampleState extends State<MapSample> {
           ),
           floatingActionButton: FloatingActionButton.extended(
             onPressed: _goToCollege,
-            label: const Text('To College!'),
-            icon: const Icon(Icons.school),
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.red,
+            label: const Text(
+              'To College!',
+            ),
+            icon: const Icon(
+              Icons.school,
+              color: Colors.red,
+            ),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,

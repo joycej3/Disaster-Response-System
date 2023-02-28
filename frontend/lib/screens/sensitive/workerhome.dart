@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/services/authentication.dart';
 import 'package:flutter_frontend/screens/sensitive/worker.dart';
+import 'package:flutter_frontend/screens/sensitive/coordinator.dart';
 
 class WorkerHome extends StatefulWidget {
   @override
@@ -30,6 +31,22 @@ class _WorkerHomeState extends State<WorkerHome> {
                 'Use this tool for obtaining routes into emergency zones '
                 'and for evacuating injured people to the necessary locations.',
                 style: TextStyle(fontSize: 21),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.zero,
+              child: ElevatedButton(
+                onPressed: () {
+                  print("custom_form 2");
+                  displaySecureResource();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Coordinator()));
+                  Coordinator();
+                }, //displaySecureResource(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.yellow,
+                    foregroundColor: Colors.black),
+                child: const Text('Coordinator Page'),
               ),
             ),
             ElevatedButton(
