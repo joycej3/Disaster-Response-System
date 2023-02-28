@@ -19,6 +19,16 @@ Future<void> main() async {
     setWindowMinSize(const Size(600, 950));
     setWindowMaxSize(const Size(600, 950));
   }
+  if (UniversalPlatform.isDesktop) {
+    setWindowTitle('Disaster Response System');
+    setWindowMinSize(const Size(600, 950));
+    setWindowMaxSize(const Size(600, 950));
+  }
+  if (UniversalPlatform.isMacOS) {
+    setWindowTitle('Disaster Response System');
+    setWindowMinSize(const Size(600, 950));
+    setWindowMaxSize(const Size(600, 950));
+  }
 
   runApp(const MyApp());
 }

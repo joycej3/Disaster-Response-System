@@ -12,34 +12,30 @@ class _WorkerHomeState extends State<WorkerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.amber,
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+              padding: EdgeInsets.zero,
               child: Text(
                 'Place Holder',
                 style: TextStyle(fontSize: 21),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WorkerPage()));
-                // MyCustomForm();
-              }, //displaySecureResource(),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.yellow,
-                  foregroundColor: Colors.black),
-              child: const Text('Access_REST'),
+            Container(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child: Text(
+                'Use this tool for obtaining routes into emergency zones '
+                'and for evacuating injured people to the necessary locations.',
+                style: TextStyle(fontSize: 21),
+              ),
             ),
             ElevatedButton(
               onPressed: () => AuthenticationHelper().signOut(),
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.yellow,
-                  foregroundColor: Colors.black),
+                  backgroundColor: Colors.black, foregroundColor: Colors.red),
               child: Text('Logout'),
             ),
           ],
