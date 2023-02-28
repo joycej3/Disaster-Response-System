@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/login.dart';
 import 'package:flutter_frontend/screens/custom_form.dart';
 import 'package:flutter_frontend/screens/map.dart';
+import 'package:flutter_frontend/screens/sensitive/worker.dart';
 
 // Future<void> main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -124,11 +125,18 @@ class Home extends StatelessWidget {
                   Tab(icon: Icon(Icons.report)),
                   Tab(icon: Icon(Icons.directions)),
                   Tab(icon: Icon(Icons.login)),
+                  //Tab(icon: Icon(Icons.sim_card_alert))
                 ],
               ),
             ),
             body: TabBarView(
-              children: [homePage, MyCustomForm(), MapSample(), LoginForm()],
+              children: [
+                homePage,
+                MyCustomForm(),
+                MapSample(),
+                LoginForm(),
+                //WorkerPage()
+              ],
             ),
           ),
         ));
