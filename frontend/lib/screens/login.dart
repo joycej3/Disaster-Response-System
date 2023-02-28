@@ -61,13 +61,13 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(color: Colors.red, width: 2)),
+                    borderSide: BorderSide(color: Colors.red, width: 5)),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(color: Colors.red, width: 2)),
+                    borderSide: BorderSide(color: Colors.red, width: 5)),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(color: Colors.red, width: 2)),
+                    borderSide: BorderSide(color: Colors.red, width: 5)),
                 filled: true,
                 fillColor: Colors.redAccent,
               ),
@@ -105,13 +105,13 @@ class _LoginFormState extends State<LoginForm> {
                 labelStyle: const TextStyle(color: Colors.white, fontSize: 18),
                 errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(color: Colors.red, width: 2)),
+                    borderSide: BorderSide(color: Colors.red, width: 5)),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(color: Colors.red, width: 2)),
+                    borderSide: BorderSide(color: Colors.red, width: 5)),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(color: Colors.red, width: 1)),
+                    borderSide: BorderSide(color: Colors.red, width: 5)),
                 filled: true,
                 fillColor: Colors.redAccent,
                 suffixIcon: IconButton(
