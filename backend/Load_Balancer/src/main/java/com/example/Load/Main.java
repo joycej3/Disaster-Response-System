@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,7 @@ import java.security.Timestamp;
 
 
 @RestController
+@CrossOrigin
 @Component
 public class Main {
 
@@ -95,6 +97,7 @@ public class Main {
 		.header("accept", "application/json")
 		.build();
 
+		System.out.println("backendget: " + request.toString());
 		var response = client.send(request, BodyHandlers.ofString());
 		JsonObject jsonObject = new JsonParser().parse(response.body()).getAsJsonObject();
 		System.out.println(jsonObject);
@@ -119,8 +122,9 @@ public class Main {
 					.header("content-type", "application/json")
 					.POST(HttpRequest.BodyPublishers.ofString(paramJsonString))
 					.build();
-			
+		System.out.println("backend post: " + request.toString());	
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+		System.out.println(response.body());
 		return new ResponseEntity<>(response.body(), HttpStatus.CREATED);
 	}
 

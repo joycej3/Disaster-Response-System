@@ -299,8 +299,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   apiHandler.callApi("database_push", {
-                    'Emergency Category': _emrgencyCat,
-                    'Injury Category': _injuryCat
+                    'type': _emrgencyCat,
+                    'time': _injuryCat
                   });
 
                   // If the form is valid, display a snackbar. In the real world,
