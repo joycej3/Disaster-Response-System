@@ -87,8 +87,7 @@ class Home extends StatelessWidget {
       child: Text(
           'Please use this app to report and get routes away from disasters.',
           softWrap: true,
-          style:
-              TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
     );
 
     Widget homePage = ListView(
@@ -117,7 +116,7 @@ class Home extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Disaster Response System 9000'),
               bottom: const TabBar(
-                indicator: BoxDecoration(color: Colors.orangeAccent),
+                indicator: BoxDecoration(color: Colors.orange),
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorWeight: 10,
                 tabs: [
@@ -125,23 +124,18 @@ class Home extends StatelessWidget {
                   Tab(icon: Icon(Icons.report)),
                   Tab(icon: Icon(Icons.directions)),
                   Tab(icon: Icon(Icons.login)),
+                  //Tab(icon: Icon(Icons.sim_card_alert))
                 ],
               ),
             ),
-            // body: ListView(
-            //   children: [
-            //     Image.asset(
-            //       'images/disaster.png',
-            //       width: 100,
-            //       height: 200,
-            //       fit: BoxFit.cover,
-            //     ),
-            //     titleSection,
-            //     buttonSection,
-            //     textSection,
-            //   ],
             body: TabBarView(
-              children: [homePage, MyCustomForm(), MapSample(), LoginForm()],
+              children: [
+                homePage,
+                MyCustomForm(),
+                MapSample(),
+                LoginForm(),
+                //WorkerPage()
+              ],
             ),
           ),
         ));

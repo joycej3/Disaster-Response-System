@@ -37,6 +37,7 @@ class MapSampleState extends State<MapSample> {
         label: const Text('To College!'),
         icon: const Icon(Icons.school),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

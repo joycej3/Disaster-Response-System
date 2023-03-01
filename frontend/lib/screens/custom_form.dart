@@ -12,6 +12,7 @@ class MyCustomForm extends StatefulWidget {
 }
 
 const List<String> emergencyCategories = <String>[
+  'Choose an option...',
   'Natural Disaster',
   'Fire Related',
   'Traffic Related',
@@ -20,6 +21,7 @@ const List<String> emergencyCategories = <String>[
 ];
 
 const List<String> injuryCategories = <String>[
+  'Choose an option...',
   'I am not injured',
   'I am injured',
   'I can see injured people',
@@ -196,6 +198,9 @@ class MyCustomFormState extends State<MyCustomForm> {
           //EmergencyCategoryDropdown(),
           DropdownButtonFormField<String>(
             decoration: InputDecoration(
+              errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50),
+                  borderSide: BorderSide(color: Colors.red, width: 5)),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(50),
                   borderSide: BorderSide(color: Colors.red, width: 5)),
@@ -205,7 +210,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               filled: true,
               fillColor: Colors.redAccent,
             ),
-            dropdownColor: Colors.red,
+            dropdownColor: Colors.redAccent,
             value: cat_dropdownValue,
             icon: const Icon(
               Icons.arrow_downward,
@@ -226,7 +231,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               );
             }).toList(),
             validator: (value) {
-              if (value == null) {
+              if (value == null || value == 'Choose an option...') {
                 return 'Please choose an option';
               } else {
                 _emrgencyCat = value;
@@ -245,6 +250,9 @@ class MyCustomFormState extends State<MyCustomForm> {
           //injuryCategoryDropdown(),
           DropdownButtonFormField<String>(
               decoration: InputDecoration(
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide(color: Colors.red, width: 5)),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
                     borderSide: BorderSide(color: Colors.red, width: 2)),
@@ -254,7 +262,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 filled: true,
                 fillColor: Colors.redAccent,
               ),
-              dropdownColor: Colors.red,
+              dropdownColor: Colors.redAccent,
               value: inj_dropdownValue,
               icon: const Icon(
                 Icons.arrow_downward,
@@ -275,7 +283,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 );
               }).toList(),
               validator: (value) {
-                if (value == null) {
+                if (value == null || value == 'Choose an option...') {
                   return 'Please choose an option';
                 } else {
                   _injuryCat = value;

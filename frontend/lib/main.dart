@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/services/authentication.dart';
@@ -17,7 +16,14 @@ Future<void> main() async {
   if (UniversalPlatform.isWindows) {
     setWindowTitle('Disaster Response System');
     setWindowMinSize(const Size(600, 950));
-    setWindowMaxSize(const Size(600, 950));
+  }
+  if (UniversalPlatform.isDesktop) {
+    setWindowTitle('Disaster Response System');
+    setWindowMinSize(const Size(600, 950));
+  }
+  if (UniversalPlatform.isMacOS) {
+    setWindowTitle('Disaster Response System');
+    setWindowMinSize(const Size(600, 950));
   }
 
   runApp(const MyApp());
