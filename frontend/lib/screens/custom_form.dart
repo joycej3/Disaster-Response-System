@@ -306,8 +306,12 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
-                  apiHandler.callApi("database_push",
-                      {'time': _emrgencyCat, 'type': _injuryCat});
+                  apiHandler.callApi("database_push", {
+                    'emergency': _emrgencyCat,
+                    'injury': _injuryCat,
+                    'time': 12,
+                    'location': ""
+                  });
 
                   // If the form is valid, display a snackbar. In the real world,
                   // you'd often call a server or save the information in a database.
