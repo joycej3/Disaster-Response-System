@@ -138,7 +138,7 @@ public class Main {
 		String fullPath = servletRequest.getRequestURI();
 
 		var client = HttpClient.newHttpClient();
-		var request = HttpRequest.newBuilder()
+		var request = HttpRequest.newBuilder(URI.create("http://" + nextIp + ":80" + fullPath))
 		.header("accept", "application/json")
 		.build(); 
 
