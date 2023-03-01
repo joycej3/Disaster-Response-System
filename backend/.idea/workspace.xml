@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fe7cbd3d-0942-4c17-89d8-a1c518d5dca1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Api_Backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Api_Backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Load_Balancer/ip_discovery.py" beforeDir="false" afterPath="$PROJECT_DIR$/Load_Balancer/ip_discovery.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Load_Balancer/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Load_Balancer/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/lib/services/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/lib/services/api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/windows/flutter/generated_plugins.cmake" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Koq1dAfUfZVq3i48QDWOZxBXwU" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_opened_file_path": "C:/Users/sirwi/Desktop/5th year/Advanced Software/project/frontend",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sirwi\Desktop\5th year\Advanced Software\project\backend\hello_world\src\main\resources" />
+      <recent name="C:\Users\sirwi\Desktop\5th year\Advanced Software\project\backend\hello_world\src\main\java\com\example\restservice" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sirwi\Desktop\5th year\Advanced Software\project\backend\hello_world\src\main\resources\firebase_service_account" />
+      <recent name="C:\Users\sirwi\Desktop\5th year\Advanced Software\project\backend" />
+      <recent name="C:\Users\sirwi\Desktop\5th year\Advanced Software\project\backend\hello_world\src\main\java\com\example\restservice\firebase_service_account" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="backend" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/hello_world/src/test" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fe7cbd3d-0942-4c17-89d8-a1c518d5dca1" name="Changes" comment="" />
+      <created>1674651072967</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1674651072967</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
