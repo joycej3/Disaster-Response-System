@@ -22,9 +22,11 @@ security:
       domain: ${CORS_DOMAIN}
       path: /
    allow-credentials: true
-   allowed-origins:
+   allowed-origins: 
     #  - https://${CORS_DOMAIN}
-   - http://localhost:52421
+   - http://localhost:53204
+   - http://localhost:80
+
    allowed-methods:
    - GET
    - POST
@@ -56,7 +58,7 @@ security:
    exposed-headers:
    - X-Xsrf-Token
    valid-application-roles:
-   - ROLE_ADMIN
+  #  - ROLE_ADMIN
    - ROLE_WORKER
    super-admins: ["super@gmail.com"]
    test:

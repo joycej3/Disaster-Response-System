@@ -8,6 +8,8 @@ import 'dart:async';
 import 'package:flutter_frontend/screens/sensitive/worker.dart';
 import 'package:flutter_frontend/screens/home.dart';
 
+const Map<String, dynamic> MAPDEFAULT = {};
+
 class AuthenticationHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -39,7 +41,8 @@ class AuthenticationHelper {
     }
   }
 
-  Future<String> extractTokenAndAccessSecureResource() async {
+  Future<String> secureApi(String apiName,
+      [Map<String, dynamic> arguements = MAPDEFAULT]) async {
     var token = await extractToken();
     return await accessSecureResource(token);
   }

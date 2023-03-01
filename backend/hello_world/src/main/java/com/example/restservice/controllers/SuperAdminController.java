@@ -1,18 +1,23 @@
 package com.example.restservice.controllers;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserRecord;
-
 import com.example.restservice.security.SecurityService;
 import com.example.restservice.security.roles.IsSuper;
 import com.example.restservice.security.roles.RoleService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("super")
 public class SuperAdminController {
@@ -25,6 +30,8 @@ public class SuperAdminController {
 
 	@Autowired
 	FirebaseAuth firebaseAuth;
+
+	
 
 	@GetMapping("user")
 	@IsSuper

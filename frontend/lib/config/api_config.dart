@@ -14,5 +14,25 @@ Map<String, Map<String, dynamic>> nameToApiInfo = {
     "primary": "localhost:8080",
     "path": "/firebase_push",
     "type": "post"
+  },
+  "worker_get": {
+    "primary": "localhost:8080",
+    "path": "/worker/data",
+    "type": "get"
+  },
+  "public_get": {
+    "primary": "localhost:8080",
+    "path": "/public/data",
+    "type": "get"
+  },
+  "super_get": {
+    "primary": "localhost:8080",
+    "path": "/super/data",
+    "type": "get"
+  },
+  "coordinator_get": {
+    "primary": "localhost:8080",
+    "path": "/coordinator/data",
+    "type": "get"
   }
 };

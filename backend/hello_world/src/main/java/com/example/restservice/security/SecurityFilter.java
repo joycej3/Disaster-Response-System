@@ -88,7 +88,6 @@ public class SecurityFilter extends OncePerRequestFilter {
 		User user = firebaseTokenToUserDto(decodedToken);
 		// Handle roles
 		if (user != null && decodedToken != null) {
-			System.out.println("Got here");
 			// Handle Super Role
 			if (securityProps.getSuperAdmins().contains(user.getEmail())) {
 				if (!decodedToken.getClaims().containsKey(RoleConstants.ROLE_SUPER)) {
@@ -111,10 +110,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 	}
 
 	private User firebaseTokenToUserDto(FirebaseToken decodedToken) {
-		System.out.println("User");
 		User user = null;
 		if (decodedToken != null) {
-			System.out.println("Token is not null");
 			user = new User();
 			user.setUid(decodedToken.getUid());
 			user.setName(decodedToken.getName());

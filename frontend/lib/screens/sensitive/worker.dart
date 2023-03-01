@@ -50,8 +50,7 @@ class _WorkerPageState extends State<WorkerPage> {
   }
 
   displaySecureResource() async {
-    String response =
-        await AuthenticationHelper().extractTokenAndAccessSecureResource();
+    String response = await AuthenticationHelper().secureApi("wworker_get");
     setState(() {
       textHolder = response;
     });
