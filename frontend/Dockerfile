@@ -10,4 +10,5 @@ RUN apt-get clean
 COPY build/web/ /var/www/html/
 COPY startup_scripts/private_key.json /etc/
 COPY startup_scripts/register.py /home/
-CMD ["sh","-c","python3 /home/register.py && apache2ctl -D FOREGROUND"]
+COPY startup_scripts/startup.sh /home/
+CMD ["/home/startup.sh"]
