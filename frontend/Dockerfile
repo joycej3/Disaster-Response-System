@@ -8,7 +8,7 @@ RUN pip3 install google-auth
 RUN pip3 install requests
 RUN apt-get clean
 COPY build/web/ /var/www/html/
-COPY startup_scripts/private_key.json /etc/
-COPY startup_scripts/register.py /home/
-COPY startup_scripts/startup.sh /home/
-CMD ["/home/startup.sh"]
+COPY startup_scripts/private_key.json etc/
+COPY startup_scripts/register.py home/
+COPY startup_scripts/startup.sh home/
+CMD ["sh", "home/startup.sh"]

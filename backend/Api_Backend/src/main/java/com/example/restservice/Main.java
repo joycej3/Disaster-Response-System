@@ -105,5 +105,5 @@ public class Main {
 	// 	return new EmergencyRecord(recentEmergency.type, recentEmergency.time);
 	// }
 	// FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
-	}
+	//}
 }
