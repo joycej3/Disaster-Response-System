@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/services/authentication.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
-
 import 'services/firebase_options.dart';
 
 Future<void> main() async {
