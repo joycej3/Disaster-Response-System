@@ -7,6 +7,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.HashMap;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +36,7 @@ public class Main {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	DatabaseReference disasterRef;
-	private Emergency recentEmergency = new Emergency("n/a", "n/a");
+	private Emergency recentEmergency = new Emergency("n/a", "n/a", 0, "n/a");
 
 	@Autowired
 	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
@@ -43,7 +50,7 @@ public class Main {
 				System.out.println("prevchildkey: " + prevChildKey);
 				recentEmergency = dataSnapshot.getValue(Emergency.class);
 				System.out.println("got through datasnapshot.getvalue");
-				System.out.println("type: " + recentEmergency.type + ", time: " + recentEmergency.time);
+				System.out.println(recentEmergency);
 
 			}
 		  
@@ -78,7 +85,8 @@ public class Main {
 	@GetMapping("/backend/firebase_get")
 	public EmergencyRecord firebase() {
         System.out.println("/firebase_get passed");
-		return new EmergencyRecord(recentEmergency.type, recentEmergency.time);
+		return new EmergencyRecord(recentEmergency.emergency, recentEmergency.injury,
+		 recentEmergency.time, recentEmergency.location);
 	}
 
 	@PostMapping(path = "/backend/firebase_push", 
@@ -86,7 +94,7 @@ public class Main {
         produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {
 		System.out.println("Attempting firebase push");
-		System.out.println("Type: " + emergency.type + ", time: " + emergency.time);
+		System.out.println(emergency);
 		disasterRef.push().setValueAsync(emergency);
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}

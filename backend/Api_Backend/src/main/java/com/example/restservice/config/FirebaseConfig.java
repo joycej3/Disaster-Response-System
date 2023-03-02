@@ -14,6 +14,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 
@@ -48,5 +49,11 @@ public class FirebaseConfig {
     public FirebaseDatabase getDatabase() throws IOException{
 		System.out.println("Initialising firebase database");
 		return FirebaseDatabase.getInstance();
+    }
+
+	@Bean
+    public FirebaseMessaging firebaseMessaging() throws IOException {
+		System.out.println("Initialising firebase messaging");
+        return FirebaseMessaging.getInstance(getfirebaseApp());
     }
 }

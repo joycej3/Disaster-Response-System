@@ -58,8 +58,7 @@ class _WorkerHomeState extends State<WorkerHome> {
   }
 
   displaySecureResource() async {
-    String response =
-        await AuthenticationHelper().extractTokenAndAccessSecureResource();
+    String response = await AuthenticationHelper().secureApi("worker_get");
     setState(() {
       textHolder = response;
     });
