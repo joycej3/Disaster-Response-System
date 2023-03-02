@@ -160,6 +160,7 @@ public class Main {
 			serverTypeToIpList.put(serverType, ipList);
 			return getNextIp(serverType);
 		}
+		serverTypeToLastIpIndex.put(serverType, nextIpIndex);
 		return nextIp;
 	}
 }

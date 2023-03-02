@@ -40,7 +40,7 @@ public class Main {
 
 	@Autowired
 	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
-		disasterRef = getDatabase.getReference("test/disasters");
+		disasterRef = getDatabase.getReference("ReportTable/Uncategorised");
 		
 		// Attach a listener to read the data at our posts reference
 		disasterRef.addChildEventListener(new ChildEventListener() {
