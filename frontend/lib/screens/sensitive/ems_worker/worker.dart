@@ -110,10 +110,10 @@ class _WorkerPageState extends State<WorkerPage> {
   }
 
   displaySecureResource() async {
-    String response =
-        await AuthenticationHelper().extractTokenAndAccessSecureResource();
-    setState(() {
-      textHolder = response;
-    });
+    // String response =
+    //     await AuthenticationHelper().extractTokenAndAccessSecureResource();
+    // setState(() {
+    //   textHolder = response;
+    // });
   }
 }
