@@ -1,56 +1,135 @@
-/*
- * Copyright 2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *	  https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.example.Load;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.Console;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
-
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.Null;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 
 
 
 @ExtendWith(MockitoExtension.class)
 public class MainTests {
-    @Test
-    void MyIP() throws UnknownHostException{
-	    System.out.println("http://" + Inet4Address.getLocalHost().getHostAddress() + ":80");
-    }
+	
+	@Mock
+	HttpServletRequest servletRequest;
+
+	Main main = new Main();
+
+
+	@BeforeEach
+	public void setUp() throws FileNotFoundException, IOException{
+		main = new Main();
+        main.serverTypeToIpList.put("backend", new ArrayList<>(Arrays.asList("1.1.1.1")));
+        main.serverTypeToIpList.put("frontend", new ArrayList<>(Arrays.asList("2.2.2.2")));
+
+        main.ipToLastHeartbeat.put("1.1.1.1", System.currentTimeMillis());
+        main.ipToLastHeartbeat.put("2.2.2.2", System.currentTimeMillis());
+
+	}
+
+	@Test
+	public void registerSuccessTest(){
+		//GIVEN
+		when(servletRequest.getRemoteAddr()).thenReturn("1.1.1.2");
+
+		//WHEN
+		var response = main.register(new Server("backend"), servletRequest);
+
+		//THEN
+		assertEquals("success", response.getBody());
+		assertEquals(new ArrayList<>(Arrays.asList("1.1.1.1", "1.1.1.2")), main.serverTypeToIpList.get("backend"));
+	}
+
+	@Test
+	public void registerFailedTest(){
+		//GIVEN
+		when(servletRequest.getRemoteAddr()).thenReturn("1.1.1.2");
+
+		//WHEN
+		var response = main.register(new Server("invalid type"), servletRequest);
+
+		//THEN
+		assertEquals("invalid server type", response.getBody());
+		assertEquals(new ArrayList<>(Arrays.asList("1.1.1.1")), main.serverTypeToIpList.get("backend"));
+	}
+
+	@Test
+	public void heartbeatSuccessTest(){
+		//GIVEN
+		when(servletRequest.getRemoteAddr()).thenReturn("1.1.1.1");
+
+		//WHEN
+		var response = main.heartbeat(servletRequest);
+
+		//THEN
+		assertEquals("success", response.getBody());
+	}
+
+	@Test
+	public void heartbeatFailedTest(){
+		//GIVEN
+		when(servletRequest.getRemoteAddr()).thenReturn("1.1.1.2");
+
+		//WHEN
+		var response = main.heartbeat(servletRequest);
+
+		//THEN
+		assertEquals("failed", response.getBody());
+	}
+	
+	@Test
+	public void getNextIpFirstRunTest(){
+		//GIVEN
+
+		//WHEN
+        var nextIpIndex = ReflectionTestUtils.invokeMethod(main, "getNextIp", "backend");
+
+		//THEN
+		assertEquals("1.1.1.1", nextIpIndex);
+		assertEquals(0, main.serverTypeToLastIpIndex.get("backend"));
+	}
+
+	@Test
+	public void getNextIpTwoIpTest(){
+		//GIVEN
+		main.serverTypeToIpList.put("backend", new ArrayList<>(Arrays.asList("1.1.1.1", "1.1.1.2")));
+		main.ipToLastHeartbeat.put("1.1.1.2", System.currentTimeMillis());
+		main.serverTypeToLastIpIndex.put("backend", 0);
+
+		//WHEN
+        var nextIpIndex = ReflectionTestUtils.invokeMethod(main, "getNextIp", "backend");
+
+		//THEN
+		assertEquals("1.1.1.2", nextIpIndex);
+		assertEquals(1, main.serverTypeToLastIpIndex.get("backend"));
+	}
+
+	@Test
+	public void getNextIpRolloverTest(){
+		//GIVEN
+		main.serverTypeToIpList.put("backend", new ArrayList<>(Arrays.asList("1.1.1.1", "1.1.1.2")));
+		main.ipToLastHeartbeat.put("1.1.1.2", System.currentTimeMillis());
+		main.serverTypeToLastIpIndex.put("backend", 1);
+
+		//WHEN
+        var nextIpIndex = ReflectionTestUtils.invokeMethod(main, "getNextIp", "backend");
+
+		//THEN
+		assertEquals("1.1.1.1", nextIpIndex);
+		assertEquals(0, main.serverTypeToLastIpIndex.get("backend"));
+	}
 
 }
