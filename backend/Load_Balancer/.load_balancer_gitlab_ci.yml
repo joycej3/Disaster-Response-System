@@ -2,6 +2,7 @@ test:
   stage: test
   image: maven:3.8.7-amazoncorretto-19
   before_script:
+    - cd backend/Load_Balancer 
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
     - mvn verify 
