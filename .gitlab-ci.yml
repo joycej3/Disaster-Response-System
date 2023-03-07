@@ -8,7 +8,13 @@ frontend:
 backend:
   trigger:
     include:
-       - local: backend/backend_gitlab_ci.yml
+       - local: backend/Api_Backend/.api_backend_gitlab_ci.yml
+    strategy: depend
+
+backend:
+  trigger:
+    include:
+       - local: backend/Load_Balancer/.load_balancer_gitlab_ci.yml
     strategy: depend
 
 .deploy:
