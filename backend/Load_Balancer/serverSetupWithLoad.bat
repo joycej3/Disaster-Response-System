@@ -1,4 +1,8 @@
 @echo off
+dir
+start /B /wait cmd /c mvnw clean install
+start /B /wait cmd /c python ip_discovery.py
+start /B cmd /c java -jar target/rest-service-complete-0.0.1-SNAPSHOT.jar
 
 
 cd ../../frontend
