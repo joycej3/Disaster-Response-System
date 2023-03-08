@@ -17,6 +17,7 @@ test:
     - cd frontend 
     - flutter pub global activate junitreport
     - export PATH="$PATH:$HOME/.pub-cache/bin"
+    - flutter pub get
     - flutter pub run build_runner build --delete-conflicting-outputs
   script:
     - flutter test -r expanded --machine --coverage | tojunit -o report.xml
