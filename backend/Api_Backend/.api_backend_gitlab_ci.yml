@@ -6,7 +6,6 @@ test:
     - export PATH="$PATH:$HOME/.pub-cache/bin"
     - mvn clean install
   script:
-    - mvn $MAVEN_CLI_OPTS clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report
     - mvn verify 
   artifacts:
     paths:
@@ -16,20 +15,4 @@ test:
     reports:
       junit:
         - $CI_PROJECT_DIR/TEST-*.xml
-
-coverage:
-  # Must be in a stage later than test's stage.
-  # The `visualize` stage does not exist by default.
-  # Please define it first, or choose an existing stage like `deploy`.
-  stage: deploy
-  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
-  script:
-    # convert report from jacoco to cobertura, using relative project path
-    - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
-  needs: ["test"]
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: target/site/cobertura.xml
 
