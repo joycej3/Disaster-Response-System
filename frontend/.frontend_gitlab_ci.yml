@@ -16,11 +16,13 @@ test:
   before_script:
     - cd frontend 
     - flutter pub global activate junitreport
+    - flutter pub run build_runner build --delete-conflicting-outputs
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
     - flutter test -r expanded --machine --coverage | tojunit -o report.xml
     - lcov --summary coverage/lcov.info
     - genhtml coverage/lcov.info --output=coverage
+    - flutter test -r expanded
   coverage: '/lines\.*: \d+\.\d+\%/'
   artifacts:
     name: coverage
