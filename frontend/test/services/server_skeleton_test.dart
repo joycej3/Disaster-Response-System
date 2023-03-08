@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_frontend/server_skeleton.dart';
+import 'package:flutter_frontend/services/server_skeleton.dart';
 
 import 'server_skeleton_test.mocks.dart';
 
