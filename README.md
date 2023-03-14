@@ -1,8 +1,6 @@
 # ASWE
 -![Design](https://thumbs.gfycat.com/SneakyEminentClam-size_restricted.gif)
 
-- [![frontend coverage report](https://gitlab.com/whitep5/aswe/badges/main/coverage.svg?job=frontend-test)](https://whitep5.gitlab.io/aswe/)
-
 - [ ] [Trello](https://trello.com/invite/aswe9/ATTIfbf5bf52be13f2d2e59880fafe831f798CEDBBA0)
 
 - [ ] [Tech Architecture](https://lucid.app/lucidchart/8e5f34cd-68ef-4993-b4ad-31f349c93d6f/edit?invitationId=inv_d47aa8a7-0187-4c71-b24a-6fa74d7fba5c)
