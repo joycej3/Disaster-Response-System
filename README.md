@@ -1,7 +1,7 @@
 # ASWE
 -![Design](https://thumbs.gfycat.com/SneakyEminentClam-size_restricted.gif)
 
-- ![frontend-coverage](https://gitlab.example.com/<namespace>/<project>/badges/<branch>/coverage.svg?job=frontend-test)
+- [![frontend coverage report](https://gitlab.com/whitep5/aswe/badges/main/coverage.svg?job=frontend-test)](https://whitep5.gitlab.io/aswe/)
 
 - [ ] [Trello](https://trello.com/invite/aswe9/ATTIfbf5bf52be13f2d2e59880fafe831f798CEDBBA0)
 
