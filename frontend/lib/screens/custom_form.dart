@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_frontend/services/api.dart';
+import 'package:http/http.dart' as http;
 
 // /////////
 // // Create a Form widget.
@@ -307,7 +308,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
-                  apiHandler.callApi("database_push", {
+                  apiHandler.callApi("database_push", http.Client(), {
                     'emergency': _emrgencyCat,
                     'injury': _injuryCat,
                     'time': 12,

@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 import 'api.dart';
 
 Future<DisasterResponse> fetchAlbum(ApiHandler apiHandler) async {
-  final response = await apiHandler.callApi("database_get");
+  final response = await apiHandler.callApi("database_get", http.Client());
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

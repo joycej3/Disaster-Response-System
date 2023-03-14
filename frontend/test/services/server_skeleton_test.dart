@@ -27,7 +27,7 @@ void main() {
     // Use Mockito to return a successful response when it calls the
     // provided http.Client.
     //WHEN
-    when(apiHandler.callApi(any)).thenAnswer((_) async => http.Response(
+    when(apiHandler.callApi(any, any)).thenAnswer((_) async => http.Response(
         '{"DisasterType": "Hurricane", "DisasterTime": "12:06"}', 200));
 
     //THEN
@@ -40,7 +40,7 @@ void main() {
     String mockResponse = 'Not Found';
 
     //WHEN
-    when(apiHandler.callApi(any))
+    when(apiHandler.callApi(any, any))
         .thenAnswer((_) async => http.Response(mockResponse, 404));
 
     expect(fetchAlbum(apiHandler), throwsException);
