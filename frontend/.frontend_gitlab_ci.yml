@@ -10,7 +10,7 @@
     reports:
       codequality: gl-code-quality-report.json
 
-test:
+frontend-test:
   stage: test
   image: cirrusci/flutter:stable
   before_script:
