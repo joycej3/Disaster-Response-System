@@ -132,4 +132,37 @@ public class MainTests {
 		assertEquals(0, main.serverTypeToLastIpIndex.get("backend"));
 	}
 
+	@Test
+	public void purgeOldIpsPurgeOneTest(){
+		//GIVEN
+		main.serverTypeToIpList.put("backend", new ArrayList<>(Arrays.asList("1.1.1.1", "1.1.1.2")));
+		main.ipToLastHeartbeat.put("1.1.1.2", System.currentTimeMillis());
+		main.ipToLastHeartbeat.put("1.1.1.1", 0L);
+
+		//WHEN
+        ReflectionTestUtils.invokeMethod(main, "purgeOldIps");
+
+		//THEN
+		ArrayList<String> backendActiveIps = new ArrayList<String>();
+		backendActiveIps.add("1.1.1.2");
+		assertEquals(backendActiveIps, main.serverTypeToIpList.get("backend"));
+	}
+
+	@Test
+	public void purgeOldIpsPurgeNoneTest(){
+		//GIVEN
+		main.serverTypeToIpList.put("backend", new ArrayList<>(Arrays.asList("1.1.1.1", "1.1.1.2")));
+		main.ipToLastHeartbeat.put("1.1.1.2", System.currentTimeMillis());
+		main.ipToLastHeartbeat.put("1.1.1.1", System.currentTimeMillis());
+
+		//WHEN
+        ReflectionTestUtils.invokeMethod(main, "purgeOldIps");
+
+		//THEN
+		ArrayList<String> backendActiveIps = new ArrayList<String>();
+		backendActiveIps.add("1.1.1.1");
+		backendActiveIps.add("1.1.1.2");
+		assertEquals(backendActiveIps, main.serverTypeToIpList.get("backend"));
+	}
+
 }
