@@ -17,6 +17,10 @@ package com.example.restservice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -28,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -39,12 +44,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.restservice.config.FirebaseConfig;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 
 
 
@@ -71,7 +77,7 @@ public class MainTests {
 		main = new Main(getDatabase);
 	}
 
-	
+	@DisplayName("GIVEN parameters WHEN greeting is called THEN a correct greetingRecord is returned")
 	@Test
 	public void GreetingRecordTest(){
 		//GIVEN
@@ -87,4 +93,39 @@ public class MainTests {
 		assertEquals(greetingRecord.content(), recordReturned.content());
 	}
 
+	@DisplayName("GIVEN a databaseref WHEN firebase() is called THEN a reasonable emergencyRecord is returned")
+	@Test
+	public void FirebaseGetTest() throws FileNotFoundException, IOException{
+		//GIVEN
+		String emergency = null;
+		String injury = null;
+		int time = 0;
+		String location = null;
+		EmergencyRecord emergencyRecord = new EmergencyRecord(emergency, injury, time, location);
+
+		//WHEN
+		EmergencyRecord recordReturned = main.firebase();
+
+		//THEN
+		assertEquals(emergencyRecord, recordReturned);
+	}
+
+	@DisplayName("GIVEN an emergency report to add WHEN  firebasePush is called THEN the report is pushed to database and returns success")
+	@Test
+	public void FirebasePushTest(){
+		//GIVEN
+		String emergency = "Fire";
+		String injury = "I am injured";
+		int time = 1678288146;
+		String location = "lat, lon";
+		Emergency givenEmergency = new Emergency(emergency, injury, time, location);
+
+		//WHEN
+		when(databaseReference.push()).thenReturn(databaseReference);
+		ResponseEntity result = main.firebase_push(givenEmergency);
+
+		//THEN
+		verify(databaseReference.push()).setValueAsync(givenEmergency);
+		assertEquals(new ResponseEntity<>("success", HttpStatus.CREATED), result); 
+	}
 }

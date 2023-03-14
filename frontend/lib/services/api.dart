@@ -27,7 +27,7 @@ class ApiHandler {
 
   callApi(String apiName,
       [Map<String, dynamic> arguements = MAPDEFAULT]) async {
-    RetrievedIp ip = await fetchIp();
+    RetrievedIp ip = await fetchIp(http.Client());
     print(nameToApiInfo["hello_world"]!["primary"]);
     replaceIp(ip);
     print(nameToApiInfo["hello_world"]!["primary"]);

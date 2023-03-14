@@ -4,12 +4,15 @@ test:
   before_script:
     - cd backend/Api_Backend 
     - export PATH="$PATH:$HOME/.pub-cache/bin"
+    - mvn clean install
   script:
     - mvn verify 
   artifacts:
     paths:
+      - target/site/jacoco/jacoco.xml
       - $CI_PROJECT_DIR
     when: always
     reports:
       junit:
         - $CI_PROJECT_DIR/TEST-*.xml
+

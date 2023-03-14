@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_frontend/main.dart';
 import 'package:http/http.dart' as http;
 
-Future<RetrievedIp> fetchIp() async {
-    final response = await http
+Future<RetrievedIp> fetchIp(http.Client client) async {
+    final response = await client
         .get(Uri.parse('https://group-9-c4e02-default-rtdb.europe-west1.firebasedatabase.app/ip.json'));
 
     if (response.statusCode == 200) {
