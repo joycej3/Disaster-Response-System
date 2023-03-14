@@ -24,33 +24,34 @@ class WorkerMapState extends State<WorkerMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-        data: ThemeData.from(
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
-        ),
-        child: Scaffold(
-          body: GoogleMap(
-            mapType: MapType.hybrid,
-            initialCameraPosition: dublin,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-          ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: _goToCollege,
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.red,
-            label: const Text(
-              'To College!',
+    return MaterialApp(
+        home: Theme(
+            data: ThemeData.from(
+              colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
             ),
-            icon: const Icon(
-              Icons.school,
-              color: Colors.red,
-            ),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-        ));
+            child: Scaffold(
+              body: GoogleMap(
+                mapType: MapType.hybrid,
+                initialCameraPosition: dublin,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+              ),
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: _goToCollege,
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.red,
+                label: const Text(
+                  'To College!',
+                ),
+                icon: const Icon(
+                  Icons.school,
+                  color: Colors.red,
+                ),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+            )));
   }
 
   Future<void> _goToCollege() async {

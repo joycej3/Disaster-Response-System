@@ -182,8 +182,9 @@ class MyCustomFormState extends State<MyCustomForm> {
     ApiHandler apiHandler = ApiHandler();
 
     // Build a Form widget using the _formKey created above.
-    return Scaffold(
-        body: Form(
+    return MaterialApp(
+        home: Scaffold(
+            body: Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -325,7 +326,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
         ],
       ),
-    ));
+    )));
   }
 }
 //////////

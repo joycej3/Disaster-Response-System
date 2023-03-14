@@ -22,7 +22,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       body: Form(
         key: _formKey,
         child: Column(
@@ -181,6 +182,6 @@ class _LoginFormState extends State<LoginForm> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

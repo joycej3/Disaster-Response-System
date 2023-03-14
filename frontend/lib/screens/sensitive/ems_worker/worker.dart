@@ -53,60 +53,42 @@ class _WorkerPageState extends State<WorkerPage> {
   String textHolder = 'EMS Worker UI';
   @override
   Widget build(BuildContext context) {
-    return Theme(
-        data: ThemeData.from(
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
-        ),
-        child: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text('EMS Worker UI'),
-              bottom: const TabBar(
-                indicator: BoxDecoration(color: Colors.black),
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorWeight: 10,
-                tabs: [
-                  Tab(
-                      icon: Icon(
-                    Icons.home,
-                    color: Colors.red,
-                  )),
-                  Tab(
-                      icon: Icon(
-                    Icons.directions,
-                    color: Colors.red,
-                  )),
-                ],
+    return MaterialApp(
+        home: Theme(
+            data: ThemeData.from(
+              colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
+            ),
+            child: DefaultTabController(
+              length: 2,
+              child: Scaffold(
+                appBar: AppBar(
+                  title: const Text('EMS Worker UI'),
+                  bottom: const TabBar(
+                    indicator: BoxDecoration(color: Colors.black),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorWeight: 10,
+                    tabs: [
+                      Tab(
+                          icon: Icon(
+                        Icons.home,
+                        color: Colors.red,
+                      )),
+                      Tab(
+                          icon: Icon(
+                        Icons.directions,
+                        color: Colors.red,
+                      )),
+                    ],
+                  ),
+                ),
+                body: TabBarView(
+                  children: [
+                    WorkerHome(),
+                    WorkerMap(),
+                  ],
+                ),
               ),
-            ),
-            body: TabBarView(
-              children: [
-                WorkerHome(),
-                WorkerMap(),
-              ],
-            ),
-          ),
-        ));
-    //   ElevatedButton(
-    //     onPressed: () {
-    //       print("custom_form 2");
-    //       displaySecureResource();
-    //       // Navigator.push(context,
-    //       //     MaterialPageRoute(builder: (context) => MyCustomForm()));
-    //       // MyCustomForm();
-    //     }, //displaySecureResource(),
-    //     style: ElevatedButton.styleFrom(
-    //         backgroundColor: Colors.yellow, foregroundColor: Colors.black),
-    //     child: const Text('Access_REST'),
-    //   ),
-    //   ElevatedButton(
-    //     onPressed: () => AuthenticationHelper().signOut(),
-    //     style: ElevatedButton.styleFrom(
-    //         backgroundColor: Colors.yellow, foregroundColor: Colors.black),
-    //     child: Text('Logout'),
-    //   ),
-    // )));
+            )));
   }
 
   displaySecureResource() async {

@@ -24,7 +24,8 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       body: GoogleMap(
         mapType: MapType.hybrid,
         initialCameraPosition: dublin,
@@ -38,7 +39,7 @@ class MapSampleState extends State<MapSample> {
         icon: const Icon(Icons.school),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+    ));
   }
 
   Future<void> _goToCollege() async {
