@@ -1,7 +1,5 @@
-import 'dart:math';
-
-import 'package:flutter_frontend/screens/home.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_frontend/screens/home.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator.dart';
 import 'package:flutter_frontend/screens/sensitive/ems_worker/worker.dart';
 import 'package:flutter_frontend/screens/sensitive/ems_worker/worker_map.dart';
@@ -11,7 +9,7 @@ import 'package:flutter_frontend/screens/login.dart';
 import 'package:flutter_frontend/screens/map.dart';
 
 void main() {
-  testWidgets('Coordinator Page Test: ', (tester) async {
+  testWidgets('Coordinator Page visual Test: ', (tester) async {
     // Test code goes here.
     print('Coordinator Page testing in progress...');
     await tester.pumpWidget(Coordinator());
@@ -20,49 +18,49 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('EMS Worker Map Page Test', (tester) async {
+  testWidgets('EMS Worker Map Page visual Test', (tester) async {
     print('EMS Worker Map Page testing in progress...');
     await tester.pumpWidget(WorkerMap());
     final textFinder = find.text('To College!');
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('EMS Worker Page Test', (tester) async {
+  testWidgets('EMS Worker Page visual Test', (tester) async {
     print('EMS Worker Page testing in progress...');
     await tester.pumpWidget(WorkerPage());
     final textFinder = find.text('EMS Worker UI');
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('EMS Worker Home Page Test', (tester) async {
+  testWidgets('EMS Worker Home Page visual Test', (tester) async {
     print('EMS Worker Home Page testing in progress...');
     await tester.pumpWidget(WorkerHome());
     final textFinder = find.text('Place Holder');
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('Report Submission Page Test', (tester) async {
+  testWidgets('Report Submission Page visual Test', (tester) async {
     print('Report Submission Page testing in progress...');
     await tester.pumpWidget(MyCustomForm());
     final textFinder = find.text('Submit');
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('EMS Login Page Test', (tester) async {
+  testWidgets('EMS Login Page visual Test', (tester) async {
     print('EMS Login Page testing in progress...');
     await tester.pumpWidget(LoginForm());
     final textFinder = find.text('Password');
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('Civ Map Page Test', (tester) async {
+  testWidgets('Civ Map Page visual Test', (tester) async {
     print('Civ Map Page testing in progress...');
     await tester.pumpWidget(MapSample());
     final textFinder = find.text('To College!');
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('Home Page Test', (tester) async {
+  testWidgets('Home Page visual Test', (tester) async {
     print('Home Page testing in progress...');
     await tester.pumpWidget(Home());
 
