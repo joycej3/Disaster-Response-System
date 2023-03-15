@@ -6,6 +6,7 @@ load-test:
     - export PATH="$PATH:$HOME/.pub-cache/bin"
     - mvn clean install
   script:
+    - mvn $MAVEN_CLI_OPTS clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report
     - mvn verify 
   artifacts:
     paths:
@@ -13,7 +14,7 @@ load-test:
     when: always
     reports:
       junit:
-        - $CI_PROJECT_DIR/backend/Load_Balancer/TEST-*.xml
+        - $CI_PROJECT_DIR/backend/Load_Balancer/target/surefire-reports/TEST-*.xml
 
 
 load-coverage:
