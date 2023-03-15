@@ -9,24 +9,24 @@ backend-test:
     - mvn verify 
   artifacts:
     paths:
-      - target/site/jacoco/jacoco.xml
+      - $CI_PROJECT_DIR/backend/Api_Backend/target/site/jacoco/jacoco.xml
       - $CI_PROJECT_DIR
     when: always
     reports:
       junit:
-        - $CI_PROJECT_DIR/TEST-*.xml
+        - $CI_PROJECT_DIR/backend/Api_Backend/TEST-*.xml
 
 
 backend-coverage:
-  stage: visualize
+  stage: deploy
   image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
   script:
     # convert report from jacoco to cobertura, using relative project path
-    - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
+    - python /opt/cover2cover.py $CI_PROJECT_DIR/backend/Api_Backend/target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/backend/Api_Backend/src/main/java/ > $CI_PROJECT_DIR/backend/Api_Backend/target/site/cobertura.xml
   needs: ["backend-test"]
   artifacts:
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: target/site/cobertura.xml
+        path: $CI_PROJECT_DIR/backend/Api_Backend/target/site/cobertura.xml
 
