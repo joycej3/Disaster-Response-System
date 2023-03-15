@@ -21,7 +21,7 @@ load-coverage:
   image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
   script:
     # convert report from jacoco to cobertura, using relative project path
-    - python /opt/cover2cover.py $CI_PROJECT_DIR/backend/Load_Balancer/target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > $CI_PROJECT_DIR/backend/Load_Balancer/target/site/cobertura.xml
+    - python /opt/cover2cover.py $CI_PROJECT_DIR/backend/Load_Balancer/target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/backend/Load_Balancer/src/main/java/ > $CI_PROJECT_DIR/backend/Load_Balancer/target/site/cobertura.xml
   needs: ["load-test"]
   artifacts:
     reports:

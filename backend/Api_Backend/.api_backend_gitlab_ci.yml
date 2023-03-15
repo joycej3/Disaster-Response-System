@@ -10,7 +10,6 @@ backend-test:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/backend/Api_Backend/target/site/jacoco/jacoco.xml
-      - $CI_PROJECT_DIR
     when: always
     reports:
       junit:
