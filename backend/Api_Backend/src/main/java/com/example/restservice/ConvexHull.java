@@ -1,11 +1,13 @@
 package com.example.restservice;
 
 import java.util.*;
-
+import com.example.restservice.Shoelace;
+import java.lang.Math;
 public class ConvexHull {
     
-    private static class Point implements Comparable<Point> {
+    protected static class Point implements Comparable<Point> {
         double lat, lon;
+        final double cartesianToMeters = 119139;
         
         public Point(double lat, double lon) {
             this.lat = lat;
@@ -71,18 +73,26 @@ public class ConvexHull {
         return hull;
     }
     
+
     protected static Integer Integer(int min) {
         return null;
     }
+
+    
 
     public static void main(String[] args) {
         Point[] points = { new Point(37.7850, -122.4089), new Point(37.7766, -122.3958), new Point(37.7801, -122.4016),
                            new Point(37.7749, -122.4312), new Point(37.7933, -122.4157), new Point(37.7869, -122.4111),
                            new Point(37.7885, -122.3985), new Point(37.7949, -122.4081), new Point(37.7983, -122.4192) };
-        ArrayList<Point> hull = convexHull(points);
+        Point[] stephensGreen = { new Point(53.337676, -6.262387), new Point(53.339700, -6.260585), new Point(53.338521, -6.255650), new Point(53.336395,-6.257495)};
+        ArrayList<Point> hull = convexHull(stephensGreen);
         System.out.println("Convex hull:");
         for (Point p : hull) {
             System.out.println("(" + p.lat + ", " + p.lon + ")");
         }
+        
+        double area  = Shoelace.calculateArea(hull);
+        System.out.println(area);
+
     }
 }
