@@ -31,5 +31,11 @@ public class ReportAggregator {
         return 0;
     }
 
+    private string getNeighbourhood(){
+        //take all lat long of the reports
+        //Find neighbourhood where disaster takes place
+        return 0;
+    }
+
     
 }
