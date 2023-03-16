@@ -97,9 +97,9 @@ public class MainTests {
 	@Test
 	public void FirebaseGetTest() throws FileNotFoundException, IOException{
 		//GIVEN
-		String emergency = null;
-		String injury = null;
-		int time = 0;
+		String emergency = "n/a";
+		String injury = "n/a";
+		Long time = 0l;
 		float latitude = 0f;
 		float longitude = 0f;
 		EmergencyRecord emergencyRecord = new EmergencyRecord(emergency, injury, time, latitude, longitude);
@@ -107,7 +107,7 @@ public class MainTests {
 		//WHEN
 		EmergencyRecord recordReturned = main.firebase();
 
-		//THEN
+		//THEN		
 		assertEquals(emergencyRecord, recordReturned);
 	}
 
@@ -117,7 +117,7 @@ public class MainTests {
 		//GIVEN
 		String emergency = "Fire";
 		String injury = "I am injured";
-		int time = 1678288146;
+		Long time = 1678288146000l;
 		float latitude = 1.2f;
 		float longitude = 1.3f;
 		Emergency givenEmergency = new Emergency(emergency, injury, time, latitude, longitude);

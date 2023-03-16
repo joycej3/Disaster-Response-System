@@ -308,10 +308,11 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
+                  DateTime time = DateTime.now();
                   apiHandler.callApi("database_push", http.Client(), {
                     'emergency': _emrgencyCat,
                     'injury': _injuryCat,
-                    'time': 12,
+                    'time': time.millisecondsSinceEpoch,
                     'longitude': 1.23,
                     'latitude': 1.34
                   });

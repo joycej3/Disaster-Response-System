@@ -36,7 +36,7 @@ public class Main {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	DatabaseReference disasterRef;
-	private Emergency recentEmergency = new Emergency("n/a", "n/a", 0, 0f, 0f);
+	private EmergencyRecord recentEmergency = new EmergencyRecord("n/a", "n/a", 0l, 0f, 0f);
 
 	@Autowired
 	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
@@ -48,7 +48,7 @@ public class Main {
 			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
 				System.out.println("child added");
 				System.out.println("prevchildkey: " + prevChildKey);
-				recentEmergency = dataSnapshot.getValue(Emergency.class);
+				recentEmergency = dataSnapshot.getValue(EmergencyRecord.class);
 				System.out.println("got through datasnapshot.getvalue");
 				System.out.println(recentEmergency);
 
@@ -56,7 +56,7 @@ public class Main {
 		  
 			@Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-				recentEmergency = dataSnapshot.getValue(Emergency.class);
+				recentEmergency = dataSnapshot.getValue(EmergencyRecord.class);
 				System.out.println("changed");
 			}
 		  
@@ -85,8 +85,8 @@ public class Main {
 	@GetMapping("/backend/firebase_get")
 	public EmergencyRecord firebase() {
         System.out.println("/firebase_get passed");
-		return new EmergencyRecord(recentEmergency.emergency, recentEmergency.injury,
-		 recentEmergency.time, recentEmergency.latitude, recentEmergency.longitude);
+		System.out.println(recentEmergency);
+		return recentEmergency;
 	}
 
 	@PostMapping(path = "/backend/firebase_push", 
@@ -94,8 +94,6 @@ public class Main {
         produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {
 		System.out.println("Attempting firebase push");
-		System.out.println("cat: " + emergency.emergency + " injured: " + emergency.injury +
-			" time: " + emergency.time + " lat: " + emergency.latitude + " long: " + emergency.longitude);
 		disasterRef.push().setValueAsync(emergency);
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}

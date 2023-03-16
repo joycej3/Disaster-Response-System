@@ -4,11 +4,11 @@ public class Emergency {
 
     public String emergency;
     public String injury;
-    public int time;
+    public Long time;
     public float latitude;
     public float longitude;
   
-    public Emergency(String emergency, String injury, int time, float latitude, float longitude) {
+    public Emergency(String emergency, String injury, Long time, float latitude, float longitude) {
     }
 
     public Emergency(){
