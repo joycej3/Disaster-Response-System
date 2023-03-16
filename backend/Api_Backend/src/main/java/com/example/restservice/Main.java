@@ -36,7 +36,7 @@ public class Main {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	DatabaseReference disasterRef;
-	private Emergency recentEmergency = new Emergency("n/a", "n/a", 0, "n/a");
+	private Emergency recentEmergency = new Emergency("n/a", "n/a", 0, 0f, 0f);
 
 	@Autowired
 	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
@@ -86,7 +86,7 @@ public class Main {
 	public EmergencyRecord firebase() {
         System.out.println("/firebase_get passed");
 		return new EmergencyRecord(recentEmergency.emergency, recentEmergency.injury,
-		 recentEmergency.time, recentEmergency.location);
+		 recentEmergency.time, recentEmergency.latitude, recentEmergency.longitude);
 	}
 
 	@PostMapping(path = "/backend/firebase_push", 
@@ -94,7 +94,8 @@ public class Main {
         produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {
 		System.out.println("Attempting firebase push");
-		System.out.println(emergency);
+		System.out.println("cat: " + emergency.emergency + " injured: " + emergency.injury +
+			" time: " + emergency.time + " lat: " + emergency.latitude + " long: " + emergency.longitude);
 		disasterRef.push().setValueAsync(emergency);
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}

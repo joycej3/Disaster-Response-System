@@ -312,7 +312,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     'emergency': _emrgencyCat,
                     'injury': _injuryCat,
                     'time': 12,
-                    'location': ""
+                    'longitude': 1.23,
+                    'latitude': 1.34
                   });
 
                   // If the form is valid, display a snackbar. In the real world,

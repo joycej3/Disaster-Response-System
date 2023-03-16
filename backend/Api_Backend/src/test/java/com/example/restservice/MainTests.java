@@ -100,8 +100,9 @@ public class MainTests {
 		String emergency = null;
 		String injury = null;
 		int time = 0;
-		String location = null;
-		EmergencyRecord emergencyRecord = new EmergencyRecord(emergency, injury, time, location);
+		float latitude = 0f;
+		float longitude = 0f;
+		EmergencyRecord emergencyRecord = new EmergencyRecord(emergency, injury, time, latitude, longitude);
 
 		//WHEN
 		EmergencyRecord recordReturned = main.firebase();
@@ -117,8 +118,9 @@ public class MainTests {
 		String emergency = "Fire";
 		String injury = "I am injured";
 		int time = 1678288146;
-		String location = "lat, lon";
-		Emergency givenEmergency = new Emergency(emergency, injury, time, location);
+		float latitude = 1.2f;
+		float longitude = 1.3f;
+		Emergency givenEmergency = new Emergency(emergency, injury, time, latitude, longitude);
 
 		//WHEN
 		when(databaseReference.push()).thenReturn(databaseReference);

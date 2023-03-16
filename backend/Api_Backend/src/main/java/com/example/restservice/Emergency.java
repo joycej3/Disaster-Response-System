@@ -5,9 +5,10 @@ public class Emergency {
     public String emergency;
     public String injury;
     public int time;
-    public String location;
+    public float latitude;
+    public float longitude;
   
-    public Emergency(String emergency, String injury, int time, String location) {
+    public Emergency(String emergency, String injury, int time, float latitude, float longitude) {
     }
 
     public Emergency(){
