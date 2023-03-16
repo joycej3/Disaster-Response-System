@@ -79,7 +79,7 @@ public class ConvexHull {
     }
 
     
-
+  //testing convex hull and shoelace method with the area of st. stephens green
     public static void main(String[] args) {
         Point[] points = { new Point(37.7850, -122.4089), new Point(37.7766, -122.3958), new Point(37.7801, -122.4016),
                            new Point(37.7749, -122.4312), new Point(37.7933, -122.4157), new Point(37.7869, -122.4111),

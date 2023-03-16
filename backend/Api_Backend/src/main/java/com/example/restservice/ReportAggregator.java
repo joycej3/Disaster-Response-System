@@ -5,6 +5,7 @@ public class ReportAggregator {
 
     // takes all reports under a disaster ID and aggregates them to pass to ML model
     // maybe create an aggregated report class to pass to ML model
+    // 
     public static void aggregateReports(){
 
     }
