@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_frontend/services/api.dart';
+import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 
 // /////////
@@ -305,16 +306,38 @@ class MyCustomFormState extends State<MyCustomForm> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50)),
                   fixedSize: Size(100, 50)),
-              onPressed: () {
+              onPressed: () async {
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   DateTime time = DateTime.now();
+                  Location location = new Location();
+                  bool _serviceEnabled;
+                  PermissionStatus _permissionGranted;
+                  LocationData _locationData;
+
+                  _serviceEnabled = await location.serviceEnabled();
+                  if (!_serviceEnabled) {
+                    _serviceEnabled = await location.requestService();
+                    if (!_serviceEnabled) {
+                      return;
+                    }
+                  }
+
+                  _permissionGranted = await location.hasPermission();
+                  if (_permissionGranted == PermissionStatus.denied) {
+                    _permissionGranted = await location.requestPermission();
+                    if (_permissionGranted != PermissionStatus.granted) {
+                      return;
+                    }
+                  }
+
+                  _locationData = await location.getLocation();
                   apiHandler.callApi("database_push", http.Client(), {
                     'emergency': _emrgencyCat,
                     'injury': _injuryCat,
                     'time': time.millisecondsSinceEpoch,
-                    'longitude': 1.23,
-                    'latitude': 1.34
+                    'longitude': _locationData.longitude,
+                    'latitude': _locationData.latitude
                   });
 
                   // If the form is valid, display a snackbar. In the real world,
