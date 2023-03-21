@@ -177,27 +177,36 @@ class MyCustomFormState extends State<MyCustomForm> {
                 if (_formKey.currentState!.validate()) {
                   DateTime time = DateTime.now();
                   Location location = new Location();
-                  bool _serviceEnabled;
-                  PermissionStatus _permissionGranted;
-                  LocationData _locationData;
-
-                  _serviceEnabled = await location.serviceEnabled();
+                  
+                  bool _serviceEnabled = await location.serviceEnabled();
                   if (!_serviceEnabled) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('await requestservice')),
+                    );
                     _serviceEnabled = await location.requestService();
                     if (!_serviceEnabled) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Location services required to send report')),
+                      );
                       return;
                     }
                   }
-
-                  _permissionGranted = await location.hasPermission();
+                  
+                  PermissionStatus _permissionGranted = await location.hasPermission();
                   if (_permissionGranted == PermissionStatus.denied) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('await requestpermission')),
+                    );
                     _permissionGranted = await location.requestPermission();
                     if (_permissionGranted != PermissionStatus.granted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Location permissions required to send report')),
+                      );
                       return;
                     }
                   }
 
-                  _locationData = await location.getLocation();
+                  LocationData _locationData = await location.getLocation();
                   apiHandler.callApi("database_push", http.Client(), {
                     'emergency': _emrgencyCat,
                     'injury': _injuryCat,
@@ -209,7 +218,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // If the form is valid, display a snackbar. In the real world,
                   // you'd often call a server or save the information in a database.
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
+                    const SnackBar(content: Text('Report sent!')),
                   );
                 }
               },
