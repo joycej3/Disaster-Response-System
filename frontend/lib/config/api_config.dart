@@ -34,5 +34,10 @@ Map<String, Map<String, dynamic>> nameToApiInfo = {
     "primary": "localhost:8080",
     "path": "/coordinator/data",
     "type": "get"
+  },
+  "get_user_info": {
+    "primary": "localhost:8080",
+    "path": "/backend/get_user_info",
+    "type": "get"
   }
 };

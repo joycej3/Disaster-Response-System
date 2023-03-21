@@ -36,45 +36,13 @@ public class Main {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	DatabaseReference disasterRef;
-	private EmergencyRecord recentEmergency = new EmergencyRecord("n/a", "n/a", 0l, 0f, 0f);
+	DatabaseReference userRef;
+	private Emergency recentEmergency = new Emergency("n/a", "n/a", 0l, 0f, 0f);
+	private HashMap<String,User> emailToUserInfo = new HashMap<>();
 
 	@Autowired
 	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
-		disasterRef = getDatabase.getReference("ReportTable/Uncategorised");
-		
-		// Attach a listener to read the data at our posts reference
-		disasterRef.addChildEventListener(new ChildEventListener() {
-			@Override
-			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-				System.out.println("child added");
-				System.out.println("prevchildkey: " + prevChildKey);
-				recentEmergency = dataSnapshot.getValue(EmergencyRecord.class);
-				System.out.println("got through datasnapshot.getvalue");
-				System.out.println(recentEmergency);
-
-			}
-		  
-			@Override
-			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-				recentEmergency = dataSnapshot.getValue(EmergencyRecord.class);
-				System.out.println("changed");
-			}
-		  
-			@Override
-			public void onChildRemoved(DataSnapshot dataSnapshot) {
-				System.out.println("removed");
-			}
-		  
-			@Override
-			public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
-				System.out.println("moved");
-			}
-		  
-			@Override
-			public void onCancelled(DatabaseError databaseError) {
-				System.out.println("cancelled");
-			}
-		  });
+		setup_database_listeners(getDatabase);
 	}
 
 	@GetMapping("/backend/greeting")
@@ -83,10 +51,22 @@ public class Main {
 	}
 
 	@GetMapping("/backend/firebase_get")
-	public EmergencyRecord firebase() {
+	public Emergency firebase() {
         System.out.println("/firebase_get passed");
 		System.out.println(recentEmergency);
 		return recentEmergency;
+	}
+
+	@GetMapping("/backend/get_user_info")
+	public User get_user_type(@RequestParam String email) {
+		System.out.println("backend/get_user_info");
+        return emailToUserInfo.getOrDefault(email, new User(email, ""));
+	}
+
+	@GetMapping("/backend/test")
+	public String test() {
+		System.out.println("backend/test");
+        return "succ";
 	}
 
 	@PostMapping(path = "/backend/firebase_push", 
@@ -105,4 +85,84 @@ public class Main {
 	// }
 	// FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
 	//}
+
+	private void setup_database_listeners(FirebaseDatabase database){
+		
+		disasterRef = database.getReference("ReportTable/Uncategorised");
+		
+		// Attach a listener to read the data at our posts reference
+		disasterRef.addChildEventListener(new ChildEventListener() {
+			@Override
+			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+				System.out.println("child added");
+				System.out.println("prevchildkey: " + prevChildKey);
+				try{
+					recentEmergency = dataSnapshot.getValue(Emergency.class);
+				}
+				catch(Exception e){
+					System.out.println(e);
+				}
+				System.out.println("got through datasnapshot.getvalue");
+				System.out.println(recentEmergency);
+			}
+		  
+			@Override
+			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+				recentEmergency = dataSnapshot.getValue(Emergency.class);
+				System.out.println("changed");
+			}
+		  
+			@Override
+			public void onChildRemoved(DataSnapshot dataSnapshot) {
+				System.out.println("removed");
+			}
+		  
+			@Override
+			public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+				System.out.println("moved");
+			}
+		  
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+				System.out.println("cancelled");
+			}
+		  });
+
+		userRef = database.getReference("users");
+
+		userRef.addChildEventListener(new ChildEventListener() {
+			@Override
+			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+				User userRecord = dataSnapshot.getValue(User.class);
+				emailToUserInfo.put(userRecord.email, userRecord);
+				System.out.println("added user: " + userRecord.email);
+			}
+		  
+			@Override
+			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+				User userRecord = dataSnapshot.getValue(User.class);
+				emailToUserInfo.put(userRecord.email, userRecord);
+				System.out.println("user updated: " + userRecord.email);
+			}
+		  
+			@Override
+			public void onChildRemoved(DataSnapshot dataSnapshot) {
+				User userRecord = dataSnapshot.getValue(User.class);
+				emailToUserInfo.remove(userRecord.email);
+				System.out.println("user removed: " + userRecord.email);
+			}
+		  
+			@Override
+			public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+				System.out.println("moved");
+			}
+		  
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+				System.out.println("cancelled");
+			}
+		  });
+
+
+	}
 }

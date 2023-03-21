@@ -15,6 +15,7 @@
  */
 package com.example.restservice;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -102,13 +103,13 @@ public class MainTests {
 		Long time = 0l;
 		float latitude = 0f;
 		float longitude = 0f;
-		EmergencyRecord emergencyRecord = new EmergencyRecord(emergency, injury, time, latitude, longitude);
+		Emergency emergencyRecord = new Emergency(emergency, injury, time, latitude, longitude);
 
 		//WHEN
-		EmergencyRecord recordReturned = main.firebase();
+		Emergency recordReturned = main.firebase();
 
 		//THEN		
-		assertEquals(emergencyRecord, recordReturned);
+		assertEquals(emergencyRecord.toString(), recordReturned.toString());
 	}
 
 	@DisplayName("GIVEN an emergency report to add WHEN  firebasePush is called THEN the report is pushed to database and returns success")
