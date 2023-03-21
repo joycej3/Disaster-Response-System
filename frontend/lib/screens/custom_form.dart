@@ -30,140 +30,6 @@ const List<String> injuryCategories = <String>[
   'I have one leg hanging off'
 ];
 
-// ///// Emergency Categories Dorpdown --- START ///////
-// class DropdownButtonApp extends StatelessWidget {
-//   const DropdownButtonApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         body: const Center(
-//           child: EmergencyCategoryDropdown(),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class EmergencyCategoryDropdown extends StatefulWidget {
-//   const EmergencyCategoryDropdown({super.key});
-
-//   @override
-//   State<EmergencyCategoryDropdown> createState() =>
-//       _DropdownButtonExampleState();
-// }
-
-// class _DropdownButtonExampleState extends State<EmergencyCategoryDropdown> {
-//   String cat_dropdownValue = emergencyCategories.first;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return DropdownButtonFormField<String>(
-//       decoration: InputDecoration(
-//         enabledBorder: OutlineInputBorder(
-//             borderRadius: BorderRadius.circular(50),
-//             borderSide: BorderSide(color: Colors.red, width: 5)),
-//         focusedBorder: OutlineInputBorder(
-//             borderRadius: BorderRadius.circular(50),
-//             borderSide: BorderSide(color: Colors.red, width: 2)),
-//         filled: true,
-//         fillColor: Colors.redAccent,
-//       ),
-//       dropdownColor: Colors.red,
-//       value: cat_dropdownValue,
-//       icon: const Icon(
-//         Icons.arrow_downward,
-//         color: Colors.white,
-//       ),
-//       elevation: 16,
-//       style: const TextStyle(color: Colors.white, fontSize: 18),
-//       onChanged: (String? value) {
-//         // This is called when the user selects an item.
-//         setState(() {
-//           cat_dropdownValue = value!;
-//         });
-//       },
-//       items: emergencyCategories.map<DropdownMenuItem<String>>((String value) {
-//         return DropdownMenuItem<String>(
-//           value: value,
-//           child: Text(value),
-//         );
-//       }).toList(),
-//     );
-//   }
-// }
-
-// ////// EMERGENCY CATEGORY DROPDOWN --- END ////
-
-// /////   INJURT DROPDOWN ---- START ////
-// class injuryDropApp extends StatelessWidget {
-//   const injuryDropApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         body: const Center(
-//           child: injuryCategoryDropdown(),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class injuryCategoryDropdown extends StatefulWidget {
-//   const injuryCategoryDropdown({super.key});
-
-//   @override
-//   State<injuryCategoryDropdown> createState() => _injuryDropdownState();
-// }
-
-// class _injuryDropdownState extends State<injuryCategoryDropdown> {
-//   String inj_dropdownValue = injuryCategories.first;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return DropdownButtonFormField<String>(
-//       decoration: InputDecoration(
-//         enabledBorder: OutlineInputBorder(
-//             borderRadius: BorderRadius.circular(50),
-//             borderSide: BorderSide(color: Colors.red, width: 2)),
-//         focusedBorder: OutlineInputBorder(
-//             borderRadius: BorderRadius.circular(50),
-//             borderSide: BorderSide(color: Colors.red, width: 2)),
-//         filled: true,
-//         fillColor: Colors.redAccent,
-//       ),
-//       dropdownColor: Colors.red,
-//       value: inj_dropdownValue,
-//       icon: const Icon(
-//         Icons.arrow_downward,
-//         color: Colors.white,
-//       ),
-//       elevation: 16,
-//       style: const TextStyle(color: Colors.white, fontSize: 18),
-//       // underline: Container(
-//       //   height: 2,
-//       //   color: Colors.redAccent,
-//       //),
-//       onChanged: (String? value) {
-//         // This is called when the user selects an item.
-//         setState(() {
-//           inj_dropdownValue = value!;
-//         });
-//       },
-//       items: injuryCategories.map<DropdownMenuItem<String>>((String value) {
-//         return DropdownMenuItem<String>(
-//           value: value,
-//           child: Text(value),
-//         );
-//       }).toList(),
-//     );
-//   }
-// }
-// ////// INJURY CATEGORY DROPDOWN --- END ////
-
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
@@ -311,7 +177,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 if (_formKey.currentState!.validate()) {
                   DateTime time = DateTime.now();
                   Location location = new Location();
-                  
+
                   bool _serviceEnabled = await location.serviceEnabled();
                   if (!_serviceEnabled) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -320,13 +186,16 @@ class MyCustomFormState extends State<MyCustomForm> {
                     _serviceEnabled = await location.requestService();
                     if (!_serviceEnabled) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Location services required to send report')),
+                        const SnackBar(
+                            content: Text(
+                                'Location services required to send report')),
                       );
                       return;
                     }
                   }
-                  
-                  PermissionStatus _permissionGranted = await location.hasPermission();
+
+                  PermissionStatus _permissionGranted =
+                      await location.hasPermission();
                   if (_permissionGranted == PermissionStatus.denied) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('await requestpermission')),
@@ -334,7 +203,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     _permissionGranted = await location.requestPermission();
                     if (_permissionGranted != PermissionStatus.granted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Location permissions required to send report')),
+                        const SnackBar(
+                            content: Text(
+                                'Location permissions required to send report')),
                       );
                       return;
                     }
@@ -365,3 +236,142 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 }
 //////////
+
+
+
+
+
+
+// ///// Emergency Categories Dorpdown --- START ///////
+// class DropdownButtonApp extends StatelessWidget {
+//   const DropdownButtonApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         body: const Center(
+//           child: EmergencyCategoryDropdown(),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class EmergencyCategoryDropdown extends StatefulWidget {
+//   const EmergencyCategoryDropdown({super.key});
+
+//   @override
+//   State<EmergencyCategoryDropdown> createState() =>
+//       _DropdownButtonExampleState();
+// }
+
+// class _DropdownButtonExampleState extends State<EmergencyCategoryDropdown> {
+//   String cat_dropdownValue = emergencyCategories.first;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return DropdownButtonFormField<String>(
+//       decoration: InputDecoration(
+//         enabledBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(50),
+//             borderSide: BorderSide(color: Colors.red, width: 5)),
+//         focusedBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(50),
+//             borderSide: BorderSide(color: Colors.red, width: 2)),
+//         filled: true,
+//         fillColor: Colors.redAccent,
+//       ),
+//       dropdownColor: Colors.red,
+//       value: cat_dropdownValue,
+//       icon: const Icon(
+//         Icons.arrow_downward,
+//         color: Colors.white,
+//       ),
+//       elevation: 16,
+//       style: const TextStyle(color: Colors.white, fontSize: 18),
+//       onChanged: (String? value) {
+//         // This is called when the user selects an item.
+//         setState(() {
+//           cat_dropdownValue = value!;
+//         });
+//       },
+//       items: emergencyCategories.map<DropdownMenuItem<String>>((String value) {
+//         return DropdownMenuItem<String>(
+//           value: value,
+//           child: Text(value),
+//         );
+//       }).toList(),
+//     );
+//   }
+// }
+
+// ////// EMERGENCY CATEGORY DROPDOWN --- END ////
+
+// /////   INJURT DROPDOWN ---- START ////
+// class injuryDropApp extends StatelessWidget {
+//   const injuryDropApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         body: const Center(
+//           child: injuryCategoryDropdown(),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class injuryCategoryDropdown extends StatefulWidget {
+//   const injuryCategoryDropdown({super.key});
+
+//   @override
+//   State<injuryCategoryDropdown> createState() => _injuryDropdownState();
+// }
+
+// class _injuryDropdownState extends State<injuryCategoryDropdown> {
+//   String inj_dropdownValue = injuryCategories.first;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return DropdownButtonFormField<String>(
+//       decoration: InputDecoration(
+//         enabledBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(50),
+//             borderSide: BorderSide(color: Colors.red, width: 2)),
+//         focusedBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(50),
+//             borderSide: BorderSide(color: Colors.red, width: 2)),
+//         filled: true,
+//         fillColor: Colors.redAccent,
+//       ),
+//       dropdownColor: Colors.red,
+//       value: inj_dropdownValue,
+//       icon: const Icon(
+//         Icons.arrow_downward,
+//         color: Colors.white,
+//       ),
+//       elevation: 16,
+//       style: const TextStyle(color: Colors.white, fontSize: 18),
+//       // underline: Container(
+//       //   height: 2,
+//       //   color: Colors.redAccent,
+//       //),
+//       onChanged: (String? value) {
+//         // This is called when the user selects an item.
+//         setState(() {
+//           inj_dropdownValue = value!;
+//         });
+//       },
+//       items: injuryCategories.map<DropdownMenuItem<String>>((String value) {
+//         return DropdownMenuItem<String>(
+//           value: value,
+//           child: Text(value),
+//         );
+//       }).toList(),
+//     );
+//   }
+// }
+// ////// INJURY CATEGORY DROPDOWN --- END ////
