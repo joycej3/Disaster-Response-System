@@ -177,7 +177,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 if (_formKey.currentState!.validate()) {
                   DateTime time = DateTime.now();
                   Location location = new Location();
-                  
+
                   bool _serviceEnabled = await location.serviceEnabled();
                   if (!_serviceEnabled) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -186,13 +186,16 @@ class MyCustomFormState extends State<MyCustomForm> {
                     _serviceEnabled = await location.requestService();
                     if (!_serviceEnabled) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Location services required to send report')),
+                        const SnackBar(
+                            content: Text(
+                                'Location services required to send report')),
                       );
                       return;
                     }
                   }
-                  
-                  PermissionStatus _permissionGranted = await location.hasPermission();
+
+                  PermissionStatus _permissionGranted =
+                      await location.hasPermission();
                   if (_permissionGranted == PermissionStatus.denied) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('await requestpermission')),
@@ -200,7 +203,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     _permissionGranted = await location.requestPermission();
                     if (_permissionGranted != PermissionStatus.granted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Location permissions required to send report')),
+                        const SnackBar(
+                            content: Text(
+                                'Location permissions required to send report')),
                       );
                       return;
                     }
