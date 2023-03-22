@@ -60,8 +60,8 @@ public class ConvexHull {
         });
         
         // Add the first two points to the hull
-        hull.add(points[min]);
-        hull.add(points[(min + 1) % n]);
+        hull.add(points[0]);
+        hull.add(points[1 % n]);
         
         // Add remaining points to the hull
         for (int i = 2; i < n; i++) {

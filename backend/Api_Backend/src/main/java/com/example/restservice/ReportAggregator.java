@@ -85,13 +85,10 @@ public class ReportAggregator {
     }
 
     private Map <String, Object> mapReplace(Map<String, Object> map){
-        try {
-        if (map.get("Injured") == "true"){
-            map.replace("Injured", true);
-        }
-        else{
-            map.replace("Injured", false);
-        }
+        System.out.println(map.get("Injured"));
+        boolean injured = Boolean.parseBoolean((String) map.get("Injured"));
+        map.replace("Injured", injured);
+
         Double lat = Double.parseDouble((String) map.get("Lat"));
         Double lon = Double.parseDouble((String) map.get("Lon"));
         map.replace("Lat", lat);
@@ -100,7 +97,6 @@ public class ReportAggregator {
         map.replace("ReportCategory", Integer.parseInt((String) map.get("ReportCategory")));
         map.replace("Time", Long.parseLong((String) map.get("Time")));
         return map;
-        } catch (Exception e){ System.out.println(e); return map;}
     }
 
     protected  void aggregate(DataSnapshot dataSnapshot, DatabaseReference reference, List<Map<String, Object>> dataList){
@@ -235,7 +231,7 @@ public class ReportAggregator {
     private String getNeighbourhood(){
         //take all lat long of the reports
         //Find neighbourhood where disaster takes place
-        
+
 
 
         return "0";
