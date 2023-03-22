@@ -72,6 +72,11 @@ public class Main {
 				System.out.println("cancelled");
 			}
 		  });
+
+		  ReportAggregator reportAggregator = ReportAggregator.builder()
+		  	.withFirebaseDatabase(getDatabase)
+			.build();
+		  reportAggregator.startAggregatingReports();
 	}
 
 	@GetMapping("/backend/greeting")

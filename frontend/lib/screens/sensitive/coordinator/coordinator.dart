@@ -9,11 +9,13 @@ class Coordinator extends StatefulWidget {
 class _CoordinatorHome extends State<Coordinator> {
   @override
   Widget build(BuildContext context) {
-    return Theme(
+    return MaterialApp(
+        home: Theme(
       data: ThemeData.from(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue),
       ),
       child: Scaffold(
+        appBar: AppBar(title: Text('Test')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -40,6 +42,6 @@ class _CoordinatorHome extends State<Coordinator> {
           ),
         ),
       ),
-    );
+    ));
   }
 }

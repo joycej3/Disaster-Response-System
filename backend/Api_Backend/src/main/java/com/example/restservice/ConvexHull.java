@@ -34,8 +34,9 @@ public class ConvexHull {
         return (val > 0) ? 1 : 2;
     }
     
-    private static ArrayList<Point> convexHull(Point[] points) {
+    public ArrayList<Point> convexHull(Point[] points) {
         int n = points.length;
+        System.out.println("length: " + n);
         ArrayList<Point> hull = new ArrayList<Point>();
         
         // Find the southernmost point
@@ -45,6 +46,7 @@ public class ConvexHull {
                 min = i;
             }
         }
+        System.out.println("min: " + min) ;
         final Integer innerMin = Integer.valueOf(min);
         // Sort points by polar angle with respect to min point
         Arrays.sort(points, min + 1, n, new Comparator<Point>() {
@@ -66,6 +68,7 @@ public class ConvexHull {
             Point p = points[i];
             while (hull.size() > 1 && orientation(hull.get(hull.size() - 2), hull.get(hull.size() - 1), p) != 2) {
                 hull.remove(hull.size() - 1);
+                System.out.println("removed");
             }
             hull.add(p);
         }
@@ -79,7 +82,7 @@ public class ConvexHull {
     }
 
     
-  //testing convex hull and shoelace method with the area of st. stephens green
+
     public static void main(String[] args) {
         Point[] points = { new Point(37.7850, -122.4089), new Point(37.7766, -122.3958), new Point(37.7801, -122.4016),
                            new Point(37.7749, -122.4312), new Point(37.7933, -122.4157), new Point(37.7869, -122.4111),

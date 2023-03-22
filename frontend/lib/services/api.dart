@@ -10,25 +10,25 @@ class ApiHandler {
   bool configReady = false;
 
   httpCall(String apiUrl, String apiPath, Map<String, dynamic> arguements,
-      String type) async {
+      String type, http.Client client) async {
     var response;
 
     if (type == "get") {
       Uri uri = Uri.http(apiUrl, apiPath, arguements);
-      response = await http.get(uri);
+      response = await client.get(uri);
     } else {
       Uri uri = Uri.http(apiUrl, apiPath);
       var body = jsonEncode(arguements);
-      response = await http.post(uri,
+      response = await client.post(uri,
           headers: {"Content-Type": "application/json"}, body: body);
     }
     return response;
   }
 
-  callApi(String apiName,
-      [Map<String, dynamic> arguements = MAPDEFAULT]) async {
+  callApi(String apiName, http.Client client,
+      [Map<String, dynamic> arguements = MAPDEFAULT])
+  async {
     RetrievedIp ip = await fetchIp(http.Client());
-    print(nameToApiInfo["hello_world"]!["primary"]);
     replaceIp(ip);
     print(nameToApiInfo["hello_world"]!["primary"]);
 
@@ -36,14 +36,16 @@ class ApiHandler {
         nameToApiInfo[apiName]!["primary"],
         nameToApiInfo[apiName]!["path"],
         arguements,
-        nameToApiInfo[apiName]!["type"]);
+        nameToApiInfo[apiName]!["type"],
+        client);
     if (response.statusCode != 200 &&
         nameToApiInfo[apiName]!.containsKey("fallback")) {
       response = await httpCall(
           nameToApiInfo[apiName]!["fallback"],
           nameToApiInfo[apiName]!["path"],
           arguements,
-          nameToApiInfo[apiName]!["type"]);
+          nameToApiInfo[apiName]!["type"],
+          client);
     }
     return response;
   }

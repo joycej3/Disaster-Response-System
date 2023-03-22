@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +39,7 @@ import java.security.Timestamp;
 @RestController
 @CrossOrigin
 @Component
+@EnableScheduling
 public class Main {
 
 	HashMap<String, ArrayList<String>> serverTypeToIpList = new HashMap<>();
@@ -162,5 +165,27 @@ public class Main {
 		}
 		serverTypeToLastIpIndex.put(serverType, nextIpIndex);
 		return nextIp;
+	}
+
+	@Scheduled(fixedRate = 2500L)
+	private void purgeOldIps(){
+		ArrayList<String> ipsToPurge = new ArrayList<String>();
+		for (Map.Entry<String, Long> entry : ipToLastHeartbeat.entrySet()) {
+			String ip = entry.getKey();
+			Long lastHeartbeat = entry.getValue();
+			if (System.currentTimeMillis() - lastHeartbeat > 5000){
+				ipsToPurge.add(ip);
+			}
+		}
+		for (String ip : ipsToPurge){
+			ipToLastHeartbeat.remove(ip);
+		}
+		for (Map.Entry<String, ArrayList<String>> entry : serverTypeToIpList.entrySet()) {
+			String serverType = entry.getKey();
+			ArrayList<String> ipList = entry.getValue();
+			ipList.removeAll(ipsToPurge);
+			serverTypeToIpList.put(serverType, ipList);
+		}
+		System.out.println("ipsToPurge: " + ipsToPurge);
 	}
 }
