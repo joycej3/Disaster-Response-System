@@ -37,8 +37,9 @@ public class ReportAggregator {
                 System.out.println(dataSnapshot.toString());
                 DatabaseReference ref = dataSnapshot.getRef();
                 dataSnapshot = dataSnapshot.child("Reports");
-                
-				aggregate(dataSnapshot, ref);
+                List<Map<String, Object>> dataList = getMapFromSnapshot(dataSnapshot);
+                System.out.print(dataList);
+				aggregate(dataSnapshot, ref, dataList);
 				//System.out.println(recentEmergency);
 
 			}
@@ -46,6 +47,12 @@ public class ReportAggregator {
             @Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
 				System.out.println("aggregator:changed");
+                System.out.println(dataSnapshot.toString());
+                DatabaseReference ref = dataSnapshot.getRef();
+                dataSnapshot = dataSnapshot.child("Reports");
+                List<Map<String, Object>> dataList = getMapFromSnapshot(dataSnapshot);
+
+				aggregate(dataSnapshot, ref, dataList);
 			}
 		  
 			@Override
@@ -66,16 +73,46 @@ public class ReportAggregator {
         });
     }
 
-    private  void aggregate(DataSnapshot dataSnapshot, DatabaseReference reference){
+    private List<Map<String, Object>> getMapFromSnapshot(DataSnapshot dataSnapshot){
+        List<Map<String, Object>> reportList = new ArrayList<>();
+        for (DataSnapshot child: dataSnapshot.getChildren() ){
+            Map <String, Object> map = (Map) child.getValue();
+            map = mapReplace(map);
+            reportList.add(map);
+        }
+        
+        return reportList;
+    }
+
+    private Map <String, Object> mapReplace(Map<String, Object> map){
+        try {
+        if (map.get("Injured") == "true"){
+            map.replace("Injured", true);
+        }
+        else{
+            map.replace("Injured", false);
+        }
+        Double lat = Double.parseDouble((String) map.get("Lat"));
+        Double lon = Double.parseDouble((String) map.get("Lon"));
+        map.replace("Lat", lat);
+        map.replace("Lon", lon);
+        System.out.println("Map: " + map);
+        map.replace("ReportCategory", Integer.parseInt((String) map.get("ReportCategory")));
+        map.replace("Time", Long.parseLong((String) map.get("Time")));
+        return map;
+        } catch (Exception e){ System.out.println(e); return map;}
+    }
+
+    protected  void aggregate(DataSnapshot dataSnapshot, DatabaseReference reference, List<Map<String, Object>> dataList){
         
         long reportCount  = dataSnapshot.getChildrenCount();
-        int knownInjury = aggregateKnownInjury(dataSnapshot);
-        int incidentType = aggregateIncidentType(dataSnapshot);
-        ArrayList <Point> hull = aggregateHull(dataSnapshot);
+        int knownInjury = aggregateKnownInjury(dataList);
+        int incidentType = aggregateIncidentType(dataList);
+        ArrayList <Point> hull = aggregateHull(dataList);
         Double area = aggregateArea(hull);
         long population = aggregatePopulation(area);
-        long firstReported = getFirstReported(dataSnapshot);
-        long lastReported = getLastReported(dataSnapshot);
+        long firstReported = getFirstReported(dataList);
+        long lastReported = getLastReported(dataList);
 
         System.out.println("hull: " + hull.toString());
         for (Point p : hull) {
@@ -102,11 +139,11 @@ public class ReportAggregator {
 
     }
 
-    private int aggregateKnownInjury(DataSnapshot dataSnapshot){
+    protected int aggregateKnownInjury(List<Map<String, Object>> dataList){
         // take max over all the injuries 
         int count = 0;
-        for (DataSnapshot child: dataSnapshot.getChildren() ){
-            Map <String, Object> map = (Map) child.getValue();
+        for (Map<String, Object> child: dataList){
+            Map <String, Object> map =  child;
             boolean injured = (boolean) map.get("Injured");
             if (injured){
                 count++;
@@ -115,14 +152,14 @@ public class ReportAggregator {
         return count;
     }
 
-    private int aggregateIncidentType(DataSnapshot dataSnapshot){
+    protected int aggregateIncidentType(List<Map<String, Object>> dataList){
         // take mode over all report values 
         int count[] = new int [4];
-        for (DataSnapshot child: dataSnapshot.getChildren() ){
-            Map <String, Object> map = (Map) child.getValue();
-            String emergency = (String) map.get("ReportCategory");
-            int number = emergencyCategoryToNum(emergency);
-            count[number]  = count[number] + 1;
+        for (Map<String, Object> child: dataList ){
+            Map <String, Object> map = child;
+            int emergency = (int) map.get("ReportCategory");
+            
+            count[emergency]  = count[emergency] + 1;
         }
         int max = 0;
         int mode = 0;
@@ -136,14 +173,14 @@ public class ReportAggregator {
         return mode;
     }
 
-    private ArrayList <Point> aggregateHull(DataSnapshot dataSnapshot){
+    protected ArrayList <Point> aggregateHull(List<Map<String, Object>> dataList){
         //take all lat long of the reports
         //run convext hull to get list of vertices of bounding polygon of points
         //run shoelace formula with these vertice to get area 
         List <Point> pointList = new ArrayList<>();
 
-        for (DataSnapshot child: dataSnapshot.getChildren() ){
-            Map <String, Object> map = (Map) child.getValue();
+        for (Map<String, Object> child: dataList){
+            Map <String, Object> map = child;
             Double lat = (Double) map.get("Lat");
             Double lon = (Double) map.get("Lon");
             pointList.add(new Point(lat, lon));
@@ -155,21 +192,21 @@ public class ReportAggregator {
         return convHull.convexHull(array);
     }
 
-    private Double aggregateArea(ArrayList<Point> hull){
+    protected Double aggregateArea(ArrayList<Point> hull){
         return Shoelace.calculateArea(hull);
     }
 
-    private long aggregatePopulation(Double area){
+    protected long aggregatePopulation(Double area){
         //https://www.cso.ie/en/releasesandpublications/ep/p-rsdgi/regionalsdgsireland2017/nt/ 
         int popDensity = 1468;
         Double population = popDensity * area;
         return (long) Math.round(population);
     }
 
-    private long getFirstReported(DataSnapshot dataSnapshot){
+    protected long getFirstReported(List<Map<String, Object>> dataList){
         long min = Integer.MAX_VALUE;
-        for (DataSnapshot child: dataSnapshot.getChildren() ){
-            Map <String, Object> map = (Map) child.getValue();
+        for (Map<String, Object> child: dataList){
+            Map <String, Object> map = child;
             long time = (long) map.get("Time");
             if (time < min)
                 min = time;
@@ -177,10 +214,10 @@ public class ReportAggregator {
         return min;
     }
 
-    private long getLastReported(DataSnapshot dataSnapshot){
+    protected long getLastReported(List<Map<String, Object>> dataList){
         long max = 0;
-        for (DataSnapshot child: dataSnapshot.getChildren() ){
-            Map <String, Object> map = (Map) child.getValue();
+        for (Map<String, Object> child: dataList){
+            Map <String, Object> map = child;
             long time = (long) map.get("Time");
             if (time > max)
                 max = time;
@@ -188,7 +225,7 @@ public class ReportAggregator {
         return max;
     }
 
-    private void setAggregatedValues(DataSnapshot dataSnapshot, DatabaseReference reference,
+    protected void setAggregatedValues(DataSnapshot dataSnapshot, DatabaseReference reference,
      Map<String, Object> aggregateValueMap){
         System.out.println("aggregating");
         System.out.println(aggregateValueMap);
@@ -198,6 +235,9 @@ public class ReportAggregator {
     private String getNeighbourhood(){
         //take all lat long of the reports
         //Find neighbourhood where disaster takes place
+        
+
+
         return "0";
     }
 
