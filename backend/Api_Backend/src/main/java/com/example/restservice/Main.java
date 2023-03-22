@@ -35,7 +35,7 @@ public class Main {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	DatabaseReference disasterRef;
-	private Emergency recentEmergency = new Emergency("n/a", "n/a", 0, "n/a");
+	private Emergency recentEmergency = new Emergency(" ", " ", " ", " "," "," ");
 
 	@Autowired
 	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
@@ -83,7 +83,7 @@ public class Main {
 	public EmergencyRecord firebase() {
         System.out.println("/firebase_get passed");
 		return new EmergencyRecord(recentEmergency.emergency, recentEmergency.injury,
-		 recentEmergency.time, recentEmergency.location);
+		 recentEmergency.time, recentEmergency.lat, recentEmergency.lon, recentEmergency.reportCategory);
 	}
 
 	@PostMapping(path = "/backend/firebase_push", 

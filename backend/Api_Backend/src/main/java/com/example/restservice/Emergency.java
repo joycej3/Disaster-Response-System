@@ -4,10 +4,12 @@ public class Emergency {
 
     public String emergency;
     public String injury;
-    public int time;
-    public String location;
+    public String time;
+    public String lat;
+    public String lon; 
+    public String reportCategory;
   
-    public Emergency(String emergency, String injury, int time, String location) {
+    public Emergency(String emergency, String injury, String time, String lat, String lon, String reportCategory) {
     }
 
     public Emergency(){
