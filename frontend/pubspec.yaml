@@ -11,6 +11,8 @@ environment:
 dependencies:
   google_maps_flutter_web: ^0.3.2+2
   google_maps_flutter: ^2.2.3
+  geolocator: ^9.0.2
+
   http: 0.13.5
   flutter:
     sdk: flutter
