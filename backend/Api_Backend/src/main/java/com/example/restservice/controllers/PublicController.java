@@ -5,10 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.restservice.Main;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("public")
-public class PublicController {
+public class PublicController extends Main {
 
 	@GetMapping("data")
 	public String getPublicData() {

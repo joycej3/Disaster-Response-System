@@ -42,6 +42,10 @@ public class Main {
 	private Emergency recentEmergency = new Emergency("n/a", "n/a", 0l, 0f, 0f);
 	private HashMap<String,User> emailToUserInfo = new HashMap<>();
 
+
+	public Main(){
+		
+	}
 	@Autowired
 	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
 		setup_database_listeners(getDatabase);

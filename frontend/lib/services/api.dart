@@ -11,18 +11,19 @@ class ApiHandler {
 
   httpCall(String apiUrl, String apiPath, Map<String, dynamic> arguements,
       String type, http.Client client) async {
-    var response;
+      var response;
 
-    if (type == "get") {
-      Uri uri = Uri.http(apiUrl, apiPath, arguements);
-      response = await client.get(uri);
-    } else {
-      Uri uri = Uri.http(apiUrl, apiPath);
-      var body = jsonEncode(arguements);
-      response = await client.post(uri,
-          headers: {"Content-Type": "application/json"}, body: body);
-    }
-    return response;
+      if (type == "get") {
+        Uri uri = Uri.http(apiUrl, apiPath, arguements);
+        print(uri);
+        response = await client.get(uri);
+      } else {
+        Uri uri = Uri.http(apiUrl, apiPath);
+        var body = jsonEncode(arguements);
+        response = await client.post(uri,
+            headers: {"Content-Type": "application/json"}, body: body);
+      }
+      return response;
   }
 
   callApi(String apiName, http.Client client,
@@ -57,5 +58,6 @@ class ApiHandler {
     nameToApiInfo["hello_world"]!["fallback"] = temp;
     nameToApiInfo["database_get"]!["primary"] = temp;
     nameToApiInfo["database_push"]!["primary"] = temp;
+    nameToApiInfo["get_user_info"]!["primary"] = temp;
   }
 }

@@ -17,27 +17,27 @@ Map<String, Map<String, dynamic>> nameToApiInfo = {
   },
   "worker_get": {
     "primary": "localhost:8080",
-    "path": "/worker/data",
+    "path": "worker/data",
     "type": "get"
   },
   "public_get": {
     "primary": "localhost:8080",
-    "path": "/public/data",
+    "path": "public/data",
     "type": "get"
   },
   "super_get": {
     "primary": "localhost:8080",
-    "path": "/super/data",
+    "path": "super/data",
     "type": "get"
   },
   "coordinator_get": {
     "primary": "localhost:8080",
-    "path": "/coordinator/data",
+    "path": "coordinator/data",
     "type": "get"
   },
   "get_user_info": {
     "primary": "localhost:8080",
-    "path": "/backend/get_user_info",
+    "path": "backend/get_user_info",
     "type": "get"
   }
 };
