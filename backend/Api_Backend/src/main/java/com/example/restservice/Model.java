@@ -1,31 +1,46 @@
 package com.example.restservice;
-import weka.classifiers.Evaluation;
-import weka.classifiers.trees.J48;
-import weka.core.Instances;
-import weka.core.converters.ConverterUtils.DataSource;
-import weka.classifiers.trees.RandomForest;
+
+import org.pmml4s.model.Model;
+import org.apache.commons.math3.util.Pair;
+
+import java.io.*;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class Model {
 
-  public static void main(String[] args) throws Exception {
-    // Specifying the datasource
-    DataSource dataSource = new DataSource("backend/hello_world/src/data/diabetes.arff");
-    // Loading the dataset
-  
-    Instances dataInstances = dataSource.getDataSet();
-    // Displaying the number of instances
-    System.out.println("The number of loaded instances is: " + dataInstances.numInstances());
+    private final Model model = Model.fromFile(Main.class.getClassLoader().getResource("regression_model.pmml").getFile());
 
-    System.out.println("data:" + dataInstances.toString());
-    System.out.println("The number of attributes in the dataset: " + dataInstances.numAttributes());
-    dataInstances.setClassIndex(dataInstances.numAttributes() - 1);
-    // Getting the number of 
-    System.out.println("The number of classes: " + dataInstances.numClasses());
-    J48 treeClassifier = new J48();
-    treeClassifier.setOptions(new String[] { "-U" });
-    treeClassifier.buildClassifier(dataInstances);
-    Evaluation eval = new Evaluation(dataInstances);
-    eval.evaluateModel(treeClassifier, dataInstances);
-    System.out.println(eval.toSummaryString("\nResults\n======\n", false));
+    public static void main(String[] args){
+      test();
+    }
+
+    public Object getRegressionValue(Map<String, Double> values) {
+        Object[] valuesMap = Arrays.stream(model.inputNames())
+                .map(values::get)
+                .toArray();
+
+        Object[] result = model.predict(valuesMap);
+        return result;
+    }
+
+    public static void test() {
+        System.out.println("Test");
+        Map<String, Double> values = new HashMap<>();
+        values.put("known_injury", 0d);
+        values.put("incident_type_code", 1d);
+        values.put("area_size", 100d);
+        values.put("first_report", 200d);
+        values.put("location_Dn Laoghaire-Rathdown", 1d);
+        values.put("location_Dublin City", 0d);
+        values.put("location_Fingal", 0d);
+        values.put("location_South Dublin", 0d);
+        values.put("weather_cloudy", 0d);
+        values.put("weather_fog", 1d);
+        values.put("weather_rain", 0d);
+        values.put("weather_sunshine", 0d);
+
+        double predicted = main.getRegressionValue(values);
+        System.out.println(predicted);
+    }
 }
-  }

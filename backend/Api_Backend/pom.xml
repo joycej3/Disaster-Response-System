@@ -99,7 +99,12 @@
     		<artifactId>jakarta.xml.bind-api</artifactId>
     		<version>3.0.1</version>
 		</dependency>
-
+		<dependency>
+      		<groupId>org.pmml4s</groupId>
+      		<artifactId>pmml4s_2.12</artifactId>
+      		<version>0.9.11</version>
+      		<type>jar</type>
+    	</dependency>
 	</dependencies>
 
 	<build>
