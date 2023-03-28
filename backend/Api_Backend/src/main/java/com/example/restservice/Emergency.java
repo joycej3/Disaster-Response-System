@@ -6,16 +6,12 @@ public class Emergency {
 
     public String emergency;
     public String injury;
-    public Long time;
-    public float latitude;
-    public float longitude;
+    public String time;
+    public String lat;
+    public String lon; 
+    public String reportCategory;
   
-    public Emergency(String emergency, String injury, Long time, float latitude, float longitude) {
-      this.emergency = emergency;
-      this.injury = injury;
-      this.time = time;
-      this.latitude = latitude;
-      this.longitude = longitude;
+    public Emergency(String emergency, String injury, String time, String lat, String lon, String reportCategory) {
     }
 
     public Emergency(){
@@ -24,7 +20,7 @@ public class Emergency {
 
     @Override
     public String toString(){
-      return "[emergency: " + this.emergency + ", injury: " + this.injury + ", time: " + this.time + ", latitude: " + this.latitude + ", longitude: " + this.longitude + "]";
+      return "[emergency: " + this.emergency + ", injury: " + this.injury + ", time: " + this.time + ", latitude: " + this.lat + ", longitude: " + this.lon + "]";
     }
 
     public boolean equals(Object object){
