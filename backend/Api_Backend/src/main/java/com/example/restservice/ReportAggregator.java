@@ -85,13 +85,10 @@ public class ReportAggregator {
     }
 
     private Map <String, Object> mapReplace(Map<String, Object> map){
-        try {
-        if (map.get("Injured") == "true"){
-            map.replace("Injured", true);
-        }
-        else{
-            map.replace("Injured", false);
-        }
+        System.out.println(map.get("Injured"));
+        boolean injured = Boolean.parseBoolean((String) map.get("Injured"));
+        map.replace("Injured", injured);
+
         Double lat = Double.parseDouble((String) map.get("Lat"));
         Double lon = Double.parseDouble((String) map.get("Lon"));
         map.replace("Lat", lat);
@@ -100,7 +97,6 @@ public class ReportAggregator {
         map.replace("ReportCategory", Integer.parseInt((String) map.get("ReportCategory")));
         map.replace("Time", Long.parseLong((String) map.get("Time")));
         return map;
-        } catch (Exception e){ System.out.println(e); return map;}
     }
 
     protected  void aggregate(DataSnapshot dataSnapshot, DatabaseReference reference, List<Map<String, Object>> dataList){
@@ -113,6 +109,7 @@ public class ReportAggregator {
         long population = aggregatePopulation(area);
         long firstReported = getFirstReported(dataList);
         long lastReported = getLastReported(dataList);
+        String neighbourhood = getNeighbourhood(dataList);
 
         System.out.println("hull: " + hull.toString());
         for (Point p : hull) {
@@ -134,6 +131,7 @@ public class ReportAggregator {
         aggregateValueMap.put("ReportCount", reportCount);
         aggregateValueMap.put("FirstReported", firstReported);
         aggregateValueMap.put("LastReportTime", lastReported);
+        aggregateValueMap.put("Location", neighbourhood);
 
         setAggregatedValues(dataSnapshot, reference, aggregateValueMap);
 
@@ -232,13 +230,44 @@ public class ReportAggregator {
         reference.updateChildrenAsync(aggregateValueMap);
     }
 
-    private String getNeighbourhood(){
+    protected String getNeighbourhood(List<Map<String, Object>> dataList){
         //take all lat long of the reports
         //Find neighbourhood where disaster takes place
+        //It will be rough lines
+        double latTotal = 0;
+        double lonTotal = 0;
+        int count = 0;
+
+        for (Map<String, Object> child: dataList){
+            Map <String, Object> map = child;
+            Double lat = (Double) map.get("Lat");
+            Double lon = (Double) map.get("Lon");
+            latTotal += lat;
+            lonTotal += lon;
+            count++;
+        }
+        double latAverage = latTotal / count;
+        double lonAverage = lonTotal / count;
         
+        //53.303305,-6.301769  anything south / east is in DL council 
+        // anything west and south is SD county council
+        //53.400305,-6.347576 anything else that is south east is in Dublin city 
+        // anything else is in fingal cc
+        String neighbourhood = "";
+        if ((latAverage < 53.303305) && (lonAverage > -6.301769)){
+            neighbourhood = "DLR";
+        }
+        else if ((lonAverage < -6.301769)){
+            neighbourhood = "DS";
+        }
+        else if ((latAverage) < 53.400305 && (lonAverage > -6.347576)){
+            neighbourhood = "DC";
+        }
+        else {
+            neighbourhood = "FN";
+        }
 
-
-        return "0";
+        return neighbourhood;
     }
 
     private int emergencyCategoryToNum(String emergency){
