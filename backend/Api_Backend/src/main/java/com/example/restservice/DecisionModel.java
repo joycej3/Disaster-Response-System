@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class Model {
+public class DecisionModel {
 
     private final Model model = Model.fromFile(Main.class.getClassLoader().getResource("regression_model.pmml").getFile());
 

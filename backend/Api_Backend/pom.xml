@@ -103,7 +103,6 @@
       		<groupId>org.pmml4s</groupId>
       		<artifactId>pmml4s_2.12</artifactId>
       		<version>0.9.11</version>
-      		<type>jar</type>
     	</dependency>
 	</dependencies>
 
