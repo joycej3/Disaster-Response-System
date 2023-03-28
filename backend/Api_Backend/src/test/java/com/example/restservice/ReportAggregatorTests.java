@@ -139,12 +139,12 @@ public class ReportAggregatorTests{
 
     }
 
-    @Disabled
+    
     @Test
     public void aggregateTest(){
         //GIVEN
         List<Map<String, Object>> dataList = makeDataList();
-        when(databaseReference.updateChildrenAsync(any())).thenReturn(any());
+        when(databaseReference.updateChildrenAsync(any())).thenReturn(null);
         when(dataSnapshot.getChildrenCount()).thenReturn(2l);
 
         //WHEN
@@ -160,9 +160,10 @@ public class ReportAggregatorTests{
     public void setAggregatedValuesTest(){
 
         //GIVEN
+        when(databaseReference.updateChildrenAsync(any())).thenReturn(any());
 
         //WHEN
-        when(databaseReference.updateChildrenAsync(any())).thenReturn(any());
+        
         reportAggregator.setAggregatedValues(dataSnapshot, databaseReference, null);
 
         //THEN
