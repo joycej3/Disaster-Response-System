@@ -269,21 +269,5 @@ public class ReportAggregator {
 
         return neighbourhood;
     }
-
-    private int emergencyCategoryToNum(String emergency){
-        if (emergency.toLowerCase().contains("fire")){
-            return 0;
-        }
-        else if (emergency.toLowerCase().contains("flood") || emergency.toLowerCase().contains("quake") 
-        || emergency.toLowerCase().contains("natural") ){
-            return 1;
-        }
-        else if (emergency.toLowerCase().contains("traffic")){
-            return 2;
-        }
-        else {
-            return 3;
-        }
-    }
     
 }

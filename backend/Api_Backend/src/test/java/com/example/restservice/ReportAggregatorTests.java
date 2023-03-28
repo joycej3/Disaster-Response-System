@@ -115,10 +115,10 @@ public class ReportAggregatorTests{
     public void getFirstReportedTest(){
         //GIVEN
         List<Map<String, Object>> dataList = makeDataList();
-        Long expectedTime = 1679404086l;
+        Long expectedTime = 1679404067l;
 
         //WHEN
-        Long retTime = reportAggregator.getLastReported(dataList);
+        Long retTime = reportAggregator.getFirstReported(dataList);
 
         //THEN
         assertEquals(expectedTime, retTime);
@@ -137,6 +137,22 @@ public class ReportAggregatorTests{
         //THEN
         assertEquals(expectedTime, retTime);
 
+    }
+
+    @Disabled
+    @Test
+    public void aggregateTest(){
+        //GIVEN
+        List<Map<String, Object>> dataList = makeDataList();
+        when(databaseReference.updateChildrenAsync(any())).thenReturn(any());
+        when(dataSnapshot.getChildrenCount()).thenReturn(2l);
+
+        //WHEN
+        reportAggregator.aggregate(dataSnapshot, databaseReference, dataList);
+
+        //THEN
+        verify(dataSnapshot).getChildrenCount();
+        verify(databaseReference).updateChildrenAsync(any());
     }
 
 
