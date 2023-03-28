@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator_map.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/big_red_button.dart';
+import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator_options.dart';
 import 'package:flutter_frontend/services/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -17,12 +18,6 @@ class SuggestionDropdown extends State<CoordinatorSuggestions> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        // home: Theme(
-        //   data: ThemeData.from(
-        //     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
-        //   ),
-        //   child:
-        // ),
         home: DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -42,10 +37,11 @@ class SuggestionDropdown extends State<CoordinatorSuggestions> {
           children: [
             Row(
               children: [
-                Text(
-                  'Options',
-                  style: TextStyle(fontSize: 70),
-                ),
+                // Text(
+                //   'Options',
+                //   style: TextStyle(fontSize: 70),
+                // ),
+                Expanded(child: CoordinatorOptions()),
                 Expanded(child: CoordinatorMap()),
               ],
             ),
