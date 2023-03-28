@@ -82,7 +82,7 @@ public class ReportAggregatorTests{
     public void aggregateHullTest(){
         //GIVEN
         int incidentType = 0;
-        Point[] points = { new Point( 33.456,  -122.543), new Point(33.4556, -122.5553)};
+        Point[] points = { new Point( 53.288120,-6.181006), new Point(53.281141,-6.216049)};
         ConvexHull convexHull = new ConvexHull();
         ArrayList<Point> hull = convexHull.convexHull(points);
         List<Map<String, Object>> dataList = makeDataList();
@@ -153,21 +153,34 @@ public class ReportAggregatorTests{
         verify(databaseReference).updateChildrenAsync(any());
     }
 
+    @Test
+    public void getNeighbourHoodTest(){
+        //GIVEN
+        List<Map<String, Object>> dataList = makeDataList();
+        String expectedNeighbourhood = "DLR";
+
+        //WHEN
+        String retNeighbourhood = reportAggregator.getNeighbourhood(dataList);
+
+        //THEN
+        assertEquals(expectedNeighbourhood, retNeighbourhood);
+    }
+
     
     private List<Map<String, Object>> makeDataList(){
         List<Map<String, Object>> dataList = new ArrayList<>();
         Map<String, Object> map = new HashMap();
         map.put("Injured", true);
         map.put("ReportCategory", 0);
-        map.put("Lat", 33.456);
-        map.put("Lon", -122.543);
+        map.put("Lat", 53.288120);
+        map.put("Lon", -6.181006);
         map.put("Time", 1679404067l);
 
         Map<String, Object> map2 = new HashMap();
         map2.put("Injured", false);
         map2.put("ReportCategory", 0);
-        map2.put("Lat", 33.4556);
-        map2.put("Lon", -122.5553);
+        map2.put("Lat", 53.281141);
+        map2.put("Lon", -6.216049);
         map2.put("Time", 1679404086l);
 
         dataList.add(map);
