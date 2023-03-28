@@ -124,7 +124,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     borderSide: BorderSide(color: Colors.red, width: 5)),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(color: Colors.red, width: 2)),
+                    borderSide: BorderSide(color: Colors.red, width: 5)),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
                     borderSide: BorderSide(color: Colors.red, width: 2)),

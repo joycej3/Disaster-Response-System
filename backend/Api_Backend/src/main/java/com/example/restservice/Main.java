@@ -79,7 +79,15 @@ public class Main {
 			public void onCancelled(DatabaseError databaseError) {
 				System.out.println("cancelled");
 			}
+
+
 		  });
+
+		  ReportAggregator reportAggregator = ReportAggregator.builder()
+		  	.withFirebaseDatabase(getDatabase)
+			.build();
+		  reportAggregator.startAggregatingReports();
+
 	}
 
 	@GetMapping("/backend/greeting")
