@@ -109,6 +109,7 @@ public class ReportAggregator {
         long population = aggregatePopulation(area);
         long firstReported = getFirstReported(dataList);
         long lastReported = getLastReported(dataList);
+        String neighbourhood = getNeighbourhood(dataList);
 
         System.out.println("hull: " + hull.toString());
         for (Point p : hull) {
@@ -130,6 +131,7 @@ public class ReportAggregator {
         aggregateValueMap.put("ReportCount", reportCount);
         aggregateValueMap.put("FirstReported", firstReported);
         aggregateValueMap.put("LastReportTime", lastReported);
+        aggregateValueMap.put("Location", neighbourhood);
 
         setAggregatedValues(dataSnapshot, reference, aggregateValueMap);
 
