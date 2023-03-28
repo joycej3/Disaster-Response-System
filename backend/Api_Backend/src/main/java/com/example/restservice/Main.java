@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.google.firebase.database.*;
 
 @CrossOrigin
@@ -38,63 +37,11 @@ public class Main {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	DatabaseReference disasterRef;
-	DatabaseReference userRef;
-	private Emergency recentEmergency = new Emergency("n/a", "n/a", 0l, 0f, 0f);
-	private HashMap<String,User> emailToUserInfo = new HashMap<>();
+	private Emergency recentEmergency = new Emergency(" ", " ", " ", " "," "," ");
 
-
-	public Main(){
-		
-	}
 	@Autowired
 	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
-		setup_database_listeners(getDatabase);
-	}
-
-	@GetMapping("/backend/greeting")
-	public GreetingRecord greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return new GreetingRecord(counter.incrementAndGet(), String.format(template, name));
-	}
-
-	@GetMapping("/backend/firebase_get")
-	public Emergency firebase() {
-        System.out.println("/firebase_get passed");
-		System.out.println(recentEmergency);
-		return recentEmergency;
-	}
-
-	@GetMapping("/backend/get_user_info")
-	public User get_user_type(@RequestParam String email) {
-		System.out.println("backend/get_user_info");
-        return emailToUserInfo.getOrDefault(email, new User(email, ""));
-	}
-
-	@GetMapping("/backend/test")
-	public String test() {
-		System.out.println("backend/test");
-        return "succ";
-	}
-
-	@PostMapping(path = "/backend/firebase_push", 
-        consumes = MediaType.APPLICATION_JSON_VALUE, 
-        produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {
-		System.out.println("Attempting firebase push");
-		disasterRef.push().setValueAsync(emergency);
-		return new ResponseEntity<>("success", HttpStatus.CREATED);
-	}
-
-	// @CrossOrigin(origins = "*")
-	// @GetMapping("/secure_get")
-	// public EmergencyRecord firebase() {
-	// 	return new EmergencyRecord(recentEmergency.type, recentEmergency.time);
-	// }
-	// FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
-	//}
-
-	private void setup_database_listeners(FirebaseDatabase database){
-		
-		disasterRef = database.getReference("ReportTable/Uncategorised");
+		disasterRef = getDatabase.getReference("ReportTable/Uncategorised");
 		
 		// Attach a listener to read the data at our posts reference
 		disasterRef.addChildEventListener(new ChildEventListener() {
@@ -133,42 +80,27 @@ public class Main {
 				System.out.println("cancelled");
 			}
 		  });
+	}
 
-		userRef = database.getReference("users");
+	@GetMapping("/backend/greeting")
+	public GreetingRecord greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+		return new GreetingRecord(counter.incrementAndGet(), String.format(template, name));
+	}
 
-		userRef.addChildEventListener(new ChildEventListener() {
-			@Override
-			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-				User userRecord = dataSnapshot.getValue(User.class);
-				emailToUserInfo.put(userRecord.email, userRecord);
-				System.out.println("added user: " + userRecord.email);
-			}
-		  
-			@Override
-			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-				User userRecord = dataSnapshot.getValue(User.class);
-				emailToUserInfo.put(userRecord.email, userRecord);
-				System.out.println("user updated: " + userRecord.email);
-			}
-		  
-			@Override
-			public void onChildRemoved(DataSnapshot dataSnapshot) {
-				User userRecord = dataSnapshot.getValue(User.class);
-				emailToUserInfo.remove(userRecord.email);
-				System.out.println("user removed: " + userRecord.email);
-			}
-		  
-			@Override
-			public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
-				System.out.println("moved");
-			}
-		  
-			@Override
-			public void onCancelled(DatabaseError databaseError) {
-				System.out.println("cancelled");
-			}
-		  });
+	@GetMapping("/backend/firebase_get")
+	public EmergencyRecord firebase() {
+        System.out.println("/firebase_get passed");
+		return new EmergencyRecord(recentEmergency.emergency, recentEmergency.injury,
+		 recentEmergency.time, recentEmergency.lat, recentEmergency.lon, recentEmergency.reportCategory);
+	}
 
-
+	@PostMapping(path = "/backend/firebase_push", 
+        consumes = MediaType.APPLICATION_JSON_VALUE, 
+        produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {
+		System.out.println("Attempting firebase push");
+		System.out.println(emergency);
+		disasterRef.push().setValueAsync(emergency);
+		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}
 }
