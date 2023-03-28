@@ -75,7 +75,6 @@ public class Main {
 	@GetMapping("/heartbeat")
 	public ResponseEntity<String> heartbeat(HttpServletRequest servletRequest){
 		String servletRequestIp = servletRequest.getRemoteAddr();
-		System.out.println("Heartbeat remote ip: " + servletRequestIp);
 		if(ipToLastHeartbeat.get(servletRequestIp) == null){
 			return new ResponseEntity<>("failed", HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -86,15 +85,16 @@ public class Main {
 		
 	@GetMapping("/backend/**")
 	public ResponseEntity<HashMap> backendGet(@RequestParam Map<String,String> allRequestParams, HttpServletRequest servletRequest) throws IOException, InterruptedException {
+		String fullPath = servletRequest.getRequestURI();
+		String paramString = allRequestParams.toString().replace("}", "").replace("{","?").replace(", ", "&");
+		System.out.println("Backend get request: " + fullPath + ", args: " + paramString);
+
+		var client = HttpClient.newHttpClient();
+
 		String nextIp = getNextIp("backend");
 		if(nextIp == ""){
 			return new ResponseEntity<>(new HashMap<>(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
-		String fullPath = servletRequest.getRequestURI();
-		String paramString = allRequestParams.toString().replace("}", "").replace("{","?").replace(", ", "&");
-
-		var client = HttpClient.newHttpClient();
 		var request = HttpRequest.newBuilder(
 			URI.create("http://" + nextIp + ":8081" + fullPath + paramString))
 		.header("accept", "application/json")
@@ -116,9 +116,11 @@ public class Main {
 		if(nextIp == ""){
 			return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 		String fullPath = servletRequest.getRequestURI();
 		String paramJsonString = servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+
+		System.out.println("Backend get request: " + fullPath + ", args: " + paramJsonString);
+		
 		
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder(URI.create("http://" + nextIp + ":8081" + fullPath))
@@ -186,6 +188,8 @@ public class Main {
 			ipList.removeAll(ipsToPurge);
 			serverTypeToIpList.put(serverType, ipList);
 		}
-		System.out.println("ipsToPurge: " + ipsToPurge);
+		if (ipsToPurge.size() > 0){
+			System.out.println("ipsToPurge: " + ipsToPurge);
+		}
 	}
 }

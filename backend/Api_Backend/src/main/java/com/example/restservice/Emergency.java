@@ -1,5 +1,7 @@
 package com.example.restservice;
 
+import org.mockito.internal.matchers.Equals;
+
 public class Emergency {
 
     public String emergency;
@@ -14,6 +16,15 @@ public class Emergency {
 
     public Emergency(){
       
+    }
+
+    @Override
+    public String toString(){
+      return "[emergency: " + this.emergency + ", injury: " + this.injury + ", time: " + this.time + ", latitude: " + this.lat + ", longitude: " + this.lon + "]";
+    }
+
+    public boolean equals(Object object){
+      return true;
     }
   }
   

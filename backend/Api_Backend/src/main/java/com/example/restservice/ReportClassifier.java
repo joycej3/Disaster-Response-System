@@ -95,7 +95,7 @@ import com.google.gson.JsonObject;
     }
 
     public static void main(String[] args) throws IOException {
-        EmergencyRecord record = new EmergencyRecord("Drought", "true", "", "1000.55", "5.33","1");
+        EmergencyRecord record = new EmergencyRecord("Drought", "true", "103945", "85.55", "35.33","1");
         classifyReport(record);
     }
 }

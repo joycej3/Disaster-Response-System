@@ -31,11 +31,11 @@ class AuthenticationHelper {
   }
 
   //SIGN IN METHODJ
-  Future<String?> signIn(
+  Future<Object?> signIn(
       {required String email, required String password}) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return null;
+      UserCredential credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return credential;
     } on FirebaseAuthException catch (e) {
       return e.message;
     }

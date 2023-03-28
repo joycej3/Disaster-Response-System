@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/services/authentication.dart';
+import 'package:flutter_frontend/services/api.dart';
 //replace this with where to go
 import 'package:flutter_frontend/screens/sensitive/ems_worker/worker.dart';
+import 'package:http/http.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({Key? key}) : super(key: key);
@@ -149,12 +156,34 @@ class _LoginFormState extends State<LoginForm> {
                   AuthenticationHelper()
                       .signIn(email: email!, password: password!)
                       .then((result) {
-                    if (result == null) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WorkerPage()));
-                    } else {
+                    if (result is UserCredential) {
+                      ApiHandler apiHandler = ApiHandler();
+                      apiHandler.callApi("get_user_info", http.Client(), {
+                        "email": result.user!.email
+                        }).then((response) {
+                          final userInfo = jsonDecode(response.body);
+                          if(userInfo['type'] == 'ems'){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WorkerPage()));
+                          }
+                          else if(userInfo['type'] == 'coordinator'){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Coordinator()));
+                          }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                "invalid role",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ));
+                          }
+                        });
+                    } else if (result is String){
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
                           result,

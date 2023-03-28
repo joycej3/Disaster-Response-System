@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.firebase.database.*;
 
+@CrossOrigin
 @RestController
 @Component
 public class Main {
@@ -40,13 +42,19 @@ public class Main {
 	@Autowired
 	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
 		disasterRef = getDatabase.getReference("ReportTable/Uncategorised");
+		
 		// Attach a listener to read the data at our posts reference
 		disasterRef.addChildEventListener(new ChildEventListener() {
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
 				System.out.println("child added");
 				System.out.println("prevchildkey: " + prevChildKey);
-				recentEmergency = dataSnapshot.getValue(Emergency.class);
+				try{
+					recentEmergency = dataSnapshot.getValue(Emergency.class);
+				}
+				catch(Exception e){
+					System.out.println(e);
+				}
 				System.out.println("got through datasnapshot.getvalue");
 				System.out.println(recentEmergency);
 			}
@@ -72,11 +80,6 @@ public class Main {
 				System.out.println("cancelled");
 			}
 		  });
-
-		  ReportAggregator reportAggregator = ReportAggregator.builder()
-		  	.withFirebaseDatabase(getDatabase)
-			.build();
-		  reportAggregator.startAggregatingReports();
 	}
 
 	@GetMapping("/backend/greeting")
@@ -100,12 +103,4 @@ public class Main {
 		disasterRef.push().setValueAsync(emergency);
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}
-
-	// @CrossOrigin(origins = "*")
-	// @GetMapping("/secure_get")
-	// public EmergencyRecord firebase() {
-	// 	return new EmergencyRecord(recentEmergency.type, recentEmergency.time);
-	// }
-	// FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
-	//}
 }

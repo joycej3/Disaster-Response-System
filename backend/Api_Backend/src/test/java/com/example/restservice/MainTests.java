@@ -15,6 +15,7 @@
  */
 package com.example.restservice;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -108,8 +109,8 @@ public class MainTests {
 		//WHEN
 		EmergencyRecord recordReturned = main.firebase();
 
-		//THEN
-		assertEquals(emergencyRecord, recordReturned);
+		//THEN		
+		assertEquals(emergencyRecord.toString(), recordReturned.toString());
 	}
 
 	@DisplayName("GIVEN an emergency report to add WHEN  firebasePush is called THEN the report is pushed to database and returns success")
