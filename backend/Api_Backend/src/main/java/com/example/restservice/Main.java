@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.HashMap;
+import java.util.Map;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -50,13 +51,26 @@ public class Main {
 				System.out.println("child added");
 				System.out.println("prevchildkey: " + prevChildKey);
 				try{
-					recentEmergency = dataSnapshot.getValue(Emergency.class);
+					recentEmergency = emergencyFromSnapshot(dataSnapshot);
 				}
 				catch(Exception e){
 					System.out.println(e);
 				}
 				System.out.println("got through datasnapshot.getvalue");
 				System.out.println(recentEmergency);
+				EmergencyRecord newRecord =  new EmergencyRecord(recentEmergency.emergency, recentEmergency.injury,
+		 recentEmergency.time, recentEmergency.lat, recentEmergency.lon, recentEmergency.reportCategory);
+				try {
+					System.out.println("classifying");
+					System.out.println("newRecord: " + newRecord);
+					boolean successful = ReportClassifier.classifyReport(newRecord);
+					if (successful){
+						removeRecord(dataSnapshot, disasterRef);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		  
 			@Override
@@ -80,7 +94,14 @@ public class Main {
 				System.out.println("cancelled");
 			}
 		  });
+
+		  ReportAggregator reportAggregator =  ReportAggregator.builder()
+		  	.withFirebaseDatabase(getDatabase)
+			.build();
+		  reportAggregator.startAggregatingReports();
 	}
+
+
 
 	@GetMapping("/backend/greeting")
 	public GreetingRecord greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -103,4 +124,54 @@ public class Main {
 		disasterRef.push().setValueAsync(emergency);
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}
+
+	private void removeRecord(DataSnapshot dataSnapshot, DatabaseReference databaseReference){
+		String key = dataSnapshot.getKey();
+		System.out.println("key to be removed: " + key);
+		disasterRef.updateChildrenAsync(Map.of(key , null));
+	}
+
+
+	private Emergency emergencyFromSnapshot(DataSnapshot dataSnapshot){
+		Emergency emergency  = new Emergency();
+		for (DataSnapshot child: dataSnapshot.getChildren()){
+
+			if (child.getKey().contains("latitude")){
+				emergency.lat  = Double.toString((Double)child.getValue());
+			}
+			else if (child.getKey().contains("longitude")){
+				emergency.lon = Double.toString((Double)child.getValue());
+			}
+			else if (child.getKey().contains("emergency")){
+				emergency.emergency = (String)child.getValue();
+			}
+			else if (child.getKey().contains("injury")){
+				emergency.injury = (String)child.getValue();
+			}
+			else if (child.getKey().contains("time")){
+				emergency.time = Long.toString((Long)child.getValue());
+			}
+			
+		}
+		System.out.println("emergency: " + emergency);
+		emergency.reportCategory = Integer.toString(emergencyCategoryToNum(emergency.emergency));
+		return emergency;
+	}
+
+	private int emergencyCategoryToNum(String emergency){
+        if (emergency.toLowerCase().contains("fire")){
+            return 0;
+        }
+        else if (emergency.toLowerCase().contains("flood") || emergency.toLowerCase().contains("quake") 
+        || emergency.toLowerCase().contains("natural") ){
+            return 1;
+        }
+        else if (emergency.toLowerCase().contains("traffic")){
+            return 2;
+        }
+        else {
+            return 3;
+        }
+    }
+
 }

@@ -32,7 +32,7 @@ import com.google.gson.JsonObject;
     //checks if current ongoing disasterID
     //if no ongoing disaster creates a new disasterID 
     //adds report under disasterID 
-    public static void classifyReport(EmergencyRecord record) throws IOException{
+    public static boolean classifyReport(EmergencyRecord record) throws IOException{
 
         int currentDisasterID = getDisasterID();
         if (currentDisasterID > 0){
@@ -40,11 +40,11 @@ import com.google.gson.JsonObject;
         } else {
             recentDisasterID +=1;
         }
-        addtoDisasterReports(record);
+        return addtoDisasterReports(record);
     }
     
     //posts a report under a disasterID
-    private static void addtoDisasterReports(EmergencyRecord record) throws IOException{
+    private static boolean addtoDisasterReports(EmergencyRecord record) throws IOException{
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(dbURL + "/" + recentDisasterID.toString() + "/Reports.json");
 
@@ -66,9 +66,11 @@ import com.google.gson.JsonObject;
             String responseBody = EntityUtils.toString(response.getEntity());
             JsonNode responseJson = mapper.readTree(responseBody);
             System.out.println("Post successful. Response from server: " + responseJson.toString());
+            return true;
         } else {
             // the post failed
             System.out.println("Post failed with status code: " + statusCode);
+            return false;
         }
         
     }

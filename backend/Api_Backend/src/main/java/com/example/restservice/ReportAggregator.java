@@ -34,7 +34,7 @@ public class ReportAggregator {
 			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
 				System.out.println("aggregator:child added");
 				System.out.println("prevchildkey: " + prevChildKey);
-                System.out.println(dataSnapshot.toString());
+                //System.out.println(dataSnapshot.toString());
                 DatabaseReference ref = dataSnapshot.getRef();
                 dataSnapshot = dataSnapshot.child("Reports");
                 List<Map<String, Object>> dataList = getMapFromSnapshot(dataSnapshot);
@@ -85,7 +85,7 @@ public class ReportAggregator {
     }
 
     private Map <String, Object> mapReplace(Map<String, Object> map){
-        System.out.println(map.get("Injured"));
+        // System.out.println(map.get("Injured"));
         boolean injured = Boolean.parseBoolean((String) map.get("Injured"));
         map.replace("Injured", injured);
 
@@ -93,7 +93,7 @@ public class ReportAggregator {
         Double lon = Double.parseDouble((String) map.get("Lon"));
         map.replace("Lat", lat);
         map.replace("Lon", lon);
-        System.out.println("Map: " + map);
+        // System.out.println("Map: " + map);
         map.replace("ReportCategory", Integer.parseInt((String) map.get("ReportCategory")));
         map.replace("Time", Long.parseLong((String) map.get("Time")));
         return map;
@@ -111,14 +111,14 @@ public class ReportAggregator {
         long lastReported = getLastReported(dataList);
         String neighbourhood = getNeighbourhood(dataList);
 
-        System.out.println("hull: " + hull.toString());
+        // System.out.println("hull: " + hull.toString());
         for (Point p : hull) {
             System.out.println("(" + p.lat + ", " + p.lon + ")");
         }
-        System.out.println("emergencyCat: " + incidentType);
-        System.out.println("known injury: " + knownInjury);
-        System.out.println("pop: " + population);
-        System.out.println("area: " + area);
+        // System.out.println("emergencyCat: " + incidentType);
+        // System.out.println("known injury: " + knownInjury);
+        // System.out.println("pop: " + population);
+        // System.out.println("area: " + area);
         Gson gson = new Gson();
         String jsonHull = gson.toJson(hull);
 
