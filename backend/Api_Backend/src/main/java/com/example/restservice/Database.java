@@ -19,7 +19,7 @@ public class Database {
     public HashMap<String, Decision> disasterIdToDecision = new HashMap();
     public HashMap<String, User> emailToUserInfo = new HashMap();
     public DatabaseReference suggestionRef;
-    public DatabaseReference ongoingDisasterRef;
+    public DatabaseReference ongoingDisastersRef;
     public DatabaseReference decisionsRef;
     public DatabaseReference userRef;
 
