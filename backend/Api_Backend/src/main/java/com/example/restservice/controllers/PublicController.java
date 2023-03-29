@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.restservice.Database;
 import com.example.restservice.Main;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -16,8 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 @RequestMapping("public")
 public class PublicController extends Main {
 
-	public PublicController(FirebaseDatabase getDatabase) throws FileNotFoundException, IOException {
-		super(getDatabase);
+	public PublicController(Database database, FirebaseDatabase getDatabase) throws FileNotFoundException, IOException {
+		super(database, getDatabase);
 		//TODO Auto-generated constructor stub
 	}
 

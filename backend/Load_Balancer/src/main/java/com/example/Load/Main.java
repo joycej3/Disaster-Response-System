@@ -2,6 +2,7 @@ package com.example.Load;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,73 +84,19 @@ public class Main {
 	}
 
 		
-	@GetMapping("/backend/**")
-	public ResponseEntity<HashMap> backendGet(@RequestParam Map<String,String> allRequestParams, HttpServletRequest servletRequest) throws IOException, InterruptedException {
-		String fullPath = servletRequest.getRequestURI();
-		String paramString = allRequestParams.toString().replace("}", "").replace("{","?").replace(", ", "&");
-		System.out.println("Backend get request: " + fullPath + ", args: " + paramString);
-
-		var client = HttpClient.newHttpClient();
-
-		String nextIp = getNextIp("backend");
-		if(nextIp == ""){
-			return new ResponseEntity<>(new HashMap<>(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		var request = HttpRequest.newBuilder(
-			URI.create("http://" + nextIp + ":8081" + fullPath + paramString))
-		.header("accept", "application/json")
-		.build();
-
-		System.out.println("backendget: " + request.toString());
-		var response = client.send(request, BodyHandlers.ofString());
-		JsonObject jsonObject = new JsonParser().parse(response.body()).getAsJsonObject();
-		System.out.println(jsonObject);
-		HashMap hashMap = new Gson().fromJson(jsonObject, HashMap.class);
-		System.out.println(hashMap);
-
-		return new ResponseEntity<>(hashMap, HttpStatus.CREATED);
+	@GetMapping({"/backend/**", "/public/**", "/coordinator/**", "/worker/**", "/super/**"})
+	public ResponseEntity<?> backendGet(@RequestParam Map<String,String> allRequestParams, HttpServletRequest servletRequest) throws IOException, InterruptedException {
+		return mapGetRequest("backend", servletRequest, allRequestParams, true);
 	}
 
-	@PostMapping("/backend/**")
-	public ResponseEntity<String> backendPost(HttpServletRequest servletRequest) throws IOException, InterruptedException {
-		String nextIp = getNextIp("backend");
-		if(nextIp == ""){
-			return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		String fullPath = servletRequest.getRequestURI();
-		String paramJsonString = servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-
-		System.out.println("Backend get request: " + fullPath + ", args: " + paramJsonString);
-		
-		
-		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder(URI.create("http://" + nextIp + ":8081" + fullPath))
-					.header("content-type", "application/json")
-					.POST(HttpRequest.BodyPublishers.ofString(paramJsonString))
-					.build();
-		System.out.println("backend post: " + request.toString());	
-		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-		System.out.println(response.body());
-		return new ResponseEntity<>(response.body(), HttpStatus.CREATED);
+	@PostMapping({"/backend/**", "/public/**", "/coordinator/**", "/worker/**", "/super/**"})
+	public ResponseEntity<?> backendPost(HttpServletRequest servletRequest) throws IOException, InterruptedException {
+		return mapPostRequest("backend", servletRequest);
 	}
 
 	@GetMapping("/**")
-	public ResponseEntity<byte[]> frontend(HttpServletRequest servletRequest) throws IOException, InterruptedException {
-		String nextIp = getNextIp("frontend");
-		if(nextIp == ""){
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		String fullPath = servletRequest.getRequestURI();
-
-		var client = HttpClient.newHttpClient();
-		var request = HttpRequest.newBuilder(URI.create("http://" + nextIp + ":80" + fullPath))
-		.header("accept", "application/json")
-		.build(); 
-
-		var response = client.send(request, BodyHandlers.ofByteArray());
-
-		return new ResponseEntity<>(response.body(), HttpStatus.CREATED);
+	public ResponseEntity<?> frontend(HttpServletRequest servletRequest) throws IOException, InterruptedException {
+		return mapGetRequest("frontend", servletRequest, Collections.emptyMap(), false);
 	}
 
 	private String getNextIp(String serverType){
@@ -191,5 +138,69 @@ public class Main {
 		if (ipsToPurge.size() > 0){
 			System.out.println("ipsToPurge: " + ipsToPurge);
 		}
+	}
+
+	private ResponseEntity<?> mapGetRequest(String serverType, HttpServletRequest servletRequest, Map<String,String> allRequestParams, Boolean returnMap) throws IOException, InterruptedException{
+		String ip = getNextIp(serverType);
+		if(ip == ""){
+			return new ResponseEntity<>(new HashMap<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		String fullPath = servletRequest.getRequestURI();
+		String paramString = allRequestParams.toString().replace("}", "").replace("{","?").replace(", ", "&");
+		System.out.println("Backend get request: " + fullPath + ", args: " + paramString);
+
+		var client = HttpClient.newHttpClient();
+
+		String port;
+		if(serverType == "backend"){
+			port = "8081";
+		}
+		else{
+			port = "80";
+		}
+		var request = HttpRequest.newBuilder(
+			URI.create("http://" + ip + ":" + port + fullPath + paramString))
+		.header("accept", "application/json")
+		.build();
+
+		System.out.println(serverType + " get: " + request.toString());
+		
+		
+		if(returnMap){
+			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+			JsonObject jsonObject = new JsonParser().parse(response.body()).getAsJsonObject();
+			System.out.println(jsonObject);
+			HashMap result = new Gson().fromJson(jsonObject, HashMap.class);
+			return new ResponseEntity<>(result, HttpStatus.CREATED);
+		}
+		else{
+			HttpResponse<byte[]> response = client.send(request, BodyHandlers.ofByteArray());
+			byte[] result = response.body();
+			return new ResponseEntity<>(result, HttpStatus.CREATED);
+		}
+
+	}
+
+	private ResponseEntity<?> mapPostRequest(String serverType, HttpServletRequest servletRequest) throws IOException, InterruptedException{
+		String nextIp = getNextIp(serverType);
+		if(nextIp == ""){
+			return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		String fullPath = servletRequest.getRequestURI();
+		String paramJsonString = servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+
+		System.out.println("Backend get request: " + fullPath + ", args: " + paramJsonString);
+		
+		
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder(URI.create("http://" + nextIp + ":8081" + fullPath))
+					.header("content-type", "application/json")
+					.POST(HttpRequest.BodyPublishers.ofString(paramJsonString))
+					.build();
+		System.out.println("backend post: " + request.toString());	
+		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+		System.out.println(response.body());
+		return new ResponseEntity<>(response.body(), HttpStatus.CREATED);
 	}
 }
