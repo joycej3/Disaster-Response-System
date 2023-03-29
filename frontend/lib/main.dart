@@ -6,6 +6,7 @@ import 'package:flutter_frontend/services/authentication.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
 import 'services/firebase_options.dart';
+import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Home(),
+      //home: Coordinator(),
     );
   }
 }

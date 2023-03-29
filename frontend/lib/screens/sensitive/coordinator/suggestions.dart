@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator_map.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/big_red_button.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator_options.dart';
-import 'package:flutter_frontend/services/api.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-import 'dart:async';
 
 class CoordinatorSuggestions extends StatefulWidget {
   CoordinatorSuggestions({Key? key}) : super(key: key);
@@ -37,12 +33,12 @@ class SuggestionDropdown extends State<CoordinatorSuggestions> {
           children: [
             Row(
               children: [
-                // Text(
-                //   'Options',
-                //   style: TextStyle(fontSize: 70),
-                // ),
-                Expanded(child: CoordinatorOptions()),
-                Expanded(child: CoordinatorMap()),
+                SizedBox(
+                    width: 2 * MediaQuery.of(context).size.width / 3,
+                    child: CoordinatorOptions()),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: CoordinatorMap()),
               ],
             ),
             Expanded(child: CoordinatorMap()),

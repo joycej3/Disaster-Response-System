@@ -1,8 +1,6 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_frontend/services/api.dart';
-import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
 
 // /////////
 // // Create a Form widget.
@@ -19,223 +17,121 @@ class CoordinatorOptions extends StatefulWidget {
 //police 95
 //firefighters 963
 
-// Create a corresponding State class.
-// This class holds data related to the form.
 class CoordinatorOptionsState extends State<CoordinatorOptions> {
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
     return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              Expanded(
-                /*1*/
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /*2*/
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        'Suggested Ambulance number: '
-                        '\n'
-                        'Please confirm/augment',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.local_hospital,
-                          color: Colors.black,
-                        )),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Text('3',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold))),
-                    // Container(
-                    //   padding: const EdgeInsets.all(8),
-                    //   child: TextField(
-
-                    //     cursorColor: Colors.blue,
-                    //   ),
-                    // )
-                  ],
-                ),
-              ),
-
-              /// second suggestion
-              Expanded(
-                /*1*/
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /*2*/
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        'Suggested Paramedics number: '
-                        '\n'
-                        'Please confirm/augment',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.health_and_safety,
-                          color: Colors.black,
-                        )),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Text('10',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold))),
-                  ],
-                ),
-              ),
-
-              /// third suggestion
-              Expanded(
-                /*1*/
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /*2*/
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        'Suggested Fire Engine number: '
-                        '\n'
-                        'Please confirm/augment',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.fire_truck,
-                          color: Colors.black,
-                        )),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Text('8',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold))),
-                  ],
-                ),
-              ),
-
-              /// fourth option
-              Expanded(
-                /*1*/
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /*2*/
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        'Suggested Police officers number: '
-                        '\n'
-                        'Please confirm/augment',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.local_police,
-                          color: Colors.black,
-                        )),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Text('70',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold))),
-                  ],
-                ),
-              ),
-
-              /// fifth option
-              Expanded(
-                /*1*/
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /*2*/
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        'Suggested Firefighters number: '
-                        '\n'
-                        'Please confirm/augment',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.fire_extinguisher,
-                          color: Colors.black,
-                        )),
-                    Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Text('11',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold))),
-                  ],
-                ),
-              ),
-              Column(
-                children: [
-                  Icon(
-                    Icons.send,
+        home: Column(children: [
+      DataTable(
+          columns: [
+            DataColumn(
+              label: Text(
+                'Category',
+                style: TextStyle(
                     color: Colors.blue,
-                    size: 50,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      'Submit required EMS numbers',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
               ),
-            ],
-          ),
-        ),
+            ),
+            DataColumn(label: Text('')),
+            DataColumn(
+              label: Text(
+                'Suggestions',
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
+              ),
+            ),
+            DataColumn(
+              label: Text(
+                'Decision',
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
+              ),
+            ),
+          ],
+
+          /// Rows of table
+          rows: [
+            DataRow(cells: [
+              DataCell(Text(
+                'Ambulance',
+                style: TextStyle(color: Colors.red, fontSize: 18),
+              )),
+              DataCell(Icon(Icons.local_hospital, color: Colors.black)),
+              DataCell(Text(Random().nextInt(12).toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+              DataCell(TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              )),
+            ]),
+            DataRow(cells: [
+              DataCell(Text(
+                'Paramedics',
+                style: TextStyle(color: Colors.red, fontSize: 18),
+              )),
+              DataCell(Icon(Icons.medical_services, color: Colors.black)),
+              DataCell(Text(Random().nextInt(120).toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+              DataCell(TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ))
+            ]),
+            DataRow(cells: [
+              DataCell(Text(
+                'Fire Trucks',
+                style: TextStyle(color: Colors.red, fontSize: 18),
+              )),
+              DataCell(Icon(Icons.fire_truck, color: Colors.black)),
+              DataCell(Text(Random().nextInt(21).toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+              DataCell(TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ))
+            ]),
+            DataRow(cells: [
+              DataCell(Text(
+                'Police',
+                style: TextStyle(color: Colors.red, fontSize: 18),
+              )),
+              DataCell(Icon(Icons.local_police, color: Colors.black)),
+              DataCell(Text(Random().nextInt(95).toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+              DataCell(TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ))
+            ]),
+            DataRow(cells: [
+              DataCell(Text(
+                'Fire-Fighters',
+                style: TextStyle(color: Colors.red, fontSize: 18),
+              )),
+              DataCell(Icon(Icons.fire_hydrant, color: Colors.black)),
+              DataCell(Text(Random().nextInt(963).toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+              DataCell(TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ))
+            ])
+          ]),
+      SizedBox(height: 50),
+      Container(
+        alignment: Alignment.bottomCenter,
+        child: Icon(Icons.send, color: Colors.blue, size: 50),
       ),
-    );
+    ]));
   }
 }
-//////////
