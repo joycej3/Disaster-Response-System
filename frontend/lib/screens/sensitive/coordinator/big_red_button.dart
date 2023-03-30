@@ -15,13 +15,20 @@ class DrawRedButton extends State<RedButton> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Container(
-          padding: EdgeInsets.symmetric(),
-          child: FloatingActionButton.large(
-            backgroundColor: Colors.red,
-            onPressed: () {},
-          ),
-        ),
+        body: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: 300.0,
+                height: 300.0,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            )),
       ),
     );
   }

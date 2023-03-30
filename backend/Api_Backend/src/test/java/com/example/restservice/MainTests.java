@@ -33,6 +33,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,11 +61,16 @@ public class MainTests {
 	@Mock	
 	FirebaseDatabase getDatabase;
 
+	Database database;
+
 	@Mock
 	DatabaseReference databaseReference;
 
 	@Mock
 	FirebaseConfig config;
+
+	@Mock
+	ReportClassifier reportClassifier;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -75,7 +81,13 @@ public class MainTests {
 	public void setUp() throws FileNotFoundException, IOException{
 		when(getDatabase.getReference(any())).thenReturn(databaseReference);
 		when(databaseReference.addChildEventListener(any())).thenReturn(null);
+<<<<<<< Updated upstream
+		database = new Database(getDatabase);
+		main = new Main(database, getDatabase);
+=======
 		main = new Main(getDatabase);
+		main.reportClassifier = reportClassifier;
+>>>>>>> Stashed changes
 	}
 
 	@DisplayName("GIVEN parameters WHEN greeting is called THEN a correct greetingRecord is returned")
@@ -98,12 +110,12 @@ public class MainTests {
 	@Test
 	public void FirebaseGetTest() throws FileNotFoundException, IOException{
 		//GIVEN
-		String emergency = null;
-		String injury = null;
-		String time = null;
-		String lat = null;
-		String lon = null;
-		String reportCategory = null;
+		String emergency = " ";
+		String injury = " ";
+		String time = " ";
+		String lat = " ";
+		String lon = " ";
+		String reportCategory = " ";
 		EmergencyRecord emergencyRecord = new EmergencyRecord(emergency, injury, time, lat,lon,reportCategory);
 
 		//WHEN
@@ -113,7 +125,8 @@ public class MainTests {
 		assertEquals(emergencyRecord.toString(), recordReturned.toString());
 	}
 
-	@DisplayName("GIVEN an emergency report to add WHEN  firebasePush is called THEN the report is pushed to database and returns success")
+	//@Disabled
+	@DisplayName("GIVEN an emergency report to add WHEN  firebasePush is called THEN the report is classified and returns success")
 	@Test
 	public void FirebasePushTest(){
 		//GIVEN
@@ -124,13 +137,25 @@ public class MainTests {
 		String lon = "36.6";
 		String reportCategory = "1";
 		Emergency givenEmergency = new Emergency(emergency, injury, time, lat,lon,reportCategory);
+		System.out.println(givenEmergency);
 
 		//WHEN
-		when(databaseReference.push()).thenReturn(databaseReference);
+		try {
+			when(reportClassifier.classifyReport(any())).thenReturn(true);
+		
 		ResponseEntity result = main.firebase_push(givenEmergency);
 
 		//THEN
+<<<<<<< Updated upstream
 		verify(databaseReference.push()).setValueAsync(givenEmergency);
-		assertEquals(new ResponseEntity<>("success", HttpStatus.CREATED), result); 
+		assertEquals(new ResponseEntity<>("success", HttpStatus.CREATED), result);
+=======
+		verify(reportClassifier).classifyReport(any());
+		assertEquals(new ResponseEntity<>("success", HttpStatus.CREATED), result);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+>>>>>>> Stashed changes
 	}
 }

@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import com.example.restservice.Database;
 import com.example.restservice.security.models.SecurityProperties;
+import com.example.restservice.Database;
 import com.google.auth.oauth2.GoogleCredentials;
 
 import com.google.firebase.FirebaseApp;
@@ -50,6 +52,14 @@ public class FirebaseConfig {
 		System.out.println("Initialising firebase database");
 		return FirebaseDatabase.getInstance();
     }
+
+
+	@Bean
+    public Database database() throws IOException{
+		System.out.println("Initialising  database");
+		return new Database(getDatabase());
+    }
+
 
 	@Bean
     public FirebaseMessaging firebaseMessaging() throws IOException {

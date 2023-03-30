@@ -32,7 +32,7 @@ import com.google.gson.JsonObject;
     //checks if current ongoing disasterID
     //if no ongoing disaster creates a new disasterID 
     //adds report under disasterID 
-    public static boolean classifyReport(EmergencyRecord record) throws IOException{
+    public boolean classifyReport(EmergencyRecord record) throws IOException{
 
         int currentDisasterID = getDisasterID();
         if (currentDisasterID > 0){
@@ -98,6 +98,5 @@ import com.google.gson.JsonObject;
 
     public static void main(String[] args) throws IOException {
         EmergencyRecord record = new EmergencyRecord("Drought", "true", "103945", "85.55", "35.33","1");
-        classifyReport(record);
     }
 }

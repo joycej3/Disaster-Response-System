@@ -1,6 +1,7 @@
 package com.example.restservice.controllers;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserRecord;
+import com.example.restservice.Database;
+import com.example.restservice.Decision;
 import com.example.restservice.security.SecurityService;
 import com.example.restservice.security.roles.IsSuper;
 import com.example.restservice.security.roles.RoleService;
@@ -31,6 +34,12 @@ public class SuperAdminController {
 	@Autowired
 	FirebaseAuth firebaseAuth;
 
+	private Database database;
+
+	public SuperAdminController(Database database){
+		this.database = database;
+	}
+
 	
 
 	@GetMapping("user")
@@ -45,6 +54,31 @@ public class SuperAdminController {
 		System.out.println("controller: admin");
 		String name = securityService.getUser().getUid();
 		return name.split("\\s+")[0] + ", you have accessed admin data from spring boot";
+	}
+
+	@GetMapping("get_suggestion")
+	@IsSuper
+	public Decision getSuggestion(@RequestParam String id){
+		return database.disasterIdToSuggestion.getOrDefault(id, null);
+	}
+
+	@GetMapping("get_ongoing_disasters")
+	@IsSuper
+	public HashMap getOngoingDisasters(){
+		return database.disasterIdToOngoingDisaster;
+	}
+
+	@GetMapping("get_disaster_reports")
+	@IsSuper
+	public HashMap getDisasterReports(@RequestParam String id){
+		return new HashMap<>();
+	}
+
+	@PostMapping("post_decision")
+	@IsSuper
+	public boolean pushDecision(@RequestParam String id, @RequestParam Decision decision){
+		database.decisionsRef.child(id).setValueAsync(decision);
+		return true;
 	}
 
 }

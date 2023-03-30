@@ -35,6 +35,8 @@ class MapSampleState extends State<MapSample> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToCollege,
+        backgroundColor: Colors.red,
+        foregroundColor: Colors.white,
         label: const Text('To College!'),
         icon: const Icon(Icons.school),
       ),

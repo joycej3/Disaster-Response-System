@@ -36,10 +36,10 @@ public class ReportAggregator {
 				System.out.println("prevchildkey: " + prevChildKey);
                 //System.out.println(dataSnapshot.toString());
                 DatabaseReference ref = dataSnapshot.getRef();
-                dataSnapshot = dataSnapshot.child("Reports");
-                List<Map<String, Object>> dataList = getMapFromSnapshot(dataSnapshot);
+                DataSnapshot dataSnapshotChild = dataSnapshot.child("Reports");
+                List<Map<String, Object>> dataList = getMapFromSnapshot(dataSnapshotChild);
                 System.out.print(dataList);
-				aggregate(dataSnapshot, ref, dataList);
+				aggregate(dataSnapshotChild, ref, dataList , dataSnapshot);
 				//System.out.println(recentEmergency);
 
 			}
@@ -49,10 +49,10 @@ public class ReportAggregator {
 				System.out.println("aggregator:changed");
                 System.out.println(dataSnapshot.toString());
                 DatabaseReference ref = dataSnapshot.getRef();
-                dataSnapshot = dataSnapshot.child("Reports");
-                List<Map<String, Object>> dataList = getMapFromSnapshot(dataSnapshot);
+                DataSnapshot dataSnapshotChild = dataSnapshot.child("Reports");
+                List<Map<String, Object>> dataList = getMapFromSnapshot(dataSnapshotChild);
 
-				aggregate(dataSnapshot, ref, dataList);
+				aggregate(dataSnapshotChild, ref, dataList, dataSnapshot);
 			}
 		  
 			@Override
@@ -99,11 +99,17 @@ public class ReportAggregator {
         return map;
     }
 
-    protected  void aggregate(DataSnapshot dataSnapshot, DatabaseReference reference, List<Map<String, Object>> dataList){
+    protected  void aggregate(DataSnapshot dataSnapshot, DatabaseReference reference, List<Map<String, Object>> dataList , DataSnapshot parentSnapShot){
         
         long reportCount  = dataSnapshot.getChildrenCount();
+        if (reportCount > 1l){
+            System.out.println("removing unrelated reports from aggregation");
+            dataList =  removeUnrelatedPoints(dataList, dataSnapshot, parentSnapShot);
+        }
+        Double meanLatLon = absoluteLat(dataList);
         int knownInjury = aggregateKnownInjury(dataList);
         int incidentType = aggregateIncidentType(dataList);
+        
         ArrayList <Point> hull = aggregateHull(dataList);
         Double area = aggregateArea(hull);
         long population = aggregatePopulation(area);
@@ -132,9 +138,28 @@ public class ReportAggregator {
         aggregateValueMap.put("FirstReported", firstReported);
         aggregateValueMap.put("LastReportTime", lastReported);
         aggregateValueMap.put("Location", neighbourhood);
-
+        aggregateValueMap.put("AbsoluteLatLon", meanLatLon);
         setAggregatedValues(dataSnapshot, reference, aggregateValueMap);
+    }
 
+    private List<Map<String, Object>> removeUnrelatedPoints(List<Map<String, Object>> dataList, DataSnapshot dataSnapshot,DataSnapshot dataSnapshotParent){
+        List<Map<String, Object>> finalList = new ArrayList<>();
+        Map <String,Object> map = (Map) dataSnapshotParent.getValue();
+        Double absLat = (Double) map.get("AbsoluteLatLon");
+        if (absLat == null) return dataList;
+
+        for (Map<String, Object> child: dataList){
+            Double lat = (Double) child.get("Lat");
+            Double lon = (Double) child.get("Lon");
+            System.out.println("abs " + absLat + " lat " + lat + " lon " + lon);
+            Double dist = Math.abs(absLat - (lat + lon));
+            System.out.print(dist);
+            if ( dist < .07d){ //111km in 1 abs latlon theoretically so roughly 7km
+                	finalList.add(child);
+            }
+        }
+
+        return finalList;
     }
 
     protected int aggregateKnownInjury(List<Map<String, Object>> dataList){
@@ -169,6 +194,23 @@ public class ReportAggregator {
         }
 
         return mode;
+    }
+    protected Double absoluteLat(List<Map<String, Object>> dataList){
+    //take all lat long of the reports
+        //run convext hull to get list of vertices of bounding polygon of points
+        //run shoelace formula with these vertice to get area 
+        Double absLat = 0d;
+        int count = 0;
+
+        for (Map<String, Object> child: dataList){
+            Map <String, Object> map = child;
+            Double lat = (Double) map.get("Lat");
+            Double lon = (Double) map.get("Lon");
+            absLat += Math.abs(lat + lon);
+            count++;
+        }
+        
+        return (absLat / count);
     }
 
     protected ArrayList <Point> aggregateHull(List<Map<String, Object>> dataList){

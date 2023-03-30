@@ -8,7 +8,6 @@ class WorkerHome extends StatefulWidget {
 }
 
 class _WorkerHomeState extends State<WorkerHome> {
-  String textHolder = 'Welcome to your mobile app';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +20,7 @@ class _WorkerHomeState extends State<WorkerHome> {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Text(
-                    'Place Holder',
+                    'EMS Worker Route Finder',
                     style: TextStyle(fontSize: 21),
                   ),
                 ),
@@ -29,25 +28,44 @@ class _WorkerHomeState extends State<WorkerHome> {
                   padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                   child: Text(
                     'Use this tool for obtaining routes into emergency zones '
-                    'and for evacuating injured people to the necessary locations.',
+                    'and for evacuating injured people to the necessary locations. View'
+                    ' disaster zones for in the field decision making.',
                     style: TextStyle(fontSize: 21),
                   ),
                 ),
                 Container(
                   padding: EdgeInsets.zero,
                   child: ElevatedButton(
-                    onPressed: () {
-                      displaySecureResource();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Coordinator()));
-                      Coordinator();
-                    }, //displaySecureResource(),
+                    onPressed: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Place Holder',
+                            style: TextStyle(color: Colors.white)),
+                        content: Text(
+                          ':)',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.black,
+                        shadowColor: Colors.yellow,
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text('Cancel',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.pop(context, 'Drive Ambulance'),
+                            child: const Text('Drive Ambulance',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         foregroundColor: Colors.red),
-                    child: const Text('Coordinator Page'),
+                    child: const Text('View Disaster Info'),
                   ),
                 ),
                 SizedBox(height: 10),
@@ -60,12 +78,5 @@ class _WorkerHomeState extends State<WorkerHome> {
                 ),
               ],
             ))));
-  }
-
-  displaySecureResource() async {
-    String response = await AuthenticationHelper().secureApi("worker_get");
-    setState(() {
-      textHolder = response;
-    });
   }
 }

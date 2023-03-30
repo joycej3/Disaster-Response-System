@@ -32,6 +32,9 @@ public class ReportAggregatorTests{
     @Mock
     DataSnapshot dataSnapshot;
 
+    @Mock
+    DataSnapshot dataSnapshotParent;
+
     @Mock 
     Iterable<DataSnapshot> children;
 
@@ -144,11 +147,15 @@ public class ReportAggregatorTests{
     public void aggregateTest(){
         //GIVEN
         List<Map<String, Object>> dataList = makeDataList();
+        Map <String, Object> fakeAggregate = new HashMap<>();
+        fakeAggregate.put("AbsoluteLatLon", 47.06d);
+        fakeAggregate.put("Neighbourhood", "FN");
         when(databaseReference.updateChildrenAsync(any())).thenReturn(null);
         when(dataSnapshot.getChildrenCount()).thenReturn(2l);
+        when(dataSnapshotParent.getValue()).thenReturn(fakeAggregate);
 
         //WHEN
-        reportAggregator.aggregate(dataSnapshot, databaseReference, dataList);
+        reportAggregator.aggregate(dataSnapshot, databaseReference, dataList , dataSnapshotParent);
 
         //THEN
         verify(dataSnapshot).getChildrenCount();

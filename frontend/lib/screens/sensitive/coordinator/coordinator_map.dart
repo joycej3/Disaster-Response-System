@@ -42,10 +42,10 @@ class CoordinatorMapState extends State<CoordinatorMap> {
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.blue,
                 label: const Text(
-                  'To College!',
+                  'View Disaster Zone',
                 ),
                 icon: const Icon(
-                  Icons.school,
+                  Icons.emergency_share_sharp,
                   color: Colors.blue,
                 ),
               ),
