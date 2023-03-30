@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_frontend/services/api.dart';
 import 'package:http/http.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
 
 // import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -12,9 +14,9 @@ const Map<String, dynamic> MAPDEFAULT = {};
 
 class AuthenticationHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  ApiHandler apiHandler = ApiHandler();
 
   get user => _auth.currentUser;
-  String uri = 'http://localhost:8080/worker/data';
 
   handleAuth() {
     return StreamBuilder(
@@ -41,10 +43,10 @@ class AuthenticationHelper {
     }
   }
 
-  Future<String> secureApi(String apiName,
+  Future<Response> secureApi(String apiName,
       [Map<String, dynamic> arguements = MAPDEFAULT]) async {
     var token = await extractToken();
-    return await accessSecureResource(token);
+    return await accessSecureResource(apiName, arguements, token);
   }
 
   Future<String> extractToken() async {
@@ -57,21 +59,12 @@ class AuthenticationHelper {
     return "";
   }
 
-  Future<String> accessSecureResource(token) async {
+  Future<Response> accessSecureResource(String apiName,Map<String, dynamic> arguements, token) async {
     Map<String, String> headers = {
       "Content-type": "application/json",
       "Authorization": "Bearer " + token
     };
-
-    Response response = await get(Uri.parse(uri), headers: headers);
-
-    int statusCode = response.statusCode;
-
-    print(statusCode);
-    if (statusCode != 200) {
-      return "Could not get input from server";
-    }
-    return response.body.toString();
+    return apiHandler.callApi(apiName, http.Client(), arguements, headers);
   }
 
   //SIGN OUT METHOD
