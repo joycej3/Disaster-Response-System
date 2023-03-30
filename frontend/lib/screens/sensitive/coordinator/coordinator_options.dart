@@ -129,7 +129,7 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
             ]),
             DataRow(cells: [
               DataCell(Text(
-                'Fire Trucks',
+                'Fire Engines',
                 style: TextStyle(color: Colors.red, fontSize: 18),
               )),
               DataCell(Icon(Icons.fire_truck, color: Colors.black)),
