@@ -18,7 +18,10 @@ class SuggestionDropdown extends State<CoordinatorSuggestions> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Coordinator Page'),
+          title: const Text(
+            'Coordinator Page',
+            style: TextStyle(fontSize: 28),
+          ),
           bottom: const TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorWeight: 10,
