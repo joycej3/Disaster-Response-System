@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/sensitive/ems_worker/worker_map.dart';
 import 'package:flutter_frontend/screens/sensitive/ems_worker/workerhome.dart';
-import 'package:flutter_frontend/services/authentication.dart';
 
 class WorkerPage extends StatefulWidget {
   @override
@@ -48,13 +47,5 @@ class _WorkerPageState extends State<WorkerPage> {
                 ),
               ),
             )));
-  }
-
-  displaySecureResource() async {
-    // String response =
-    //     await AuthenticationHelper().extractTokenAndAccessSecureResource();
-    // setState(() {
-    //   textHolder = response;
-    // });
   }
 }
