@@ -56,7 +56,7 @@ void main() {
   testWidgets('Civ Map Page visual Test', (tester) async {
     print('Civ Map Page testing in progress...');
     await tester.pumpWidget(MapSample());
-    final textFinder = find.text('To College!');
+    final textFinder = find.text('Get Route');
     expect(textFinder, findsOneWidget);
   });
 
