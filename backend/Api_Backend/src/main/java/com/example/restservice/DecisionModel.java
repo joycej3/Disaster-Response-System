@@ -5,16 +5,26 @@ import java.util.*;
 
 public class DecisionModel {
 
-    private final static Model ambo_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_ambos.pmml");
-    private final static Model fire_engine_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_fire_engine.pmml");
-    private final static Model fire_workers_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_fire_workers.pmml");
-    private final static Model medics_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_medics.pmml");
-    private final static Model traffic_police_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_traffic_police.pmml");
-    public static void main(String[] args){    
-        test();
+    private static Model ambo_model;
+    private static Model fire_engine_model;
+    private static Model fire_workers_model;
+    private static Model medics_model;
+    private static Model traffic_police_model;
+
+    public static void main(String[] args){   
+       
     }
 
-    public static Map<String, Integer> getSuggestions(Map<String, Double> values) {
+    public static void setModels(){
+        ambo_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_ambos.pmml"); 
+        fire_workers_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_fire_workers.pmml");
+        medics_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_medics.pmml");
+        traffic_police_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_traffic_police.pmml");
+        fire_engine_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_fire_engine.pmml");
+    }
+
+    public Map<String, Integer> getSuggestions(Map<String, Double> values) {
+        setModels();
         Object[] valuesMap = Arrays.stream(ambo_model.inputNames())
                 .map(values::get)
                 .toArray();
@@ -39,24 +49,5 @@ public class DecisionModel {
         suggestions.put("Fire-Fighters", fw_d.intValue());
 
         return suggestions;
-    }
-
-    public static void test() {
-        Map<String, Double> values = new HashMap<>();
-        values.put("known_injury", 0d);
-        values.put("incident_type_code", 1d);
-        values.put("area_size", 100d);
-        values.put("first_report", 200d);
-        values.put("location_Dn Laoghaire-Rathdown", 1d);
-        values.put("location_Dublin City", 0d);
-        values.put("location_Fingal", 0d);
-        values.put("location_South Dublin", 0d);
-        values.put("weather_cloudy", 0d);
-        values.put("weather_fog", 1d);
-        values.put("weather_rain", 0d);
-        values.put("weather_sunshine", 0d);
-
-        Map<String, Integer> predicted = getSuggestions(values);
-        System.out.println(predicted);
     }
 }
