@@ -54,6 +54,10 @@ public class ReportsToModel {
     }
     public static void main(String[] args) throws IOException {
         System.out.println(aggregatedReportsToModel(2));
+        Map<String, Double>  test = aggregatedReportsToModel(2);
+        DecisionModel testModel = new DecisionModel();
+        Map<String, Integer> testDecisions = testModel.getSuggestions(test);
+        System.out.println(testDecisions);
     }
 }
 
