@@ -37,8 +37,8 @@ class MapSampleState extends State<MapSample> {
         onPressed: _goToCollege,
         backgroundColor: Colors.red,
         foregroundColor: Colors.white,
-        label: const Text('To College!'),
-        icon: const Icon(Icons.school),
+        label: const Text('Get route'),
+        icon: const Icon(Icons.directions),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
