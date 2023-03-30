@@ -20,7 +20,7 @@ class CoordinatorMapState extends State<CoordinatorMap> {
   );
 
   static const CameraPosition trinity = CameraPosition(
-      bearing: 50, target: LatLng(53.3447406, -6.2584452), tilt: 40, zoom: 18);
+      bearing: 50, target: LatLng(53.342120, -6.151300), tilt: 50, zoom: 15);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class CoordinatorMapState extends State<CoordinatorMap> {
             ),
             child: Scaffold(
               body: GoogleMap(
-                mapType: MapType.hybrid,
+                mapType: MapType.terrain,
                 initialCameraPosition: dublin,
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
@@ -42,10 +42,10 @@ class CoordinatorMapState extends State<CoordinatorMap> {
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.blue,
                 label: const Text(
-                  'To College!',
+                  'View Disaster Zone',
                 ),
                 icon: const Icon(
-                  Icons.school,
+                  Icons.emergency_share_sharp,
                   color: Colors.blue,
                 ),
               ),

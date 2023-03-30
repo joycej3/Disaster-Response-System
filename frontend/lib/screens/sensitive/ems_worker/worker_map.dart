@@ -20,7 +20,7 @@ class WorkerMapState extends State<WorkerMap> {
   );
 
   static const CameraPosition trinity = CameraPosition(
-      bearing: 50, target: LatLng(53.3447406, -6.2584452), tilt: 40, zoom: 18);
+      bearing: 50, target: LatLng(53.359853, -6.266769), tilt: 40, zoom: 18);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class WorkerMapState extends State<WorkerMap> {
             ),
             child: Scaffold(
               body: GoogleMap(
-                mapType: MapType.hybrid,
+                mapType: MapType.normal,
                 initialCameraPosition: dublin,
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
@@ -42,10 +42,10 @@ class WorkerMapState extends State<WorkerMap> {
                 backgroundColor: Colors.black,
                 foregroundColor: Colors.red,
                 label: const Text(
-                  'To College!',
+                  'Get Route',
                 ),
                 icon: const Icon(
-                  Icons.school,
+                  Icons.route_outlined,
                   color: Colors.red,
                 ),
               ),

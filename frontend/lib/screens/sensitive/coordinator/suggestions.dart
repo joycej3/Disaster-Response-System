@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator_map.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/big_red_button.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator_options.dart';
+import 'package:flutter_frontend/screens/sensitive/coordinator/stats.dart';
 
 class CoordinatorSuggestions extends StatefulWidget {
   CoordinatorSuggestions({Key? key}) : super(key: key);
@@ -18,7 +19,10 @@ class SuggestionDropdown extends State<CoordinatorSuggestions> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Coordinator Page'),
+          title: const Text(
+            'Coordinator Page',
+            style: TextStyle(fontSize: 28),
+          ),
           bottom: const TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorWeight: 10,
@@ -34,11 +38,11 @@ class SuggestionDropdown extends State<CoordinatorSuggestions> {
             Row(
               children: [
                 SizedBox(
-                    width: 2 * MediaQuery.of(context).size.width / 3,
+                    width: MediaQuery.of(context).size.width / 2,
                     child: CoordinatorOptions()),
                 SizedBox(
-                    width: MediaQuery.of(context).size.width / 3,
-                    child: CoordinatorMap()),
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Stats()),
               ],
             ),
             Expanded(child: CoordinatorMap()),

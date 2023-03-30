@@ -14,14 +14,14 @@ void main() {
     print('Coordinator Page testing in progress...');
     await tester.pumpWidget(Coordinator());
     //if a certain phrase can be found on the page, test passes
-    final textFinder = find.text('EMS Home');
+    final textFinder = find.text('View options');
     expect(textFinder, findsOneWidget);
   });
 
   testWidgets('EMS Worker Map Page visual Test', (tester) async {
     print('EMS Worker Map Page testing in progress...');
     await tester.pumpWidget(WorkerMap());
-    final textFinder = find.text('To College!');
+    final textFinder = find.text('Get Route');
     expect(textFinder, findsOneWidget);
   });
 
@@ -35,7 +35,7 @@ void main() {
   testWidgets('EMS Worker Home Page visual Test', (tester) async {
     print('EMS Worker Home Page testing in progress...');
     await tester.pumpWidget(WorkerHome());
-    final textFinder = find.text('Place Holder');
+    final textFinder = find.text('Logout');
     expect(textFinder, findsOneWidget);
   });
 
@@ -56,7 +56,7 @@ void main() {
   testWidgets('Civ Map Page visual Test', (tester) async {
     print('Civ Map Page testing in progress...');
     await tester.pumpWidget(MapSample());
-    final textFinder = find.text('To College!');
+    final textFinder = find.text('Get Route');
     expect(textFinder, findsOneWidget);
   });
 
