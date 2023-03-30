@@ -14,55 +14,46 @@ public class DecisionModel {
     private static Model medics_model;
     private static Model traffic_police_model;
 
-    public static void main(String[] args){   
-       
+    public static void main(String[] args) {
+
     }
 
-    public static void setModels(){
-        URL amboPath = DecisionModel.class.getResource("regression_model_ambos.pmml");
-        if(amboPath==null) {
-            System.out.println("Issue Finding Ambulance Model");
-        }else{
-            File f = new File(amboPath.getFile());
-            ambo_model = Model.fromFile(f);  
+    public static void setModels() {
+        try {
+            ambo_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_ambos.pmml");
+        } catch (Exception e) {
+            ambo_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_ambos.pmml");
         }
 
-        URL pfPath = DecisionModel.class.getResource("regression_model_fire_workers.pmml");
-        if(pfPath==null) {
-            System.out.println("Issue Finding Fire Workers Model");
-        }else{
-            File f = new File(pfPath.getFile());
-            fire_workers_model = Model.fromFile(f);  
+        try {
+            fire_workers_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_fire_workers.pmml");
+        } catch (Exception e) {
+            fire_workers_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_fire_workers.pmml");
         }
 
-        URL mPath = DecisionModel.class.getResource("regression_model_medics.pmml");
-        if(mPath==null) {
-            System.out.println("Issue Finding Medics Model");
-        }else{
-            File f = new File(mPath.getFile());
-            medics_model = Model.fromFile(f);  
+        try {
+            medics_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_medics.pmml");
+        } catch (Exception e) {
+            medics_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_medics.pmml");
         }
 
-        URL tpPath = DecisionModel.class.getResource("regression_model_traffic_police.pmml");
-        if(tpPath==null) {
-            System.out.println("Issue Finding Traffic Police Model");
-        }else{
-            File f = new File(tpPath.getFile());
-            traffic_police_model = Model.fromFile(f);  
+        try {
+            traffic_police_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_traffic_police.pmml");
+        } catch (Exception e) {
+            traffic_police_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_traffic_police.pmml");
         }
 
-        URL fePath = DecisionModel.class.getResource("regression_model_fire_engine.pmml");
-        if(fePath==null) {
-            System.out.println("Issue Finding Ambulance Model");
-        }else{
-            File f = new File(fePath.getFile());
-            fire_engine_model = Model.fromFile(f);  
+        try {
+            fire_engine_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_fire_engine.pmml");
+        } catch (Exception e) {
+            fire_engine_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_fire_engine.pmml");
         }
-        
+
     }
 
     public Map<String, Integer> getSuggestions(Map<String, Double> values) {
         setModels();
+        System.out.println(ambo_model.isClassification());
         Object[] valuesMap = Arrays.stream(ambo_model.inputNames())
                 .map(values::get)
                 .toArray();
