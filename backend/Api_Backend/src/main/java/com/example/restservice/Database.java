@@ -2,6 +2,8 @@ package com.example.restservice;
 
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,20 +16,21 @@ public class Database {
     private String ongoingDisastersRefPath = "DisasterDIR/Ongoing";
     private String decisionsRefPath = "Decisions";
     private String userRefPath = "users";
+	private String emergencyRefPath = "ReportTable/Uncategorised";
     public HashMap<String, Disaster> disasterIdToOngoingDisaster = new HashMap();
     public HashMap<String, Decision> disasterIdToSuggestion = new HashMap();
     public HashMap<String, Decision> disasterIdToDecision = new HashMap();
     public HashMap<String, User> emailToUserInfo = new HashMap();
+	public Emergency recentEmergency = new Emergency(" ", " ", " ", " ", " ", " ");
     public DatabaseReference suggestionRef;
     public DatabaseReference ongoingDisastersRef;
     public DatabaseReference decisionsRef;
     public DatabaseReference userRef;
+	public DatabaseReference emergencyRef;
 
-    public Database(){
-
-    }
-
+	@Autowired
     public Database(FirebaseDatabase getDatabase){
+		System.out.println("Setting up database");
         this.database = getDatabase;
         setupListeners();
     }
@@ -35,7 +38,9 @@ public class Database {
     private void setupListeners(){
         setupSuggestionListener();
         setupOngoingDisasterListener();
+		setupUserListener();
         setupDecisionsListener();
+		setupEmergencyListener();
     }
 
     private void setupSuggestionListener(){
@@ -161,6 +166,7 @@ public class Database {
 		userRef.addChildEventListener(new ChildEventListener() {
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+				System.out.println("attempt to add user");
 				User userRecord = dataSnapshot.getValue(User.class);
 				emailToUserInfo.put(userRecord.email, userRecord);
 				System.out.println("added user: " + userRecord.email);
@@ -178,6 +184,39 @@ public class Database {
 				User userRecord = dataSnapshot.getValue(User.class);
 				emailToUserInfo.remove(userRecord.email);
 				System.out.println("user removed: " + userRecord.email);
+			}
+		  
+			@Override
+			public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+				System.out.println("moved");
+			}
+		  
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+				System.out.println("cancelled");
+			}
+		  });
+
+    }
+
+	private void setupEmergencyListener(){
+        emergencyRef = database.getReference(emergencyRefPath);
+
+		emergencyRef.addChildEventListener(new ChildEventListener() {
+			@Override
+			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+				recentEmergency = dataSnapshot.getValue(Emergency.class);
+				System.out.println("added emergency: " + recentEmergency);
+			}
+		  
+			@Override
+			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+				System.out.println("emergnecy updated: ");
+			}
+		  
+			@Override
+			public void onChildRemoved(DataSnapshot dataSnapshot) {
+				System.out.println("emergency removed: ");
 			}
 		  
 			@Override

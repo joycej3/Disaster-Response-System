@@ -36,58 +36,15 @@ public class Main {
 
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
-	DatabaseReference disasterRef;
-	private Emergency recentEmergency = new Emergency(" ", " ", " ", " "," "," ");
+	private Database database;
 
 	@Autowired
-	public Main(FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
-		disasterRef = getDatabase.getReference("ReportTable/Uncategorised");
-		
-		// Attach a listener to read the data at our posts reference
-		disasterRef.addChildEventListener(new ChildEventListener() {
-			@Override
-			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-				System.out.println("child added");
-				System.out.println("prevchildkey: " + prevChildKey);
-				try{
-					recentEmergency = dataSnapshot.getValue(Emergency.class);
-				}
-				catch(Exception e){
-					System.out.println(e);
-				}
-				System.out.println("got through datasnapshot.getvalue");
-				System.out.println(recentEmergency);
-			}
-		  
-			@Override
-			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-				recentEmergency = dataSnapshot.getValue(Emergency.class);
-				System.out.println("changed");
-			}
-		  
-			@Override
-			public void onChildRemoved(DataSnapshot dataSnapshot) {
-				System.out.println("removed");
-			}
-		  
-			@Override
-			public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
-				System.out.println("moved");
-			}
-		  
-			@Override
-			public void onCancelled(DatabaseError databaseError) {
-				System.out.println("cancelled");
-			}
-
-
-		  });
-
-		  ReportAggregator reportAggregator = ReportAggregator.builder()
+	public Main(Database database, FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
+		this.database = database;  
+		ReportAggregator reportAggregator = ReportAggregator.builder()
 		  	.withFirebaseDatabase(getDatabase)
 			.build();
 		  reportAggregator.startAggregatingReports();
-
 	}
 
 	@GetMapping("/backend/greeting")
@@ -98,6 +55,7 @@ public class Main {
 	@GetMapping("/backend/firebase_get")
 	public EmergencyRecord firebase() {
         System.out.println("/firebase_get passed");
+		Emergency recentEmergency = database.recentEmergency;
 		return new EmergencyRecord(recentEmergency.emergency, recentEmergency.injury,
 		 recentEmergency.time, recentEmergency.lat, recentEmergency.lon, recentEmergency.reportCategory);
 	}
@@ -108,7 +66,14 @@ public class Main {
 	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {
 		System.out.println("Attempting firebase push");
 		System.out.println(emergency);
-		disasterRef.push().setValueAsync(emergency);
+		database.emergencyRef.push().setValueAsync(emergency);
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
+	}	
+	
+	@GetMapping("/backend/get_user_info")
+	public User get_user_type(@RequestParam String email) {
+		System.out.println("backend/get_user_info");
+        return database.emailToUserInfo.getOrDefault(email, new User(email, ""));
 	}
+
 }

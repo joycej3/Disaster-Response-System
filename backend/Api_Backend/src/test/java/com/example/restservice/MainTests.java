@@ -60,6 +60,8 @@ public class MainTests {
 	@Mock	
 	FirebaseDatabase getDatabase;
 
+	Database database;
+
 	@Mock
 	DatabaseReference databaseReference;
 
@@ -75,7 +77,8 @@ public class MainTests {
 	public void setUp() throws FileNotFoundException, IOException{
 		when(getDatabase.getReference(any())).thenReturn(databaseReference);
 		when(databaseReference.addChildEventListener(any())).thenReturn(null);
-		main = new Main(getDatabase);
+		database = new Database(getDatabase);
+		main = new Main(database, getDatabase);
 	}
 
 	@DisplayName("GIVEN parameters WHEN greeting is called THEN a correct greetingRecord is returned")
@@ -98,12 +101,12 @@ public class MainTests {
 	@Test
 	public void FirebaseGetTest() throws FileNotFoundException, IOException{
 		//GIVEN
-		String emergency = null;
-		String injury = null;
-		String time = null;
-		String lat = null;
-		String lon = null;
-		String reportCategory = null;
+		String emergency = " ";
+		String injury = " ";
+		String time = " ";
+		String lat = " ";
+		String lon = " ";
+		String reportCategory = " ";
 		EmergencyRecord emergencyRecord = new EmergencyRecord(emergency, injury, time, lat,lon,reportCategory);
 
 		//WHEN
@@ -131,6 +134,6 @@ public class MainTests {
 
 		//THEN
 		verify(databaseReference.push()).setValueAsync(givenEmergency);
-		assertEquals(new ResponseEntity<>("success", HttpStatus.CREATED), result); 
+		assertEquals(new ResponseEntity<>("success", HttpStatus.CREATED), result);
 	}
 }

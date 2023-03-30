@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -240,19 +241,17 @@ public class MainTests {
 	}
 
 	@Test
-	public void frontendGetEmptyIpListTest(){
+	public void frontendGetEmptyIpListTest() throws IOException, InterruptedException{
 		//GIVEN
 		main.serverTypeToIpList.replace("frontend", new ArrayList<>());
-		var retResponse = new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		var retResponse = new ResponseEntity<>(new HashMap<>(), HttpStatus.INTERNAL_SERVER_ERROR);
 
 		//WHEN
-		try{
         var response = main.frontend(servletRequest);
 		System.out.println(response);
 
 		//THEN
 		assertEquals(retResponse, response);
-		} catch (Exception e){assertTrue(false);}
 	}
 
 }
