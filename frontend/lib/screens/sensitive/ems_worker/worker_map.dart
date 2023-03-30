@@ -42,10 +42,10 @@ class WorkerMapState extends State<WorkerMap> {
                 backgroundColor: Colors.black,
                 foregroundColor: Colors.red,
                 label: const Text(
-                  'To College!',
+                  'Get Route',
                 ),
                 icon: const Icon(
-                  Icons.school,
+                  Icons.route_outlined,
                   color: Colors.red,
                 ),
               ),
