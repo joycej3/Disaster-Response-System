@@ -14,7 +14,7 @@ void main() {
     print('Coordinator Page testing in progress...');
     await tester.pumpWidget(Coordinator());
     //if a certain phrase can be found on the page, test passes
-    final textFinder = find.text('EMS Home');
+    final textFinder = find.text('View Options');
     expect(textFinder, findsOneWidget);
   });
 
