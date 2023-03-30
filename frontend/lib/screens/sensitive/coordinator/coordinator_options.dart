@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_frontend/services/authentication.dart';
 
 // /////////
 // // Create a Form widget.
@@ -38,6 +39,7 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
 
   @override
   Widget build(BuildContext context) {
+    AuthenticationHelper authenticationHelper = AuthenticationHelper();
     return MaterialApp(
         home: Scaffold(
             body: Column(children: [
@@ -52,6 +54,23 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
             //softWrap: true,
             textAlign: TextAlign.center,
           )),
+      FutureBuilder(
+              builder: ((context, snapshot) {
+                if(snapshot.hasData){
+                  return Text(
+                    snapshot.data!.body,
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
+                  );
+                }
+                return Text(
+                  "Emergency Description",
+                  style: TextStyle(
+                      color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
+                );
+              }),
+              future: authenticationHelper.secureApi("worker_get")
+          ),
       DataTable(
           columns: [
             DataColumn(
