@@ -92,6 +92,25 @@ class _HomePageState extends State<HomePage> {
   //   setState(() {});
   // }
 
+  BitmapDescriptor icon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+
+  @override
+  void initState() {
+    getIcons();
+    super.initState();
+  }
+
+  getIcons() async {
+    var icon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(50, 50)),
+        "images/busstop.png");
+    setState(() {
+      this.icon = icon;
+    });
+  }
+
+
+
 
   loadData(Position position) async {
     // Clear existing markers first
@@ -121,7 +140,7 @@ class _HomePageState extends State<HomePage> {
           Marker(
             markerId: MarkerId(i.toString()),
             position: _latLngList[i],
-            icon: _busStopIcon,
+            icon: icon,
             infoWindow: InfoWindow(
               title: 'Bus Stop ${i + 1}',
             ),

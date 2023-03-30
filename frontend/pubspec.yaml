@@ -52,6 +52,7 @@ flutter:
     - images/response.jpg
     - images/disaster_zone.png
     - images/disaster.png
+    - images/busstop.png
 
 firebase_core_platform_interface:
   dependency: transitive
