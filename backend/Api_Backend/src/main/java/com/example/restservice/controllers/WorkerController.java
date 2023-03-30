@@ -1,5 +1,7 @@
 package com.example.restservice.controllers;
 
+import java.util.HashMap;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +17,11 @@ public class WorkerController {
 	
 	@GetMapping("data")
 	@IsWorker
-	public String getProtectedData() {
+	public HashMap getProtectedData() {
 		System.out.println("controller: Worker");
-		return "You have accessed Worker only data from spring boot";
+		HashMap<String, String> returnValue = new HashMap<>();
+		returnValue.put("value", "You have accessed Worker only data from spring boot");
+		return returnValue;
 	}
 	
 }
