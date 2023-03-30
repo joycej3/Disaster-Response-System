@@ -41,14 +41,15 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
     return MaterialApp(
         home: Scaffold(
             body: Column(children: [
-      SizedBox(
-          height: 65,
+      Container(
+          padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+          height: 80,
           width: 340,
           child: Text(
             'Please view ML Model suggestions and either accept, or augment them before '
             'confirming a decision',
             style: TextStyle(fontSize: 18, color: Colors.black),
-            softWrap: true,
+            //softWrap: true,
             textAlign: TextAlign.center,
           )),
       DataTable(
@@ -225,16 +226,29 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'Change/Cancel'),
-                  child: const Text('Change/Cancel'),
+                  child: const Text(
+                    'Change/Cancel',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'Dispatch'),
-                  child: const Text('Dispatch'),
+                  child: const Text(
+                    'Dispatch',
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
                 ),
               ],
             ),
           ),
-          child: const Text('View options'),
+          child: const Text('View options',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         ),
       ),
     ])));
