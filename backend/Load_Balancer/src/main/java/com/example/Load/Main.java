@@ -1,9 +1,8 @@
 package com.example.Load;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.apache.tomcat.util.http.HeaderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,7 +26,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import jakarta.servlet.http.HttpServletRequest;
-import net.bytebuddy.agent.VirtualMachine.ForHotSpot.Connection.Response;
 
 import java.io.IOException;
 import java.net.URI;
@@ -34,7 +33,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.security.Timestamp;
 
 
 @RestController
@@ -47,6 +45,8 @@ public class Main {
 	HashMap<String, Long> ipToLastHeartbeat = new HashMap<>();
 	HashMap<String, Integer> serverTypeToLastIpIndex = new HashMap<>();
 	ArrayList<String> validServerTypes = new ArrayList<>();
+	ArrayList<String> restrictedHeaders;
+	ArrayList<String> restrictedHeaderStart;
 
 	@Autowired
 	public Main(){
@@ -56,6 +56,36 @@ public class Main {
 		serverTypeToLastIpIndex.put("frontend", -1);
 		validServerTypes.add("backend");
 		validServerTypes.add("frontend");
+		restrictedHeaders = new ArrayList<String>() {
+			{
+				add("accept-charset");
+				add("accept-encoding");
+				add("access-control-request-headers");
+				add("access-control-request-method");
+				add("connection");
+				add("content-length");
+				add("cookie");
+				add("date");
+				add("dnt");
+				add("expect");
+				add("host");
+				add("keep-alive");
+				add("origin");
+				add("permissions-policy");
+				add("referer");
+				add("te");
+				add("trailer");
+				add("transfer-encoding");
+				add("upgrade");
+				add("via");
+			}
+		};	 
+		restrictedHeaderStart = new ArrayList<String>() {
+			{
+				add("proxy-");
+				add("sec-");
+			}
+		};	
 	}
 
 	@PostMapping("/register")
@@ -148,7 +178,7 @@ public class Main {
 		
 		String fullPath = servletRequest.getRequestURI();
 		String paramString = allRequestParams.toString().replace("}", "").replace("{","?").replace(", ", "&");
-		System.out.println("Backend get request: " + fullPath + ", args: " + paramString);
+		System.out.println(serverType + " get request: " + fullPath + ", args: " + paramString);
 
 		var client = HttpClient.newHttpClient();
 
@@ -159,10 +189,9 @@ public class Main {
 		else{
 			port = "80";
 		}
-		var request = HttpRequest.newBuilder(
-			URI.create("http://" + ip + ":" + port + fullPath + paramString))
-		.header("accept", "application/json")
-		.build();
+		java.net.http.HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(URI.create("http://" + ip + ":" + port + fullPath + paramString));
+		requestBuilder = addHeaders(requestBuilder, servletRequest);
+		HttpRequest request = requestBuilder.build();
 
 		System.out.println(serverType + " get: " + request.toString());
 		
@@ -192,15 +221,44 @@ public class Main {
 
 		System.out.println("Backend get request: " + fullPath + ", args: " + paramJsonString);
 		
-		
 		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder(URI.create("http://" + nextIp + ":8081" + fullPath))
-					.header("content-type", "application/json")
-					.POST(HttpRequest.BodyPublishers.ofString(paramJsonString))
-					.build();
+		java.net.http.HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(URI.create("http://" + nextIp + ":8081" + fullPath));
+		requestBuilder = addHeaders(requestBuilder, servletRequest);
+		HttpRequest request = requestBuilder
+								.POST(HttpRequest.BodyPublishers.ofString(paramJsonString))
+								.build();
 		System.out.println("backend post: " + request.toString());	
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 		System.out.println(response.body());
 		return new ResponseEntity<>(response.body(), HttpStatus.CREATED);
+	}
+
+	private java.net.http.HttpRequest.Builder addHeaders(java.net.http.HttpRequest.Builder requestBuilder, HttpServletRequest servletRequest){
+		var headers = servletRequest.getHeaderNames();
+		while (headers.hasMoreElements()) {
+			String header = headers.nextElement();
+			if(!checkHeaderRestirected(header)){
+				System.out.println("Adding header: " + header + " with value: " + servletRequest.getHeader(header));
+				requestBuilder.header(header, servletRequest.getHeader(header));
+			}
+			else{
+				System.out.println("not adding header: " + header);
+			}
+		}
+		return requestBuilder;
+	}
+
+	private Boolean checkHeaderRestirected(String header){
+		if(restrictedHeaders.contains(header)){
+			return true;
+		}
+		else{
+			for(String headerStart : restrictedHeaderStart){
+				if(header.contains(headerStart)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
