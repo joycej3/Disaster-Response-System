@@ -25,7 +25,7 @@ import com.google.gson.JsonObject;
 
  public class ReportClassifier {
     //keeps track of most recent disasterID
-    public static Integer recentDisasterID;
+    public static Integer recentDisasterID = 0;
     final static String disasterField = "DisasterID";
     final static String dbURL = "https://group-9-c4e02-default-rtdb.europe-west1.firebasedatabase.app/ReportTable/Categorised/Ongoing";
     
@@ -33,7 +33,6 @@ import com.google.gson.JsonObject;
     //if no ongoing disaster creates a new disasterID 
     //adds report under disasterID 
     public boolean classifyReport(EmergencyRecord record) throws IOException{
-        record.injury();
 
 
         int currentDisasterID = getDisasterID();
@@ -76,11 +75,11 @@ import com.google.gson.JsonObject;
         HttpPost post = new HttpPost(dbURL + "/" + recentDisasterID.toString() + "/Reports.json");
 
         Map data_map =  Map.of(
-            "Injured",record.injury(),
-            "Lat",record.lat(),
-            "Lon",record.lon(),
-            "ReportCategory",record.reportCategory(),
-            "Time",record.time()
+            "Injured", record.injury(),
+            "Lat", record.lat(),
+            "Lon", record.lon(),
+            "ReportCategory", record.reportCategory(),
+            "Time", record.time()
         );
 
         ObjectMapper mapper = new ObjectMapper();
@@ -104,7 +103,7 @@ import com.google.gson.JsonObject;
 
     // returns disasterID if ongoing disaster, otherwise -1
     private static int getDisasterID() throws IOException{
-        int disasterID = -1;
+        int disasterID = 1;
         try {
             URL url = new URL(dbURL + ".json?print=pretty");
             ObjectMapper mapper = new ObjectMapper();
