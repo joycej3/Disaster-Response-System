@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Completer<GoogleMapController> _controller = Completer();
-  static final CameraPosition _kGoogle = const CameraPosition(
+  static const CameraPosition _kGoogle = CameraPosition(
     target: LatLng(54.99662876, -7.317866335),
     zoom: 15,
   );
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
     await Geolocator.requestPermission().then((value) {}).onError(
       (error, stackTrace) async {
         await Geolocator.requestPermission();
-        print("ERROR" + error.toString());
+        print("ERROR$error");
       },
     );
     Position position = await Geolocator.getCurrentPosition();
