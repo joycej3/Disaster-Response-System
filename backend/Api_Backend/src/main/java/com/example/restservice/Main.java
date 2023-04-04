@@ -40,11 +40,7 @@ public class Main {
 
 	@Autowired
 	public Main(Database database, FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
-		this.database = database;  
-		ReportAggregator reportAggregator = ReportAggregator.builder()
-		  	.withFirebaseDatabase(getDatabase)
-			.build();
-		  reportAggregator.startAggregatingReports();
+		this.database = database;
 	}
 
 	@GetMapping("/backend/greeting")
