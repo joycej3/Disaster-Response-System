@@ -123,7 +123,6 @@ public class Database {
 				System.out.println("cancelled");
 			}
 		  });
-		  
     }
 
     private void setupDecisionsListener(){

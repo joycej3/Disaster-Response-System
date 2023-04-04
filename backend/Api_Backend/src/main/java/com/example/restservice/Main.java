@@ -42,7 +42,6 @@ public class Main {
 	@Autowired
 	public Main(Database database, FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
 		this.database = database;  
-
 	}
 
 	@GetMapping("/backend/greeting")
@@ -72,6 +71,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}	
 	

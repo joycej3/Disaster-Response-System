@@ -254,4 +254,45 @@ public class MainTests {
 		assertEquals(retResponse, response);
 	}
 
+	@Test
+	public void checkHeaderRestirectedTestFullyRestricted(){
+		//GIVEN
+		ArrayList<String> restrictedHeaders = main.restrictedHeaders;
+		for(String header : restrictedHeaders){
+			//WHEN
+        	Boolean isRejected = ReflectionTestUtils.invokeMethod(main, "checkHeaderRestirected", header);
+
+			//THEN
+			assertEquals(true, isRejected);
+		}
+	}
+
+	@Test
+	public void checkHeaderRestirectedBeginsWithRestricted(){
+		//GIVEN
+		ArrayList<String> restrictedHeaderStart = main.restrictedHeaderStart;
+		for(String header : restrictedHeaderStart){
+			//WHEN
+        	Boolean isRejected = ReflectionTestUtils.invokeMethod(main, "checkHeaderRestirected", header + "some-string");
+
+			//THEN
+			assertEquals(true, isRejected);
+		}
+	}
+
+	@Test
+	public void checkHeaderRestirectedTestFalse(){
+		//GIVEN
+		ArrayList<String> validHeaders = new ArrayList<String>();
+		validHeaders.add("authorization");
+		validHeaders.add("x-forwarded-for");
+		for(String header : validHeaders){
+			//WHEN
+			Boolean isRejected= ReflectionTestUtils.invokeMethod(main, "checkHeaderRestirected", header);
+
+			//THEN
+			assertEquals(false, isRejected);
+		}
+	}
+
 }
