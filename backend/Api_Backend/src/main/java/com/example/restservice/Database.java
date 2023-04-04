@@ -37,6 +37,10 @@ public class Database {
     }
 
     private void setupListeners(){
+		ReportAggregator reportAggregator = ReportAggregator.builder()
+		  	.withFirebaseDatabase(database)
+			.build();
+		reportAggregator.startAggregatingReports();
         setupSuggestionListener();
         setupOngoingDisasterListener();
 		setupUserListener();

@@ -46,7 +46,7 @@ class _WorkerHomeState extends State<WorkerHome> {
                           style: TextStyle(color: Colors.white),
                         ),
                         backgroundColor: Colors.black,
-                        shadowColor: Colors.yellow,
+                        //shadowColor: Colors.yellow,
                         actions: <Widget>[
                           TextButton(
                             onPressed: () => Navigator.pop(context, 'Cancel'),
