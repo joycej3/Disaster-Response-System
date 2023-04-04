@@ -13,11 +13,12 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Database {
     private FirebaseDatabase database;
     private String suggestionRefPath = "something/suggestions";
-    private String ongoingDisastersRefPath = "DisasterDIR/Ongoing";
+    private String ongoingDisastersRefPath = "ReportTable/Uncategorised";
     private String decisionsRefPath = "Decisions";
     private String userRefPath = "users";
 	private String emergencyRefPath = "ReportTable/Uncategorised";
-    public HashMap<String, Disaster> disasterIdToOngoingDisaster = new HashMap();
+    public HashMap<String, HashMap<String, Object>> disasterIdToOngoingDisaster = new HashMap();
+    public HashMap<String, HashMap<String, Double>> disasterIdToOngoingDisasterModel = new HashMap();
     public HashMap<String, Decision> disasterIdToSuggestion = new HashMap();
     public HashMap<String, Decision> disasterIdToDecision = new HashMap();
     public HashMap<String, User> emailToUserInfo = new HashMap();
@@ -88,17 +89,69 @@ public class Database {
 		ongoingDisastersRef.addChildEventListener(new ChildEventListener() {
 			@Override
 			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-				Disaster disaster = dataSnapshot.getValue(Disaster.class);
+				HashMap<String, Object> disaster = dataSnapshot.getValue(HashMap.class);
                 String key = dataSnapshot.getKey();
 				disasterIdToOngoingDisaster.put(key, disaster);
+				
+				HashMap<String, Double> parsed_disaster = new HashMap<>();
+				parsed_disaster.put("known_injury", Double.valueOf(disasterIdToOngoingDisaster.get("KnownInjury").toString()));
+				parsed_disaster.put("incident_type_code", Double.valueOf(disasterIdToOngoingDisaster.get("IncidentType").toString()));
+				parsed_disaster.put("area_size", Double.valueOf(disasterIdToOngoingDisaster.get("Area").toString()));
+				parsed_disaster.put("first_report", Double.valueOf(disasterIdToOngoingDisaster.get("FirstReported").toString()));
+				parsed_disaster.put("location_Dn Laoghaire-Rathdown", 0d);
+				parsed_disaster.put("location_Dublin City", 0d);
+				parsed_disaster.put("location_Fingal", 0d);
+				parsed_disaster.put("location_South Dublin", 0d);
+				String neighborhood = disasterIdToOngoingDisaster.get("Location").toString();
+				if(neighborhood == "FN"){
+					parsed_disaster.put("location_Fingal", 1d);
+				} else if (neighborhood == "DLR"){
+					parsed_disaster.put("location_Dn Laoghaire-Rathdown", 1d);
+				} else if (neighborhood == "DS") {
+					parsed_disaster.put("location_South Dublin", 1d);
+				} else if (neighborhood == "DC") {
+					parsed_disaster.put("location_Dublin City", 1d);
+				}
+				parsed_disaster.put("weather_cloudy", 1d);
+				parsed_disaster.put("weather_fog", 0d);
+				parsed_disaster.put("weather_rain", 0d);
+				parsed_disaster.put("weather_sunshine", 0d);
+
+				disasterIdToOngoingDisasterModel.put(key, parsed_disaster);
 				System.out.println("added ongoing disaster: " + key);
 			}
 		  
 			@Override
 			public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-				Disaster disaster = dataSnapshot.getValue(Disaster.class);
+				HashMap<String, Object> disaster = dataSnapshot.getValue(HashMap.class);
                 String key = dataSnapshot.getKey();
 				disasterIdToOngoingDisaster.put(key, disaster);
+				
+				HashMap<String, Double> parsed_disaster = new HashMap<>();
+				parsed_disaster.put("known_injury", Double.valueOf(disasterIdToOngoingDisaster.get("KnownInjury").toString()));
+				parsed_disaster.put("incident_type_code", Double.valueOf(disasterIdToOngoingDisaster.get("IncidentType").toString()));
+				parsed_disaster.put("area_size", Double.valueOf(disasterIdToOngoingDisaster.get("Area").toString()));
+				parsed_disaster.put("first_report", Double.valueOf(disasterIdToOngoingDisaster.get("FirstReported").toString()));
+				parsed_disaster.put("location_Dn Laoghaire-Rathdown", 0d);
+				parsed_disaster.put("location_Dublin City", 0d);
+				parsed_disaster.put("location_Fingal", 0d);
+				parsed_disaster.put("location_South Dublin", 0d);
+				String neighborhood = disasterIdToOngoingDisaster.get("Location").toString();
+				if(neighborhood == "FN"){
+					parsed_disaster.put("location_Fingal", 1d);
+				} else if (neighborhood == "DLR"){
+					parsed_disaster.put("location_Dn Laoghaire-Rathdown", 1d);
+				} else if (neighborhood == "DS") {
+					parsed_disaster.put("location_South Dublin", 1d);
+				} else if (neighborhood == "DC") {
+					parsed_disaster.put("location_Dublin City", 1d);
+				}
+				parsed_disaster.put("weather_cloudy", 1d);
+				parsed_disaster.put("weather_fog", 0d);
+				parsed_disaster.put("weather_rain", 0d);
+				parsed_disaster.put("weather_sunshine", 0d);
+
+				disasterIdToOngoingDisasterModel.put(key, parsed_disaster);
 				System.out.println("updated ongoing disaster: " + disaster);
 			}
 		  
@@ -106,6 +159,7 @@ public class Database {
 			public void onChildRemoved(DataSnapshot dataSnapshot) {
                 String key = dataSnapshot.getKey();
 				disasterIdToOngoingDisaster.remove(key);
+				disasterIdToOngoingDisasterModel.remove(key);
 				System.out.println("removed ongoing disaster: " + key);
 			}
 		  
