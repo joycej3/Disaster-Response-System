@@ -69,7 +69,7 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
                       color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
                 );
               }),
-              future: authenticationHelper.secureApi("worker_get")
+              future: authenticationHelper.secureApi("get_suggestion", {"id": "1"})
           ),
       DataTable(
           columns: [
@@ -102,7 +102,6 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
               ),
             ),
           ],
-
           /// Rows of table
           rows: [
             DataRow(cells: [
