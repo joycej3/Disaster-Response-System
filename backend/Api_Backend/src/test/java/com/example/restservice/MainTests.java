@@ -81,13 +81,9 @@ public class MainTests {
 	public void setUp() throws FileNotFoundException, IOException{
 		when(getDatabase.getReference(any())).thenReturn(databaseReference);
 		when(databaseReference.addChildEventListener(any())).thenReturn(null);
-<<<<<<< Updated upstream
 		database = new Database(getDatabase);
 		main = new Main(database, getDatabase);
-=======
-		main = new Main(getDatabase);
 		main.reportClassifier = reportClassifier;
->>>>>>> Stashed changes
 	}
 
 	@DisplayName("GIVEN parameters WHEN greeting is called THEN a correct greetingRecord is returned")
@@ -146,16 +142,11 @@ public class MainTests {
 		ResponseEntity result = main.firebase_push(givenEmergency);
 
 		//THEN
-<<<<<<< Updated upstream
-		verify(databaseReference.push()).setValueAsync(givenEmergency);
-		assertEquals(new ResponseEntity<>("success", HttpStatus.CREATED), result);
-=======
 		verify(reportClassifier).classifyReport(any());
 		assertEquals(new ResponseEntity<>("success", HttpStatus.CREATED), result);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
->>>>>>> Stashed changes
 	}
 }

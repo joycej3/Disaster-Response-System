@@ -33,6 +33,8 @@ import com.google.gson.JsonObject;
     //if no ongoing disaster creates a new disasterID 
     //adds report under disasterID 
     public boolean classifyReport(EmergencyRecord record) throws IOException{
+        record.injury();
+
 
         int currentDisasterID = getDisasterID();
         if (currentDisasterID > 0){
@@ -41,6 +43,31 @@ import com.google.gson.JsonObject;
             recentDisasterID +=1;
         }
         return addtoDisasterReports(record);
+    }
+
+    public String injuryToBool(String injury){
+        if (injury.toLowerCase().contains("not")){
+            return "false";
+        }
+        else {
+            return "true";
+        }
+    }
+
+    public String categoryToNumber(String emergency){
+        if (emergency.toLowerCase().contains("fire")){
+            return "0";
+        }
+        else if (emergency.toLowerCase().contains("flood") || emergency.toLowerCase().contains("quake") 
+        || emergency.toLowerCase().contains("natural") ){
+            return "1";
+        }
+        else if (emergency.toLowerCase().contains("traffic")){
+            return "2";
+        }
+        else {
+            return "3";
+        }
     }
     
     //posts a report under a disasterID

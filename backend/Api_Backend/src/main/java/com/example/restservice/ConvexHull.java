@@ -7,8 +7,7 @@ public class ConvexHull {
     
     protected static class Point implements Comparable<Point> {
         double lat, lon;
-        //final double cartesianToMeters = 119139;
-        
+
         public Point(double lat, double lon) {
             this.lat = lat;
             this.lon = lon;
