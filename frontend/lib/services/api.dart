@@ -12,6 +12,10 @@ const Map<String, String> HEADERDEFAULT = {"Content-Type": "application/json"};
 class ApiHandler {
   bool configReady = false;
 
+  Map getResponseAsMap(Response response){
+    return jsonDecode(response.body);
+  }
+
   Future<Response> httpCall(String apiUrl, String apiPath, Map<String, dynamic> arguements,
       String type, Client client, Map<String, String> requestHeaders) async {
       var response;
@@ -57,6 +61,8 @@ class ApiHandler {
     }
     return response;
   }
+
+
 
   void replaceIp(RetrievedIp ip) {
     String temp = nameToApiInfo["hello_world"]!["primary"];
