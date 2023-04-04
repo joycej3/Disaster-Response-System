@@ -37,10 +37,11 @@ public class Main {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	private Database database;
+	ReportClassifier reportClassifier = new ReportClassifier();
 
 	@Autowired
 	public Main(Database database, FirebaseDatabase getDatabase) throws java.io.FileNotFoundException, java.io.IOException {
-		this.database = database;
+		this.database = database;  
 	}
 
 	@GetMapping("/backend/greeting")
@@ -62,7 +63,15 @@ public class Main {
 	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {
 		System.out.println("Attempting firebase push");
 		System.out.println(emergency);
-		database.emergencyRef.push().setValueAsync(emergency);
+		//database.emergencyRef.push().setValueAsync(emergency);
+		try {
+			reportClassifier.classifyReport(new EmergencyRecord(emergency.emergency, reportClassifier.injuryToBool(emergency.injury), emergency.time,
+			 emergency.lat, emergency.lon, reportClassifier.categoryToNumber(emergency.emergency)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
 	}	
 	
