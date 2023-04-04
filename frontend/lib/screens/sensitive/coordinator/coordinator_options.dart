@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_frontend/services/api.dart';
 import 'package:flutter_frontend/services/authentication.dart';
 
 // /////////
@@ -57,8 +58,9 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
       FutureBuilder(
               builder: ((context, snapshot) {
                 if(snapshot.hasData){
+                  Map dataMap = ApiHandler().getResponseAsMap(snapshot.data!);
                   return Text(
-                    snapshot.data!.body,
+                    dataMap["fire_fighters"],
                     style: TextStyle(
                         color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
                   );
