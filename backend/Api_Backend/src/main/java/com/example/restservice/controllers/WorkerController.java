@@ -51,17 +51,17 @@ public class WorkerController {
 				Object obj = stuff.get(key);
 				System.out.println(key + ": " + obj);
 			});
-			Map<String,Integer> suggestions = decisionModel.getSuggestions(database.disasterIdToOngoingDisasterModel.get(id));
+			Map<String,String> suggestions = decisionModel.getSuggestions(database.disasterIdToOngoingDisasterModel.get(id));
 			System.out.println("Got suggestion from model");
 			suggestions.keySet().forEach(key -> {
 				Object obj = suggestions.get(key);
 				System.out.println(key + ": " + obj);
 			});
-			suggestions.put("ready", 1);
+			suggestions.put("ready", "true");
 			return suggestions;
 		}
 		else{
-			return Map.of("ready", 0);
+			return Map.of("ready", "false");
 		}
 	}
 
