@@ -1,5 +1,7 @@
 package com.example.restservice;
 
+import java.util.UUID;
+
 import com.google.firebase.auth.internal.FirebaseCustomAuthToken;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,13 +35,14 @@ public class CompleteDisaster{
         fromPath.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("redbutton: " + dataSnapshot);
+               
                 String key = "";
                 for (DataSnapshot child: dataSnapshot.getChildren()){
-                    System.out.println("redChild:" + child);
+            
                     if (key == "")
                         key = child.getKey();
                 }
+                key = UUID.randomUUID().toString();
                 databaseReferenceCompleted = firebaseDatabase.getReference("ReportTable/Categorised/Completed/"+ key);
                 databaseReferenceCompleted.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener() {
                     @Override

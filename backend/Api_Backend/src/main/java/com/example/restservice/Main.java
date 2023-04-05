@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.HashMap;
+import java.util.Map;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -85,6 +86,14 @@ public class Main {
 	public void get_red_button(){
 		System.out.println("red button pressed");
 		database.pressRedButton();
+	}
+
+	@GetMapping("backend/aggregator_get")
+	public Map <String, Object> aggregator_get(){
+		Map <String , Object> returnMap = new HashMap<>();
+		returnMap = database.disasterIdToOngoingDisaster.get("1"); //ongoing disaster has ID of 1
+
+		return returnMap;
 	}
 
 }
