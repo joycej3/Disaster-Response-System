@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_frontend/services/api.dart';
 import 'package:flutter_frontend/services/authentication.dart';
+import 'package:http/http.dart';
 
 // /////////
 // // Create a Form widget.
@@ -25,6 +27,13 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
   final TextEditingController fireEng = TextEditingController();
   final TextEditingController policeController = TextEditingController();
   final TextEditingController fightController = TextEditingController();
+  Map suggestions = {
+    "ambulances": "waiting",
+    "paramedics": "waiting",
+    "fire_engines": "waiting",
+    "fire_fighters": "waiting",
+    "police": "waiting"
+  };
 
   @override
   void dispose() {
@@ -40,6 +49,9 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
   @override
   Widget build(BuildContext context) {
     AuthenticationHelper authenticationHelper = AuthenticationHelper();
+    if(suggestions["ambulances"] == "waiting"){
+      updateSuggestions(authenticationHelper);
+    }
     return MaterialApp(
         home: Scaffold(
             body: Column(children: [
@@ -54,22 +66,10 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
             //softWrap: true,
             textAlign: TextAlign.center,
           )),
-      FutureBuilder(
-              builder: ((context, snapshot) {
-                if(snapshot.hasData){
-                  return Text(
-                    snapshot.data!.body,
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
-                  );
-                }
-                return Text(
-                  "Emergency Description",
-                  style: TextStyle(
-                      color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
-                );
-              }),
-              future: authenticationHelper.secureApi("get_suggestion", {"id": "1"})
+          Text(
+            "Emergency Description",
+            style: TextStyle(
+                color: Colors.red, fontWeight: FontWeight.bold, fontSize: 26),
           ),
       DataTable(
           columns: [
@@ -110,7 +110,7 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
                 style: TextStyle(color: Colors.red, fontSize: 18),
               )),
               DataCell(Icon(Icons.emergency_sharp, color: Colors.black)),
-              DataCell(Text(Random().nextInt(12).toString(),
+              DataCell(Text(suggestions["ambulances"],
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
               DataCell(
                 TextField(
@@ -131,7 +131,7 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
                 style: TextStyle(color: Colors.red, fontSize: 18),
               )),
               DataCell(Icon(Icons.medical_services, color: Colors.black)),
-              DataCell(Text(Random().nextInt(120).toString(),
+              DataCell(Text(suggestions["paramedics"],
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
               DataCell(
                 TextField(
@@ -152,7 +152,7 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
                 style: TextStyle(color: Colors.red, fontSize: 18),
               )),
               DataCell(Icon(Icons.fire_truck, color: Colors.black)),
-              DataCell(Text(Random().nextInt(21).toString(),
+              DataCell(Text(suggestions["fire_engines"],
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
               DataCell(
                 TextField(
@@ -173,7 +173,7 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
                 style: TextStyle(color: Colors.red, fontSize: 18),
               )),
               DataCell(Icon(Icons.local_police, color: Colors.black)),
-              DataCell(Text(Random().nextInt(95).toString(),
+              DataCell(Text(suggestions["police"],
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
               DataCell(TextField(
                 style: TextStyle(color: Colors.blue),
@@ -192,7 +192,7 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
                 style: TextStyle(color: Colors.red, fontSize: 18),
               )),
               DataCell(Icon(Icons.fire_hydrant_alt, color: Colors.black)),
-              DataCell(Text(Random().nextInt(963).toString(),
+              DataCell(Text(suggestions["fire_fighters"],
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
               DataCell(
                 TextField(
@@ -271,4 +271,10 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
       ),
     ])));
   }
+
+Future<void> updateSuggestions(AuthenticationHelper authenticationHelper) async {
+  Response response = await authenticationHelper.secureApi("get_suggestion", {"id": "1"});
+  Map responseJson = ApiHandler().getResponseAsMap(response);
+  setState(() => suggestions = responseJson);
+}
 }
