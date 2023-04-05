@@ -22,6 +22,10 @@ class MapSampleState extends State<MapSample> {
     zoom: 14,
   );
 
+  // getUserCurrentLocation() -
+  // This function retrieves the user's current location using the Geolocator package and returns a Position object.
+  // It may require unit testing to verify that the function can retrieve the user's location correctly and handle any
+  // errors that may occur during the process.
   Future<Position> getUserCurrentLocation() async {
     await Geolocator.requestPermission().then((value) {}).onError(
       (error, stackTrace) async {
@@ -37,15 +41,19 @@ class MapSampleState extends State<MapSample> {
     return position;
   }
 
-  BitmapDescriptor icon =
-      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-
   @override
   void initState() {
     getIcons();
     super.initState();
   }
 
+  //Calls the icon
+  BitmapDescriptor icon =
+      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+
+  // getIcons() -
+  // This function loads the custom marker icon from an image file and updates the icon property in the state.
+  // It may require unit testing to verify that the correct icon is loaded and displayed.
   getIcons() async {
     var icon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(50, 50)), "images/busstop.png");
@@ -54,6 +62,9 @@ class MapSampleState extends State<MapSample> {
     });
   }
 
+  // loadData(Position position) -
+  // This function updates the _markers set with the user's current location and nearby bus stops based on a certain range.
+  // It may require unit testing to verify that the markers are correctly added and displayed on the map.
   loadData(Position position) async {
     // Clear existing markers first
     _markers.clear();
