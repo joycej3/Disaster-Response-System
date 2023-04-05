@@ -48,4 +48,12 @@ public class WorkerController {
 		return modelSuggestions;
 	}
 
+	@GetMapping(path = "get_aggregates", 
+	produces = MediaType.APPLICATION_JSON_VALUE)
+	@IsWorker
+	public  Map<String, Integer> getAggregates(@RequestParam String id) {
+		HashMap<String, Double> aggregatedDisasterFields = database.disasterIdToOngoingDisasterModel.get(id);
+		return modelSuggestions;
+	}
+
 }
