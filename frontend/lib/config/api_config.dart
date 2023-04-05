@@ -17,7 +17,7 @@ Map<String, Map<String, dynamic>> nameToApiInfo = {
   },
   "red_button": {
     "primary": "localhost:8080",
-    "path": "backend/red_button",
+    "path": "worker/red_button",
     "type": "get"
   },
   "worker_get": {
@@ -52,7 +52,7 @@ Map<String, Map<String, dynamic>> nameToApiInfo = {
   },
   "aggregator_get": {
     "primary": "localhost:8080",
-    "path": "backend/aggregator_get",
+    "path": "worker/aggregator_get",
     "type": "get"
   }
 };
