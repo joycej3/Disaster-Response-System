@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/services/api.dart';
 import 'package:flutter_frontend/services/authentication.dart';
