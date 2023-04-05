@@ -37,7 +37,7 @@ public class DecisionModelTest{
         shouldPredict.put("Fire-Fighters", 44);
 
         //WHEN
-        Map<String, Integer> predicted = model.getSuggestions(values);
+        Map<String, String> predicted = model.getSuggestions(values);
 
         //THEN
         assertEquals(predicted, shouldPredict);
