@@ -1,6 +1,7 @@
 package com.example.restservice.controllers;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.restservice.Database;
+import com.example.restservice.DecisionModel;
 import com.example.restservice.security.roles.IsWorker;
 
 @CrossOrigin(origins = "*")
@@ -19,10 +21,12 @@ import com.example.restservice.security.roles.IsWorker;
 public class WorkerController {
 
 	private Database database;
+	private DecisionModel decisionModel;
 
 	@Autowired
-	public WorkerController(Database database) throws java.io.FileNotFoundException, java.io.IOException {
+	public WorkerController(Database database, DecisionModel decisionModel) throws java.io.FileNotFoundException, java.io.IOException {
 		this.database = database;
+		this.decisionModel = decisionModel;
 	}
 	
 	
@@ -38,15 +42,27 @@ public class WorkerController {
 	@GetMapping(path = "get_suggestion", 
 	produces = MediaType.APPLICATION_JSON_VALUE)
 	@IsWorker
-	public HashMap getSuggestion(@RequestParam String id) {
-		HashMap<String, String> returnValue = new HashMap<>();
-		//the required data is in database.disasterIdToOngoingDisasterModel.get(id);
-		returnValue.put("ambulances", "2");
-		returnValue.put("paramedics", "3");
-		returnValue.put("fire_engines", "2");
-		returnValue.put("police", "22");
-		returnValue.put("fire_fighters", "7");
-		return returnValue;
+	public Map getSuggestion(@RequestParam String id) {
+		System.out.println("Requested decision for disaster: " + id);
+		if(database.disasterIdToOngoingDisasterModel.containsKey(id)){
+			System.out.println("Ongoing disaster");
+			HashMap<String, Double> stuff = database.disasterIdToOngoingDisasterModel.get(id);
+			stuff.keySet().forEach(key -> {
+				Object obj = stuff.get(key);
+				System.out.println(key + ": " + obj);
+			});
+			Map<String,Integer> suggestions = decisionModel.getSuggestions(database.disasterIdToOngoingDisasterModel.get(id));
+			System.out.println("Got suggestion from model");
+			suggestions.keySet().forEach(key -> {
+				Object obj = suggestions.get(key);
+				System.out.println(key + ": " + obj);
+			});
+			suggestions.put("ready", 1);
+			return suggestions;
+		}
+		else{
+			return Map.of("ready", 0);
+		}
 	}
 
 }

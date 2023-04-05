@@ -16,7 +16,7 @@ public class CompleteDisaster{
     FirebaseDatabase firebaseDatabase;
 
 
-    private void initDatabase(FirebaseDatabase firebaseDatabase){
+    protected void initDatabase(FirebaseDatabase firebaseDatabase){
         databaseReferenceCompleted = firebaseDatabase.getReference("ReportTable/Categorised/Completed");
         databaseReferenceOngoing =  firebaseDatabase.getReference("ReportTable/Categorised/Ongoing");
     }

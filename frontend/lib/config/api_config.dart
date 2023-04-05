@@ -15,6 +15,11 @@ Map<String, Map<String, dynamic>> nameToApiInfo = {
     "path": "backend/firebase_push",
     "type": "post"
   },
+  "red_button": {
+    "primary": "localhost:8080",
+    "path": "backend/red_button",
+    "type": "get"
+  },
   "worker_get": {
     "primary": "localhost:8080",
     "path": "worker/data",

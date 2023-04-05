@@ -73,5 +73,6 @@ class ApiHandler {
     nameToApiInfo["database_push"]!["primary"] = temp;
     nameToApiInfo["get_user_info"]!["primary"] = temp;
     nameToApiInfo["get_suggestion"]!["primary"] = temp;
+    nameToApiInfo["red_button"]!["primary"] = temp;
   }
 }

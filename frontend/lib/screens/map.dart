@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'BusStops.dart';
 
 // Create a Google Maps widget.
 class MapSample extends StatefulWidget {
@@ -15,34 +14,19 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
+  Set<Marker> _markers = {};
 
   static const CameraPosition dublin = CameraPosition(
     target: LatLng(53.3458, -6.2543577),
     zoom: 14,
   );
 
-
-
-  final List<LatLng> _latLngList = <LatLng>[
-    LatLng(53.34143382,-6.251562178),
-    LatLng(53.31992266,-6.233092929),
-    LatLng(53.32019859,-6.233516844),
-    LatLng(53.34094273,-6.249945298),
-    LatLng(53.33936739,-6.252232409),
-    LatLng(53.34777958,-6.242395312),
-    LatLng(53.32835551,-6.228375428),
-    LatLng(53.36197541,-6.260427638),
-
-  ];
-
-  final List<Marker> _markers = <Marker>[];
-
   Future<Position> getUserCurrentLocation() async {
     await Geolocator.requestPermission().then((value) {}).onError(
-          (error, stackTrace) async {
+      (error, stackTrace) async {
         await Geolocator.requestPermission();
-        print("ERROR" + error.toString());
+        print("ERROR$error");
       },
     );
     Position position = await Geolocator.getCurrentPosition();
@@ -53,7 +37,8 @@ class MapSampleState extends State<MapSample> {
     return position;
   }
 
-  BitmapDescriptor icon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+  BitmapDescriptor icon =
+      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
 
   @override
   void initState() {
@@ -63,15 +48,11 @@ class MapSampleState extends State<MapSample> {
 
   getIcons() async {
     var icon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(50, 50)),
-        "images/busstop.png");
+        ImageConfiguration(size: Size(50, 50)), "images/busstop.png");
     setState(() {
       this.icon = icon;
     });
   }
-
-
-
 
   loadData(Position position) async {
     // Clear existing markers first
@@ -89,18 +70,19 @@ class MapSampleState extends State<MapSample> {
     );
 
     // Add markers for bus stops within a certain range from user's current location
-    for (int i = 0; i < _latLngList.length; i++) {
-      double distance = await Geolocator.distanceBetween(
+    for (int i = 0; i < BusStops.latLngList.length; i++) {
+      double distance = Geolocator.distanceBetween(
         position.latitude,
         position.longitude,
-        _latLngList[i].latitude,
-        _latLngList[i].longitude,
+        BusStops.latLngList[i].latitude,
+        BusStops.latLngList[i].longitude,
       );
-      if (distance <= 400) { // Display only bus stops within 500 meters
+      if (distance <= 400) {
+        // Display only bus stops within 500 meters
         _markers.add(
           Marker(
             markerId: MarkerId(i.toString()),
-            position: _latLngList[i],
+            position: BusStops.latLngList[i],
             icon: icon,
             infoWindow: InfoWindow(
               title: 'Bus Stop ${i + 1}',
@@ -109,11 +91,9 @@ class MapSampleState extends State<MapSample> {
         );
       }
     }
-
     // Call setState() to update the UI with the new markers
     setState(() {});
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +116,8 @@ class MapSampleState extends State<MapSample> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             getUserCurrentLocation().then(
-                  (value) async {
-                print(value.latitude.toString() + " " + value.longitude.toString());
+              (value) async {
+                print("${value.latitude} ${value.longitude}");
 
                 _markers.add(
                   Marker(
@@ -164,10 +144,5 @@ class MapSampleState extends State<MapSample> {
         ),
       ),
     );
-
-
   }
 }
-
-
-
