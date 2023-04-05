@@ -65,4 +65,18 @@ public class WorkerController {
 		}
 	}
 
+	@GetMapping("red_button")
+	public void get_red_button(){
+		System.out.println("red button pressed");
+		database.pressRedButton();
+	}
+
+	@GetMapping("aggregator_get")
+	public Map <String, Object> aggregator_get(){
+		Map <String , Object> returnMap = new HashMap<>();
+		returnMap = database.disasterIdToOngoingDisaster.get("1"); //ongoing disaster has ID of 1
+
+		return returnMap;
+	}
+
 }

@@ -85,11 +85,11 @@ public class DecisionModel {
         Double tp_d = (Double) tp_result[0];
 
         Map<String, String> suggestions = new HashMap<>();
-        suggestions.put("ambulances", ambo_d.toString());
-        suggestions.put("paramedics", medic_d.toString());
-        suggestions.put("fire_engines", fe_d.toString());
-        suggestions.put("police", tp_d.toString());
-        suggestions.put("fire_fighters", fw_d.toString());
+        suggestions.put("ambulances", Integer(ambo_d.intValue()).toString());
+        suggestions.put("paramedics", Integer(medic_d.intValue()).toString());
+        suggestions.put("fire_engines", Integer(fe_d.intValue()).toString());
+        suggestions.put("police", Integer(tp_d.intValue()).toString());
+        suggestions.put("fire_fighters", Integer(fw_d.intValue()).toString());
 
         return suggestions;
     }
