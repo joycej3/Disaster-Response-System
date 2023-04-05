@@ -3,6 +3,7 @@ package com.example.restservice;
 import org.pmml4s.model.Model;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 
@@ -13,42 +14,55 @@ public class DecisionModel {
     private static Model fire_workers_model;
     private static Model medics_model;
     private static Model traffic_police_model;
+    private Boolean models_set = false;
+
+
+    public DecisionModel(){
+        setModels();
+    }
 
     public static void main(String[] args) {
 
     }
 
-    public static void setModels() {
-        try {
-            ambo_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_ambos.pmml");
-        } catch (Exception e) {
-            ambo_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_ambos.pmml");
-        }
+    public void setModels() {
+        if(!models_set){
+            try {
+                ambo_model = Model.fromInputStream(getClass().getResourceAsStream("/regression_model_ambos.pmml"));
+            } catch (Exception e) {
+                System.out.println(e);
+                ambo_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_ambos.pmml");
+            }
 
-        try {
-            fire_workers_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_fire_workers.pmml");
-        } catch (Exception e) {
-            fire_workers_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_fire_workers.pmml");
-        }
+            try {
+                fire_workers_model = Model.fromInputStream(getClass().getResourceAsStream("/regression_model_fire_workers.pmml"));
+            } catch (Exception e) {
+                System.out.println(e);
+                fire_workers_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_fire_workers.pmml");
+            }
 
-        try {
-            medics_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_medics.pmml");
-        } catch (Exception e) {
-            medics_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_medics.pmml");
-        }
+            try {
+                medics_model = Model.fromInputStream(getClass().getResourceAsStream("/regression_model_medics.pmml"));
+            } catch (Exception e) {
+                System.out.println(e);
+                medics_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_medics.pmml");
+            }
 
-        try {
-            traffic_police_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_traffic_police.pmml");
-        } catch (Exception e) {
-            traffic_police_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_traffic_police.pmml");
-        }
+            try {
+                traffic_police_model = Model.fromInputStream(getClass().getResourceAsStream("/regression_model_traffic_police.pmml"));
+            } catch (Exception e) {
+                System.out.println(e);
+                traffic_police_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_traffic_police.pmml");
+            }
 
-        try {
-            fire_engine_model = Model.fromFile("Api_Backend/src/main/java/com/example/restservice/regression_model_fire_engine.pmml");
-        } catch (Exception e) {
-            fire_engine_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_fire_engine.pmml");
+            try {
+                fire_engine_model = Model.fromInputStream(getClass().getResourceAsStream("/regression_model_fire_engine.pmml"));
+            } catch (Exception e) {
+                System.out.println(e);
+                fire_engine_model = Model.fromFile("src/main/java/com/example/restservice/regression_model_fire_engine.pmml");
+            }
+            models_set = true;
         }
-
     }
 
     public Map<String, Integer> getSuggestions(Map<String, Double> values) {
@@ -71,11 +85,11 @@ public class DecisionModel {
         Double tp_d = (Double) tp_result[0];
 
         Map<String, Integer> suggestions = new HashMap<>();
-        suggestions.put("Ambulances", ambo_d.intValue());
-        suggestions.put("Paramedics", medic_d.intValue());
-        suggestions.put("Fire Trucks", fe_d.intValue());
-        suggestions.put("Police", tp_d.intValue());
-        suggestions.put("Fire-Fighters", fw_d.intValue());
+        suggestions.put("ambulances", ambo_d.intValue());
+        suggestions.put("paramedics", medic_d.intValue());
+        suggestions.put("fire_engines", fe_d.intValue());
+        suggestions.put("police", tp_d.intValue());
+        suggestions.put("fire_fighters", fw_d.intValue());
 
         return suggestions;
     }
