@@ -11,6 +11,7 @@ class _CoordinatorHome extends State<Coordinator> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: (CoordinatorSuggestions()),
     );
   }

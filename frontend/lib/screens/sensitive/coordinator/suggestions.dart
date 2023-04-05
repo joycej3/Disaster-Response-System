@@ -15,41 +15,43 @@ class SuggestionDropdown extends State<CoordinatorSuggestions> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Coordinator Page',
-            style: TextStyle(fontSize: 28),
-          ),
-          bottom: const TabBar(
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorWeight: 10,
-            tabs: [
-              Tab(icon: Icon(Icons.home)),
-              Tab(icon: Icon(Icons.format_list_bulleted)),
-              Tab(icon: Icon(Icons.error))
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            Row(
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text(
+                'Coordinator Page',
+                style: TextStyle(fontSize: 28),
+              ),
+              bottom: const TabBar(
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorWeight: 10,
+                tabs: [
+                  Tab(icon: Icon(Icons.home)),
+                  Tab(icon: Icon(Icons.format_list_bulleted)),
+                  Tab(icon: Icon(Icons.error))
+                ],
+              ),
+            ),
+            body: TabBarView(
               children: [
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: CoordinatorOptions()),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: Stats()),
+                Row(
+                  children: [
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: CoordinatorOptions()),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: Stats()),
+                  ],
+                ),
+                Expanded(child: CoordinatorMap()),
+                RedButton(),
               ],
             ),
-            Expanded(child: CoordinatorMap()),
-            RedButton(),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }

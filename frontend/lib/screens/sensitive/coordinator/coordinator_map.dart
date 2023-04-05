@@ -25,13 +25,14 @@ class CoordinatorMapState extends State<CoordinatorMap> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Theme(
             data: ThemeData.from(
               colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
             ),
             child: Scaffold(
               body: GoogleMap(
-                mapType: MapType.terrain,
+                mapType: MapType.hybrid,
                 initialCameraPosition: dublin,
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
