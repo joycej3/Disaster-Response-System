@@ -12,17 +12,17 @@ class Stats extends StatefulWidget {
 }
 
 Map statistics = {
-  "location": "waiting",
-  "ApproxArea": "waiting",
-  "numReports": "waiting",
-  "disCat": "waiting"
+  "Location": "waiting",
+  "Area": "waiting",
+  "ReportCount": "waiting",
+  "IncidentType": "waiting"
 };
 
 class StatsPage extends State<Stats> {
   @override
   Widget build(BuildContext context) {
     AuthenticationHelper authenticationHelper = AuthenticationHelper();
-    if (statistics["location"] == "waiting") {
+    if (statistics["Location"] == "waiting") {
       updateStats(authenticationHelper);
     }
     return MaterialApp(
@@ -76,7 +76,7 @@ class StatsPage extends State<Stats> {
                     style: TextStyle(color: Colors.red, fontSize: 18),
                   )),
                   DataCell(Icon(Icons.location_city)),
-                  DataCell(Text(statistics['location'],
+                  DataCell(Text(statistics['Location'],
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18))),
                 ]),
@@ -86,7 +86,7 @@ class StatsPage extends State<Stats> {
                     style: TextStyle(color: Colors.red, fontSize: 18),
                   )),
                   DataCell(Icon(Icons.map)),
-                  DataCell(Text(statistics['ApproxArea'],
+                  DataCell(Text(statistics['Area'],
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18))),
                 ]),
@@ -96,7 +96,7 @@ class StatsPage extends State<Stats> {
                     style: TextStyle(color: Colors.red, fontSize: 18),
                   )),
                   DataCell(Icon(Icons.numbers)),
-                  DataCell(Text(statistics['numReports'],
+                  DataCell(Text(statistics['ReportCount'],
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18))),
                 ]),
@@ -106,7 +106,7 @@ class StatsPage extends State<Stats> {
                     style: TextStyle(color: Colors.red, fontSize: 18),
                   )),
                   DataCell(Icon(Icons.category)),
-                  DataCell(Text(statistics['disCat'],
+                  DataCell(Text(statistics['IncidentType'],
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18))),
                 ]),
@@ -162,7 +162,7 @@ class StatsPage extends State<Stats> {
 
   Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
     Response response =
-        await authenticationHelper.secureApi("get_suggestion", {"id": "1"});
+        await authenticationHelper.secureApi("aggregator_get");
     Map responseJson = ApiHandler().getResponseAsMap(response);
     setState(() => statistics = responseJson);
   }
