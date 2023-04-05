@@ -301,4 +301,11 @@ public class Database {
 
     }
 
+	public void pressRedButton(){
+		CompleteDisaster completeDisaster = CompleteDisaster.builder()
+			.withFirebaseDatabase(database)
+			.build();
+		completeDisaster.completeDisaster(database);
+	}
+
 }

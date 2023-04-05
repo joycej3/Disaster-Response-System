@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="69a22a45-960e-4c4f-ba0c-728e4cce517d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/restservice/controllers/CoordinatorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/restservice/controllers/CoordinatorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/restservice/DecisionModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/restservice/DecisionModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/restservice/MainTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/restservice/MainTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2NxJnRkQgOU5UTPLn8rL9OEP2GN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/dolapoadedokun/Desktop/Trinity/Spring/ASE/aswe/backend/Api_Backend"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="DecisionModelTest.getSuggestionsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-service-complete" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.restservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.restservice" />
+      <option name="MAIN_CLASS_NAME" value="com.example.restservice.DecisionModelTest" />
+      <option name="METHOD_NAME" value="getSuggestionsTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.DecisionModelTest.getSuggestionsTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="69a22a45-960e-4c4f-ba0c-728e4cce517d" name="Changes" comment="" />
+      <created>1680599968319</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680599968319</updated>
+    </task>
+    <servers />
+  </component>
+</project>

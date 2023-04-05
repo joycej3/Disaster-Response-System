@@ -81,4 +81,10 @@ public class Main {
         return database.emailToUserInfo.getOrDefault(email, new User(email, ""));
 	}
 
+	@GetMapping("/backend/red_button")
+	public void get_red_button(){
+		System.out.println("red button pressed");
+		database.pressRedButton();
+	}
+
 }
