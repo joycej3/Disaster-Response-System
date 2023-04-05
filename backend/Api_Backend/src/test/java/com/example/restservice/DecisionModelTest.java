@@ -8,6 +8,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import scala.collection.generic.BitOperations.Int;
+
 @Disabled
 public class DecisionModelTest{
     @Test
@@ -37,7 +39,7 @@ public class DecisionModelTest{
         shouldPredict.put("Fire-Fighters", 44);
 
         //WHEN
-        Map<String, String> predicted = model.getSuggestions(values);
+        Map<String, Integer> predicted = model.getSuggestions(values);
 
         //THEN
         assertEquals(predicted, shouldPredict);
