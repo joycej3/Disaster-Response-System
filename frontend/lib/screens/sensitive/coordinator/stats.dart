@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/sensitive/ems_worker/worker.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/suggestions.dart';
 import 'package:flutter_frontend/services/authentication.dart';
-
+import 'package:flutter_frontend/services/api.dart';
+import 'package:http/http.dart';
 import 'dart:math';
 
 class Stats extends StatefulWidget {
@@ -11,14 +12,13 @@ class Stats extends StatefulWidget {
 }
 
 Map statistics = {
-    "location": "waiting",
-    "ApproxArea": "waiting",
-    "numReports": "waiting",
-    "disCat": "waiting"
-  };
+  "location": "waiting",
+  "ApproxArea": "waiting",
+  "numReports": "waiting",
+  "disCat": "waiting"
+};
 
 class StatsPage extends State<Stats> {
-    
   @override
   Widget build(BuildContext context) {
     AuthenticationHelper authenticationHelper = AuthenticationHelper();
@@ -76,7 +76,7 @@ class StatsPage extends State<Stats> {
                     style: TextStyle(color: Colors.red, fontSize: 18),
                   )),
                   DataCell(Icon(Icons.location_city)),
-                  DataCell(Text('Fingal',
+                  DataCell(Text(statistics['location'],
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18))),
                 ]),
@@ -131,8 +131,7 @@ class StatsPage extends State<Stats> {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () =>
-                          { 
-                            Navigator.pop(context, 'Change/Cancel')},
+                          {Navigator.pop(context, 'Change/Cancel')},
                       child: const Text(
                         'Change/Cancel',
                         style: TextStyle(
@@ -160,10 +159,8 @@ class StatsPage extends State<Stats> {
           ),
         ]))));
   }
-}
 
-  Future<void> updateStats(
-      AuthenticationHelper authenticationHelper) async {
+  Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
     Response response =
         await authenticationHelper.secureApi("get_suggestion", {"id": "1"});
     Map responseJson = ApiHandler().getResponseAsMap(response);
