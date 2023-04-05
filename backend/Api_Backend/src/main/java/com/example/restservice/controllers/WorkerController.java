@@ -1,6 +1,7 @@
 package com.example.restservice.controllers;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.restservice.Database;
+import com.example.restservice.DecisionModel;
 import com.example.restservice.security.roles.IsWorker;
 
 @CrossOrigin(origins = "*")
@@ -38,15 +40,12 @@ public class WorkerController {
 	@GetMapping(path = "get_suggestion", 
 	produces = MediaType.APPLICATION_JSON_VALUE)
 	@IsWorker
-	public HashMap getSuggestion(@RequestParam String id) {
-		HashMap<String, String> returnValue = new HashMap<>();
+	public  Map<String, Integer> getSuggestion(@RequestParam String id) {
+		HashMap<String, Double> aggregatedDisasterFields = database.disasterIdToOngoingDisasterModel.get(id);
 		//the required data is in database.disasterIdToOngoingDisasterModel.get(id);
-		returnValue.put("ambulances", "2");
-		returnValue.put("paramedics", "3");
-		returnValue.put("fire_engines", "2");
-		returnValue.put("police", "22");
-		returnValue.put("fire_fighters", "7");
-		return returnValue;
+		DecisionModel mlModel = new DecisionModel();
+        Map<String, Integer> modelSuggestions = mlModel.getSuggestions(aggregatedDisasterFields);
+		return modelSuggestions;
 	}
 
 }
