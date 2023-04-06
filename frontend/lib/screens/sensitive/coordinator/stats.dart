@@ -11,14 +11,24 @@ class Stats extends StatefulWidget {
   State<Stats> createState() => StatsPage();
 }
 
-Map statistics = {
-  "Location": "waiting",
-  "Area": "waiting",
-  "ReportCount": "waiting",
-  "IncidentType": "waiting"
-};
+
 
 class StatsPage extends State<Stats> {
+
+  Map statistics = {
+    "Location": "waiting",
+    "Area": "waiting",
+    "ReportCount": "waiting",
+    "IncidentType": "waiting",
+    "KnownInjury": "waiting"
+  };
+
+  @override
+  void dispose() {
+    // Clean up the controllers when the widget is disposed.
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     AuthenticationHelper authenticationHelper = AuthenticationHelper();
@@ -112,6 +122,16 @@ class StatsPage extends State<Stats> {
                 ]),
                 DataRow(cells: [
                   DataCell(Text(
+                    'Injury Count',
+                    style: TextStyle(color: Colors.red, fontSize: 18),
+                  )),
+                  DataCell(Icon(Icons.category)),
+                  DataCell(Text(statistics['KnownInjury'],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18))),
+                ]),
+                DataRow(cells: [
+                  DataCell(Text(
                     '',
                     style: TextStyle(color: Colors.red, fontSize: 18),
                   )),
@@ -161,5 +181,22 @@ class StatsPage extends State<Stats> {
     Response response = await authenticationHelper.secureApi("aggregator_get");
     Map responseJson = ApiHandler().getResponseAsMap(response);
     setState(() => statistics = responseJson);
+    statistics["IncidentType"] = disasterCatToString(statistics["IncidentType"]);
+
+  }
+
+  String disasterCatToString(String category){
+    if (category == "0"){
+      return "Fire";
+    }
+    else if (category == "1"){
+      return "Natural Disaster";
+    }
+    else if (category == "2"){
+      return "Traffic Related";
+    }
+    else {
+      return "Other";
+    }
   }
 }
