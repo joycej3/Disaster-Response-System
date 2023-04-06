@@ -179,9 +179,12 @@ class StatsPage extends State<Stats> {
 
   Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
     Response response = await authenticationHelper.secureApi("aggregator_get");
-    Map responseJson = ApiHandler().getResponseAsMap(response);
-    setState(() => statistics = responseJson);
-    statistics["IncidentType"] = disasterCatToString(statistics["IncidentType"]);
+    if (response.statusCode == 201) {
+      Map responseJson = ApiHandler().getResponseAsMap(response);
+      setState(() => statistics = responseJson);
+      statistics["IncidentType"] =
+          disasterCatToString(statistics["IncidentType"]);
+    }
 
   }
 
