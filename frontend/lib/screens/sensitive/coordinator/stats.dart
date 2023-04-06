@@ -126,14 +126,15 @@ class StatsPage extends State<Stats> {
               onPressed: () => showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Confirm/Cancel Decision'),
-                  content: Text('Hello'),
+                  title: const Text(
+                    'Refresh Statistics',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   actions: <Widget>[
                     TextButton(
-                      onPressed: () =>
-                          {Navigator.pop(context, 'Change/Cancel')},
+                      onPressed: () => {Navigator.pop(context, 'Cancel')},
                       child: const Text(
-                        'Change/Cancel',
+                        'Cancel',
                         style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,
@@ -141,15 +142,11 @@ class StatsPage extends State<Stats> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.pop(context, 'Dispatch'),
-                      child: const Text(
-                        'Dispatch',
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
-                    ),
+                        onPressed: () => {
+                              Navigator.pop(context, 'Dispatch'),
+                              updateStats(authenticationHelper)
+                            },
+                        child: Icon(Icons.refresh, color: Colors.blue)),
                   ],
                 ),
               ),
@@ -161,8 +158,7 @@ class StatsPage extends State<Stats> {
   }
 
   Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
-    Response response =
-        await authenticationHelper.secureApi("aggregator_get");
+    Response response = await authenticationHelper.secureApi("aggregator_get");
     Map responseJson = ApiHandler().getResponseAsMap(response);
     setState(() => statistics = responseJson);
   }
