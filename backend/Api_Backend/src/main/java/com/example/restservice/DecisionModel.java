@@ -65,7 +65,7 @@ public class DecisionModel {
         }
     }
 
-    public Map<String, String> getSuggestions(Map<String, Double> values) {
+    public Map<String, Integer> getSuggestions(Map<String, Double> values) {
         setModels();
         System.out.println(ambo_model.isClassification());
         Object[] valuesMap = Arrays.stream(ambo_model.inputNames())
@@ -84,12 +84,12 @@ public class DecisionModel {
         Double medic_d = (Double) medic_result[0];
         Double tp_d = (Double) tp_result[0];
 
-        Map<String, String> suggestions = new HashMap<>();
-        suggestions.put("ambulances", Integer(ambo_d.intValue()).toString());
-        suggestions.put("paramedics", Integer(medic_d.intValue()).toString());
-        suggestions.put("fire_engines", Integer(fe_d.intValue()).toString());
-        suggestions.put("police", Integer(tp_d.intValue()).toString());
-        suggestions.put("fire_fighters", Integer(fw_d.intValue()).toString());
+        Map<String, Integer> suggestions = new HashMap<>();
+        suggestions.put("ambulances", ambo_d.intValue());
+        suggestions.put("paramedics", medic_d.intValue());
+        suggestions.put("fire_engines", fe_d.intValue());
+        suggestions.put("police", tp_d.intValue());
+        suggestions.put("fire_fighters", fw_d.intValue());
 
         return suggestions;
     }
