@@ -213,7 +213,7 @@ class MapSampleState extends State<MapSample> {
                       // given color to polygon
                       fillColor: Colors.redAccent.withOpacity(0.3),
                       // given border color to polygon
-                      strokeColor: Colors.redAccent.withOpacity(0.3),
+                      strokeColor: Colors.redAccent.withOpacity(0.00001),
                       geodesic: true,
                       // given width of border
                       strokeWidth: 4,
