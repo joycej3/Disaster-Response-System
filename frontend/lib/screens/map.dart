@@ -156,7 +156,7 @@ class MapSampleState extends State<MapSample> {
         BusStops.latLngList[i].latitude,
         BusStops.latLngList[i].longitude,
       );
-      if (distance <= 400) {
+      if (distance <= 220) {
         // Display only bus stops within 500 meters
         _markers.add(
           Marker(
@@ -195,6 +195,8 @@ class MapSampleState extends State<MapSample> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.red,
           onPressed: () async {
             updateStats(authenticationHelper);
             getdirections();
@@ -250,6 +252,7 @@ class MapSampleState extends State<MapSample> {
           },
           child: Icon(Icons.location_searching),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
