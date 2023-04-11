@@ -125,6 +125,8 @@ class MapSampleState extends State<MapSample> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.red,
           onPressed: () async {
             getUserCurrentLocation().then(
               (value) async {
@@ -153,6 +155,7 @@ class MapSampleState extends State<MapSample> {
           },
           child: Icon(Icons.location_searching),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
