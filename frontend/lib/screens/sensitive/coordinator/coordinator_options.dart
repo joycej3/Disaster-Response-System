@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/services/api.dart';
 import 'package:flutter_frontend/services/authentication.dart';
@@ -329,9 +328,11 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
     Response response =
         await authenticationHelper.secureApi("get_suggestion", {"id": "1"});
     Map responseJson = ApiHandler().getResponseAsMap(response);
-    for(String key in responseJson.keys){
-      responseJson[key] = responseJson[key].toString();
+    if (responseJson['ready'] == 1) {
+      for (String key in responseJson.keys) {
+        responseJson[key] = responseJson[key].toString();
+      }
+      setState(() => suggestions = responseJson);
     }
-    setState(() => suggestions = responseJson);
   }
 }

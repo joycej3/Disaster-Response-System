@@ -24,25 +24,25 @@ class DrawRedButton extends State<RedButton> {
             width: double.infinity,
             height: double.infinity,
             child: Align(
-              alignment: Alignment.center,
-              child: ElevatedButton(onPressed: () => pushButton(authenticationHelper),
-                child: Container(
-                width: 300.0,
-                height: 300.0,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ))),
-
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: () => pushButton(authenticationHelper),
+                  child: Container(
+                    width: 300.0,
+                    height: 300.0,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ))),
       ),
-
     );
   }
+
   Future<void> pushButton(AuthenticationHelper authenticationHelper) async {
     Response response = await authenticationHelper.secureApi("red_button");
-    int answer =  response.statusCode;
+    int answer = response.statusCode;
     print(answer);
   }
 }

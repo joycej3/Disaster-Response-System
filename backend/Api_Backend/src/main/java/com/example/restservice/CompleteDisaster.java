@@ -36,14 +36,12 @@ public class CompleteDisaster{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                
-                String key = "";
-                for (DataSnapshot child: dataSnapshot.getChildren()){
-            
-                    if (key == "")
-                        key = child.getKey();
-                }
-                key = UUID.randomUUID().toString();
-                databaseReferenceCompleted = firebaseDatabase.getReference("ReportTable/Categorised/Completed/"+ key);
+                String key = "1";
+                
+                System.out.println("key: " + key);
+                String id = UUID.randomUUID().toString();
+                databaseReferenceCompleted = firebaseDatabase.getReference("ReportTable/Categorised/Completed/"+ id);
+                databaseReferenceOngoing = firebaseDatabase.getReference("ReportTable/Categorised/Ongoing/" + key);
                 databaseReferenceCompleted.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
@@ -51,7 +49,7 @@ public class CompleteDisaster{
                             System.out.println("Copy failed");
                         } else {
                             System.out.println("Success");
-                            fromPath.setValue(null , new DatabaseReference.CompletionListener(){
+                            databaseReferenceOngoing.setValue(null , new DatabaseReference.CompletionListener(){
                                 @Override
                                 public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
                                     if (firebaseError != null) {
