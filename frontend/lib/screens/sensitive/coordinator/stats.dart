@@ -11,10 +11,7 @@ class Stats extends StatefulWidget {
   State<Stats> createState() => StatsPage();
 }
 
-
-
 class StatsPage extends State<Stats> {
-
   Map statistics = {
     "Location": "waiting",
     "Area": "waiting",
@@ -125,7 +122,7 @@ class StatsPage extends State<Stats> {
                     'Injury Count',
                     style: TextStyle(color: Colors.red, fontSize: 18),
                   )),
-                  DataCell(Icon(Icons.category)),
+                  DataCell(Icon(Icons.person)),
                   DataCell(Text(statistics['KnownInjury'],
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18))),
@@ -185,20 +182,16 @@ class StatsPage extends State<Stats> {
       statistics["IncidentType"] =
           disasterCatToString(statistics["IncidentType"]);
     }
-
   }
 
-  String disasterCatToString(String category){
-    if (category == "0"){
+  String disasterCatToString(String category) {
+    if (category == "0") {
       return "Fire";
-    }
-    else if (category == "1"){
+    } else if (category == "1") {
       return "Natural Disaster";
-    }
-    else if (category == "2"){
+    } else if (category == "2") {
       return "Traffic Related";
-    }
-    else {
+    } else {
       return "Other";
     }
   }

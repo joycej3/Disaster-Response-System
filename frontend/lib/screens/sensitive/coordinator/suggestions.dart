@@ -4,14 +4,14 @@ import 'package:flutter_frontend/screens/sensitive/coordinator/big_red_button.da
 import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator_options.dart';
 import 'package:flutter_frontend/screens/sensitive/coordinator/stats.dart';
 
-class CoordinatorSuggestions extends StatefulWidget {
-  CoordinatorSuggestions({Key? key}) : super(key: key);
+class CoordinatorPage extends StatefulWidget {
+  CoordinatorPage({Key? key}) : super(key: key);
 
   @override
-  SuggestionDropdown createState() => SuggestionDropdown();
+  HomePage createState() => HomePage();
 }
 
-class SuggestionDropdown extends State<CoordinatorSuggestions> {
+class HomePage extends State<CoordinatorPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

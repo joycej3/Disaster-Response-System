@@ -28,14 +28,19 @@ class DrawRedButton extends State<RedButton> {
                 SizedBox(
                   height: 10,
                 ),
-                SizedBox(
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 3, color: Colors.red),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    color: Colors.white,
+                  ),
                   height: 40,
                   child: Text(
-                    "End Disaster Response by clicking X button below: ",
+                    "End Disaster Response by clicking X button below",
                     style: TextStyle(
-                        fontSize: 25,
-                        backgroundColor: Colors.red,
-                        color: Colors.white),
+                      fontSize: 25,
+                      color: Colors.red,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -57,8 +62,8 @@ class DrawRedButton extends State<RedButton> {
                 ElevatedButton(
                   onPressed: () => AuthenticationHelper().signOut(),
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.red),
+                      backgroundColor: Colors.blueGrey,
+                      foregroundColor: Colors.white),
                   child: Text('Press this button to Logout',
                       style: TextStyle(fontSize: 28)),
                 ),
