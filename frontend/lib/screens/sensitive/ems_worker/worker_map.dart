@@ -58,7 +58,10 @@ class WorkerMapState extends State<WorkerMap> {
 // Generate points for the polyline by drawing a circle around the marker position
     for (var i = 0; i < 360; i += 10) {
       double lat = position.latitude + radius * cos(i * pi / 180.0) / 111319.9;
-      double lng = position.longitude + radius * sin(i * pi / 180.0) / (111319.9 * cos(position.latitude * pi / 180.0));
+      double lng = position.longitude +
+          radius *
+              sin(i * pi / 180.0) /
+              (111319.9 * cos(position.latitude * pi / 180.0));
       polylineLatLngs.add(LatLng(lat, lng));
     }
 
@@ -68,8 +71,8 @@ class WorkerMapState extends State<WorkerMap> {
       Polyline(
         polylineId: PolylineId('circle'),
         points: polylineLatLngs,
-        color: Colors.blue,
-        width: 2,
+        color: Colors.red,
+        width: 4,
       ),
     );
 

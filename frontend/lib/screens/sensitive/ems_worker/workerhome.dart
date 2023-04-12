@@ -22,51 +22,16 @@ class _WorkerHomeState extends State<WorkerHome> {
                   padding: EdgeInsets.zero,
                   child: Text(
                     'EMS Worker Route Finder',
-                    style: TextStyle(fontSize: 21),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                   child: Text(
-                    'Use this tool for obtaining routes into emergency zones '
-                    'and for evacuating injured people to the necessary locations. View'
-                    ' disaster zones for in the field decision making.',
+                    'Use the map tab to obtain routes into emergency zones\n'
+                    '\n'
+                    'View disaster zone for in-the-field decision making.',
                     style: TextStyle(fontSize: 21),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.zero,
-                  child: ElevatedButton(
-                    onPressed: () => showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Place Holder',
-                            style: TextStyle(color: Colors.white)),
-                        content: Text(
-                          ':)',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.black,
-                        //shadowColor: Colors.yellow,
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, 'Cancel'),
-                            child: const Text('Cancel',
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                          TextButton(
-                            onPressed: () =>
-                                Navigator.pop(context, 'Drive Ambulance'),
-                            child: const Text('Drive Ambulance',
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.red),
-                    child: const Text('View Disaster Info'),
                   ),
                 ),
                 SizedBox(height: 10),
@@ -75,7 +40,14 @@ class _WorkerHomeState extends State<WorkerHome> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.red),
-                  child: Text('Logout'),
+                  child: Container(
+                      height: 40,
+                      width: 100,
+                      child: Text(
+                        'Log Out',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 24),
+                      )),
                 ),
               ],
             ))));
