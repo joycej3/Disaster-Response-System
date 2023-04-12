@@ -154,7 +154,7 @@ public class ReportAggregator {
             System.out.println("abs " + absLat + " lat " + lat + " lon " + lon);
             Double dist = Math.abs(absLat - (lat + lon));
             System.out.print(dist);
-            if ( dist < .07d){ //111km in 1 abs latlon theoretically so roughly 7km
+            if ( dist < .01d){ //111km in 1 abs latlon theoretically so roughly 7km
                 	finalList.add(child);
             }
         }
