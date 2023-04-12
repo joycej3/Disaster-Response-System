@@ -127,14 +127,6 @@ class StatsPage extends State<Stats> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18))),
                 ]),
-                DataRow(cells: [
-                  DataCell(Text(
-                    '',
-                    style: TextStyle(color: Colors.red, fontSize: 18),
-                  )),
-                  DataCell(Text('')),
-                  DataCell(Text('')),
-                ]),
               ]),
           SizedBox(height: 30),
           Container(

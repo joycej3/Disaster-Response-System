@@ -12,6 +12,7 @@ class _WorkerPageState extends State<WorkerPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Theme(
             data: ThemeData.from(
               colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
@@ -20,7 +21,11 @@ class _WorkerPageState extends State<WorkerPage> {
               length: 2,
               child: Scaffold(
                 appBar: AppBar(
-                  title: const Text('EMS Worker UI'),
+                  centerTitle: true,
+                  title: const Text(
+                    'EMS Worker UI',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   bottom: const TabBar(
                     indicator: BoxDecoration(color: Colors.black),
                     indicatorSize: TabBarIndicatorSize.tab,

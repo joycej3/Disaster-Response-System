@@ -625,6 +625,7 @@ class WorkerMapState extends State<WorkerMap> {
   Widget build(BuildContext context) {
     AuthenticationHelper authenticationHelper = AuthenticationHelper();
     return MaterialApp(
+
       home: Scaffold(
         body: Container(
           child: SafeArea(
@@ -639,6 +640,12 @@ class WorkerMapState extends State<WorkerMap> {
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
+
+        // debugShowCheckedModeBanner: false,
+        // home: Theme(
+        //     data: ThemeData.from(
+        //       colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
+
             ),
           ),
         ),
