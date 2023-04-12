@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -117,10 +116,10 @@ class WorkerMapState extends State<WorkerMap> {
             )));
   }
 
-  Future<void> _goToCollege() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(dublin));
-  }
+  // Future<void> _goToCollege() async {
+  //   final GoogleMapController controller = await _controller.future;
+  //   controller.animateCamera(CameraUpdate.newCameraPosition(dublin));
+  // }
 }
 
 //get current location and send it to the ischrone.

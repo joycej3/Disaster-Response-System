@@ -52,7 +52,7 @@ class MapSampleState extends State<MapSample> {
   //   LatLng(53.36197541, -6.260427638),
   //
   // ];
-
+  //
   void getdirections() async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
