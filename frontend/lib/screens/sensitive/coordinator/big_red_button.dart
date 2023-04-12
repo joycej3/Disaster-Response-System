@@ -36,7 +36,7 @@ class DrawRedButton extends State<RedButton> {
                   ),
                   height: 40,
                   child: Text(
-                    "End Disaster Response by clicking X button below",
+                    "    End Disaster Response by clicking X button below    ",
                     style: TextStyle(
                       fontSize: 25,
                       color: Colors.red,
