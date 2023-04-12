@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
@@ -31,8 +29,8 @@ class MapSampleState extends State<MapSample> {
     zoom: 14,
   );
 
-  Set<Polyline> _polyline = Set <Polyline>();
-  Set<Polygon> _polygon = Set <Polygon>();
+  Set<Polyline> _polyline = <Polyline>{};
+  Set<Polygon> _polygon = <Polygon>{};
 
   // created list of locations to display polygon
   List<LatLng> points = [
@@ -59,16 +57,14 @@ class MapSampleState extends State<MapSample> {
   //
   // ];
   //
-  void getdirections() async {
+  void getdirections(Position position) async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
         apiKey: '5b3ce3597851110001cf62481a41962da766498d8ebd2fcda0ced7d5');
 
-
-
-    // Example coordinates to test between
-    const double startLat = 53.344740;
-    const double startLng = -6.2584452;
+    // Use user's current location as start coordinate
+    final double startLat = position.latitude;
+    final double startLng = position.longitude;
     const double endLat = 53.3458;
     const double endLng = -6.2543577;
 
@@ -99,8 +95,8 @@ class MapSampleState extends State<MapSample> {
       color: Colors.red,
       width: 4,
     );
-
   }
+
 
   // getUserCurrentLocation() -
   // This function retrieves the user's current location using the Geolocator package and returns a Position object.
@@ -212,7 +208,8 @@ class MapSampleState extends State<MapSample> {
           backgroundColor: Colors.red,
           onPressed: () async {
             updateStats(authenticationHelper);
-            getdirections();
+            Position position = await getUserCurrentLocation();
+            getdirections(position);
             getUserCurrentLocation().then(
                   (value) async {
                 print("${value.latitude} ${value.longitude}");

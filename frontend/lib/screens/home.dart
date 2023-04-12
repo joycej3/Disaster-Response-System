@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/login.dart';
 import 'package:flutter_frontend/screens/custom_form.dart';
 import 'package:flutter_frontend/screens/map.dart';
+import 'package:flutter_frontend/screens/sensitive/ems_worker/worker.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -91,7 +92,7 @@ class Home extends StatelessWidget {
             body: TabBarView(
               children: [
                 homePage,
-                MyCustomForm(),
+                WorkerPage(),
                 MapSample(),
                 LoginForm(),
               ],
