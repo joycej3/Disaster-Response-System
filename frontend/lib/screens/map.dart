@@ -41,6 +41,12 @@ class MapSampleState extends State<MapSample> {
     // LatLng(53.3458, -6.254358),
   ];
 
+  List<LatLng> routePoints = [
+    // LatLng(53.344740, -6.2584452),
+    // LatLng(53.337656, -6.256319),
+    // LatLng(53.3458, -6.254358),
+  ];
+
   // final List<LatLng> _latLngList = <LatLng>[
   //   LatLng(53.34143382, -6.251562178),
   //   LatLng(53.31992266, -6.233092929),
@@ -52,11 +58,13 @@ class MapSampleState extends State<MapSample> {
   //   LatLng(53.36197541, -6.260427638),
   //
   // ];
-
+  //
   void getdirections() async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
         apiKey: '5b3ce3597851110001cf62481a41962da766498d8ebd2fcda0ced7d5');
+
+
 
     // Example coordinates to test between
     const double startLat = 53.344740;
@@ -76,9 +84,12 @@ class MapSampleState extends State<MapSample> {
 
     // Map route coordinates to a list of LatLng (requires google_maps_flutter package)
     // to be used in the Map route Polyline.
-    final List<LatLng> routePoints = routeCoordinates
+    //final List<LatLng>
+    routePoints = routeCoordinates
         .map((coordinate) => LatLng(coordinate.latitude, coordinate.longitude))
         .toList();
+    print("this is routeCoordinates");
+    print(routePoints);
 
     // Create Polyline (requires Material UI for Color)
     final Polyline routePolyline = Polyline(
@@ -88,6 +99,7 @@ class MapSampleState extends State<MapSample> {
       color: Colors.red,
       width: 4,
     );
+
   }
 
   // getUserCurrentLocation() -
@@ -184,6 +196,7 @@ class MapSampleState extends State<MapSample> {
           child: SafeArea(
             child: GoogleMap(
               initialCameraPosition: dublin,
+              polylines: _polyline,
               polygons: _polygon,
               markers: Set<Marker>.of(_markers),
               mapType: MapType.normal,
@@ -228,15 +241,15 @@ class MapSampleState extends State<MapSample> {
                   ),
                 );
 
-                // _polyline.add(
-                //     Polyline(
-                //       polylineId: PolylineId('route'),
-                //       visible: true,
-                //       //points: routePoints,
-                //       color: Colors.red,
-                //       width: 4,
-                //     )
-                // );
+                _polyline.add(
+                    Polyline(
+                      polylineId: PolylineId('route'),
+                      visible: true,
+                      points: routePoints,
+                      color: Colors.red,
+                      width: 4,
+                    )
+                );
                 CameraPosition cameraPosition = CameraPosition(
                   target: LatLng(value.latitude, value.longitude),
                   zoom: 16,
