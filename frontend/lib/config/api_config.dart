@@ -54,5 +54,10 @@ Map<String, Map<String, dynamic>> nameToApiInfo = {
     "primary": "localhost:8080",
     "path": "worker/aggregator_get",
     "type": "get"
+  },
+  "aggregator_getp": {
+    "primary": "localhost:8080",
+    "path": "backend/aggregator_get",
+    "type": "get"
   }
 };
