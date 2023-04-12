@@ -11,6 +11,7 @@ class _WorkerHomeState extends State<WorkerHome> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
             backgroundColor: Colors.amber,
             body: Center(

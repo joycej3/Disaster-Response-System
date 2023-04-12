@@ -21,7 +21,7 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
   Set<Marker> _markers = {};
 
   static const CameraPosition dublin = CameraPosition(
@@ -31,6 +31,7 @@ class MapSampleState extends State<MapSample> {
 
   Set<Polyline> _polyline = <Polyline>{};
   Set<Polygon> _polygon = <Polygon>{};
+
 
   // created list of locations to display polygon
   List<LatLng> points = [
@@ -69,8 +70,8 @@ class MapSampleState extends State<MapSample> {
     const double endLng = -6.2543577;
 
     // Form Route between coordinates
-    final List<ORSCoordinate> routeCoordinates = await client
-        .directionsRouteCoordsGet(
+    final List<ORSCoordinate> routeCoordinates =
+        await client.directionsRouteCoordsGet(
       startCoordinate: ORSCoordinate(latitude: startLat, longitude: startLng),
       endCoordinate: ORSCoordinate(latitude: endLat, longitude: endLng),
     );
@@ -104,7 +105,7 @@ class MapSampleState extends State<MapSample> {
   // errors that may occur during the process.
   Future<Position> getUserCurrentLocation() async {
     await Geolocator.requestPermission().then((value) {}).onError(
-          (error, stackTrace) async {
+      (error, stackTrace) async {
         await Geolocator.requestPermission();
         print("ERROR$error");
       },
@@ -125,7 +126,7 @@ class MapSampleState extends State<MapSample> {
 
   //Calls the icon
   BitmapDescriptor icon =
-  BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
 
   // getIcons() -
   // This function loads the custom marker icon from an image file and updates the icon property in the state.
@@ -186,6 +187,7 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     AuthenticationHelper authenticationHelper = AuthenticationHelper();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
           child: SafeArea(
@@ -211,24 +213,22 @@ class MapSampleState extends State<MapSample> {
             Position position = await getUserCurrentLocation();
             getdirections(position);
             getUserCurrentLocation().then(
-                  (value) async {
+              (value) async {
                 print("${value.latitude} ${value.longitude}");
 
-                _polygon.add(
-                    Polygon(
-                      // given polygonId
-                      polygonId: PolygonId('1'),
-                      // initialize the list of points to display polygon
-                      points: points,
-                      // given color to polygon
-                      fillColor: Colors.redAccent.withOpacity(0.3),
-                      // given border color to polygon
-                      strokeColor: Colors.redAccent.withOpacity(0.00001),
-                      geodesic: true,
-                      // given width of border
-                      strokeWidth: 4,
-                    )
-                );
+                _polygon.add(Polygon(
+                  // given polygonId
+                  polygonId: PolygonId('1'),
+                  // initialize the list of points to display polygon
+                  points: points,
+                  // given color to polygon
+                  fillColor: Colors.redAccent.withOpacity(0.3),
+                  // given border color to polygon
+                  strokeColor: Colors.redAccent.withOpacity(0.00001),
+                  geodesic: true,
+                  // given width of border
+                  strokeWidth: 4,
+                ));
                 _markers.add(
                   Marker(
                     markerId: MarkerId("2"),
@@ -267,27 +267,25 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-
-
-Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
-  ApiHandler apiHandler = ApiHandler();
-  Response response = await apiHandler.callApi("aggregator_getp", http.Client());
-  if (response.statusCode == 201) {
-    Map responseJson = ApiHandler().getResponseAsMap(response);
-    print (responseJson);
-    List Isochrone = jsonDecode(responseJson["Isochrone"]);
-    print(Isochrone);
-    print(Isochrone[0]["lat"]);
-    List <LatLng> tempPoints = [];
-    for (int i = 0; i < Isochrone.length; i++) {
-      tempPoints.add(LatLng(Isochrone[i]["lat"], Isochrone[i]["lon"]));
-    }
+  Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
+    ApiHandler apiHandler = ApiHandler();
+    Response response =
+        await apiHandler.callApi("aggregator_getp", http.Client());
+    if (response.statusCode == 201) {
+      Map responseJson = ApiHandler().getResponseAsMap(response);
+      print(responseJson);
+      List Isochrone = jsonDecode(responseJson["Isochrone"]);
+      print(Isochrone);
+      print(Isochrone[0]["lat"]);
+      List<LatLng> tempPoints = [];
+      for (int i = 0; i < Isochrone.length; i++) {
+        tempPoints.add(LatLng(Isochrone[i]["lat"], Isochrone[i]["lon"]));
+      }
 
       setState(() => points = tempPoints);
-    print(points);
+      print(points);
       // statistics["IncidentType"] =
       //     disasterCatToString(statistics["IncidentType"]);
     }
   }
-
 }

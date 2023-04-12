@@ -83,6 +83,7 @@ class WorkerMapState extends State<WorkerMap> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Theme(
             data: ThemeData.from(
               colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),

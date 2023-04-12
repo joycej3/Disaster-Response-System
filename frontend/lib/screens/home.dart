@@ -68,6 +68,7 @@ class Home extends StatelessWidget {
     );
 
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),

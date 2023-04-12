@@ -12,6 +12,7 @@ class _WorkerPageState extends State<WorkerPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Theme(
             data: ThemeData.from(
               colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
