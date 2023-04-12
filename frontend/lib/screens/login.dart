@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator.dart';
+import 'package:flutter_frontend/screens/sensitive/coordinator/coordinator_home.dart';
+
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -174,7 +175,7 @@ class _LoginFormState extends State<LoginForm> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Coordinator()));
+                                      builder: (context) => CoordinatorHome()));
                             } else {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(

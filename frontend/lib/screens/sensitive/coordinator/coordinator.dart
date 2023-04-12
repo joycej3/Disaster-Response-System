@@ -5,10 +5,10 @@ import 'package:flutter_frontend/screens/sensitive/coordinator/suggestions.dart'
 
 class Coordinator extends StatefulWidget {
   @override
-  State<Coordinator> createState() => _CoordinatorHome();
+  State<Coordinator> createState() => _CoordinatorHomePage();
 }
 
-class _CoordinatorHome extends State<Coordinator> {
+class _CoordinatorHomePage extends State<Coordinator> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

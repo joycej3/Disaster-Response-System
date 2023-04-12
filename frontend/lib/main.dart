@@ -43,6 +43,8 @@ class MyApp extends StatelessWidget {
       //home: Coordinator(),
       home: MapSample(),
       //home: WorkerPage(),
+      //home: CoordinatorHome(),
+      // home: WorkerPage(),
     );
   }
 }
