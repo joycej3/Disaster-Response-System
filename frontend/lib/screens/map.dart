@@ -20,7 +20,7 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  Completer<GoogleMapController>();
   Set<Marker> _markers = {};
 
   static const CameraPosition dublin = CameraPosition(
@@ -31,12 +31,46 @@ class MapSampleState extends State<MapSample> {
   Set<Polyline> _polyline = <Polyline>{};
   Set<Polygon> _polygon = <Polygon>{};
 
+  bool _checkIfValidMarker(LatLng tap, List<LatLng> vertices) {
+    int intersectCount = 0;
+    for (int j = 0; j < vertices.length - 1; j++) {
+      if (rayCastIntersect(tap, vertices[j], vertices[j + 1])) {
+        intersectCount++;
+      }
+    }
+
+    return ((intersectCount % 2) == 1); // odd = inside, even = outside;
+  }
+
+  bool rayCastIntersect(LatLng tap, LatLng vertA, LatLng vertB) {
+    double aY = vertA.latitude;
+    double bY = vertB.latitude;
+    double aX = vertA.longitude;
+    double bX = vertB.longitude;
+    double pY = tap.latitude;
+    double pX = tap.longitude;
+
+    if ((aY > pY && bY > pY) || (aY < pY && bY < pY) || (aX < pX && bX < pX)) {
+      return false; // a and b can't both be above or below pt.y, and a or
+      // b must be east of pt.x
+    }
+
+    double m = (aY - bY) / (aX - bX); // Rise over run
+    double bee = (-aX) * m + aY; // y = mx + b
+    double x = (pY - bee) / m; // algebra is neat!
+
+    return x > pX;
+  }
+
+
+  List<LatLng> closestbusstops = [
+  ];
 
   // created list of locations to display polygon
   List<LatLng> points = [
-    // LatLng(53.344740, -6.2584452),
-    // LatLng(53.337656, -6.256319),
-    // LatLng(53.3458, -6.254358),
+    LatLng(53.33644, -6.269),
+    LatLng(53.33644, -6.278),
+    LatLng(53.338, -6.269),
   ];
 
   List<LatLng> routePoints = [
@@ -47,16 +81,40 @@ class MapSampleState extends State<MapSample> {
   void getdirections(Position position) async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
-        apiKey: '5b3ce3597851110001cf62481a41962da766498d8ebd2fcda0ced7d5');
+        apiKey: '5b3ce3597851110001cf62481baa1779ac0d4d74b95dc014c636cf4f');
 
     // Use user's current location as start coordinate
     final double startLat = position.latitude;
     final double startLng = position.longitude;
-    const double endLat =  53.334334;
-    const double endLng = -6.250152;
+
+    double shortestdist=10000;
+    double tempendLat=0;
+    double tempendLng=0;
+
+    for (int i = 0; i < closestbusstops.length; i++) {
+      if (_checkIfValidMarker(closestbusstops[i], points ) ) {
+        double distance = Geolocator.distanceBetween(
+          position.latitude,
+          position.longitude,
+          closestbusstops[i].latitude,
+          closestbusstops[i].longitude,
+        );
+        if (distance < shortestdist) {
+          shortestdist = distance;
+          tempendLat = closestbusstops[i].latitude;
+          tempendLng = closestbusstops[i].longitude;
+        }
+      }
+    }
+
+    final double endLat= tempendLat;
+    final double endLng = tempendLng;
+
+    //const double endLat =  53.33658044;
+    //const double endLng = -6.273174332;
     // Form Route between coordinates
     final List<ORSCoordinate> routeCoordinates =
-        await client.directionsRouteCoordsGet(
+    await client.directionsRouteCoordsGet(
       startCoordinate: ORSCoordinate(latitude: startLat, longitude: startLng),
       endCoordinate: ORSCoordinate(latitude: endLat, longitude: endLng),
     );
@@ -90,7 +148,7 @@ class MapSampleState extends State<MapSample> {
   // errors that may occur during the process.
   Future<Position> getUserCurrentLocation() async {
     await Geolocator.requestPermission().then((value) {}).onError(
-      (error, stackTrace) async {
+          (error, stackTrace) async {
         await Geolocator.requestPermission();
         print("ERROR$error");
       },
@@ -111,7 +169,7 @@ class MapSampleState extends State<MapSample> {
 
   //Calls the icon
   BitmapDescriptor icon =
-      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+  BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
 
   // getIcons() -
   // This function loads the custom marker icon from an image file and updates the icon property in the state.
@@ -150,7 +208,7 @@ class MapSampleState extends State<MapSample> {
         BusStops.latLngList[i].latitude,
         BusStops.latLngList[i].longitude,
       );
-      if (distance <= 220) {
+      if (distance <= 500) {
         // Display only bus stops within 500 meters
         _markers.add(
           Marker(
@@ -162,6 +220,8 @@ class MapSampleState extends State<MapSample> {
             ),
           ),
         );
+
+        closestbusstops.add(BusStops.latLngList[i]);
       }
     }
     // Call setState() to update the UI with the new markers
@@ -170,7 +230,7 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    AuthenticationHelper authenticationHelper = AuthenticationHelper();
+    // AuthenticationHelper authenticationHelper = AuthenticationHelper();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -194,11 +254,11 @@ class MapSampleState extends State<MapSample> {
           foregroundColor: Colors.white,
           backgroundColor: Colors.red,
           onPressed: () async {
-            updateStats(authenticationHelper);
+            // updateStats(authenticationHelper);
             Position position = await getUserCurrentLocation();
             getdirections(position);
             getUserCurrentLocation().then(
-              (value) async {
+                  (value) async {
                 print("${value.latitude} ${value.longitude}");
 
                 _polygon.add(Polygon(
@@ -251,25 +311,27 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-  Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
-    ApiHandler apiHandler = ApiHandler();
-    Response response =
-        await apiHandler.callApi("aggregator_getp", http.Client());
-    if (response.statusCode == 201) {
-      Map responseJson = ApiHandler().getResponseAsMap(response);
-      print(responseJson);
-      List Isochrone = jsonDecode(responseJson["Isochrone"]);
-      print(Isochrone);
-      print(Isochrone[0]["lat"]);
-      List<LatLng> tempPoints = [];
-      for (int i = 0; i < Isochrone.length; i++) {
-        tempPoints.add(LatLng(Isochrone[i]["lat"], Isochrone[i]["lon"]));
-      }
 
-      setState(() => points = tempPoints);
-      print(points);
-      // statistics["IncidentType"] =
-      //     disasterCatToString(statistics["IncidentType"]);
-    }
-  }
+//API request and its returning a lat and long for the isochrone
+// Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
+//   ApiHandler apiHandler = ApiHandler();
+//   Response response =
+//       await apiHandler.callApi("aggregator_getp", http.Client());
+//   if (response.statusCode == 201) {
+//     Map responseJson = ApiHandler().getResponseAsMap(response);
+//     print(responseJson);
+//     List Isochrone = jsonDecode(responseJson["Isochrone"]);
+//     print(Isochrone);
+//     print(Isochrone[0]["lat"]);
+//     List<LatLng> tempPoints = [];
+//     for (int i = 0; i < Isochrone.length; i++) {
+//       tempPoints.add(LatLng(Isochrone[i]["lat"], Isochrone[i]["lon"]));
+//     }
+//
+//     setState(() => points = tempPoints);
+//     print(points);
+//     // statistics["IncidentType"] =
+//     //     disasterCatToString(statistics["IncidentType"]);
+//   }
+// }
 }
