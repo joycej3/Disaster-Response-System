@@ -45,19 +45,6 @@ class MapSampleState extends State<MapSample> {
     // LatLng(53.337656, -6.256319),
     // LatLng(53.3458, -6.254358),
   ];
-
-  // final List<LatLng> _latLngList = <LatLng>[
-  //   LatLng(53.34143382, -6.251562178),
-  //   LatLng(53.31992266, -6.233092929),
-  //   LatLng(53.32019859, -6.233516844),
-  //   LatLng(53.34094273, -6.249945298),
-  //   LatLng(53.33936739, -6.252232409),
-  //   LatLng(53.34777958, -6.242395312),
-  //   LatLng(53.32835551, -6.228375428),
-  //   LatLng(53.36197541, -6.260427638),
-  //
-  // ];
-  //
   void getdirections(Position position) async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
@@ -66,9 +53,8 @@ class MapSampleState extends State<MapSample> {
     // Use user's current location as start coordinate
     final double startLat = position.latitude;
     final double startLng = position.longitude;
-    const double endLat = 53.3458;
-    const double endLng = -6.2543577;
-
+    const double endLat =  53.334334;
+    const double endLng = -6.250152;
     // Form Route between coordinates
     final List<ORSCoordinate> routeCoordinates =
         await client.directionsRouteCoordsGet(
@@ -238,7 +224,6 @@ class MapSampleState extends State<MapSample> {
                     ),
                   ),
                 );
-
                 _polyline.add(
                     Polyline(
                       polylineId: PolylineId('route'),

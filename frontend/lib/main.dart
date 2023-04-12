@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/screens/home.dart';
+import 'package:flutter_frontend/screens/map.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_size/window_size.dart';
 import 'services/firebase_options.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //home: Home(),
       //home: Coordinator(),
-      home: CoordinatorHome(),
+      home: MapSample(),
       //home: WorkerPage(),
     );
   }
