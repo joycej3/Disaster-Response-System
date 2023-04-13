@@ -81,9 +81,9 @@ class MapSampleState extends State<MapSample> {
 
   // created list of locations to display polygon
   List<LatLng> points = [
-    LatLng(53.343006467644706, -6.255319118499757),
-    LatLng(53.34255808983304, -6.259911060333252),
-    LatLng(53.34104638132426, -6.253141164779664),
+    LatLng(53.34248169, -6.255604373),
+    LatLng(53.3520557, -6.233116005),
+    LatLng(53.33947247, -6.250816458),
   ];
 
   List<LatLng> routePoints = [
@@ -91,7 +91,7 @@ class MapSampleState extends State<MapSample> {
     // LatLng(53.337656, -6.256319),
     // LatLng(53.3458, -6.254358),
   ];
-  void getdirections(Position position) async {
+  Future<void> getdirections(Position position) async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
         apiKey: '5b3ce3597851110001cf62481baa1779ac0d4d74b95dc014c636cf4f');
@@ -105,8 +105,6 @@ class MapSampleState extends State<MapSample> {
     double tempendLng=0;
     List<LatLng> polypoints = points;
     polypoints.add(points[0]);
-    print(polypoints);
-
     for (int i = 0; i < closestbusstops.length; i++) {
 
       if (!isPointInsidePolygon(closestbusstops[i], polypoints ) ) {
@@ -145,8 +143,6 @@ class MapSampleState extends State<MapSample> {
     routePoints = routeCoordinates
         .map((coordinate) => LatLng(coordinate.latitude, coordinate.longitude))
         .toList();
-    print("this is routeCoordinates");
-    print(routePoints);
 
     // Create Polyline (requires Material UI for Color)
     final Polyline routePolyline = Polyline(
@@ -156,6 +152,8 @@ class MapSampleState extends State<MapSample> {
       color: Colors.red,
       width: 4,
     );
+    print("get directions returned");
+    return;
   }
 
 
@@ -171,9 +169,11 @@ class MapSampleState extends State<MapSample> {
       },
     );
     Position position = await Geolocator.getCurrentPosition();
-
+     
+    print("got position");
     // Call loadData() here to update the markers every time the user's location changes
     loadData(position);
+    print("update bus stops");
 
     return position;
   }
@@ -272,13 +272,15 @@ class MapSampleState extends State<MapSample> {
           foregroundColor: Colors.white,
           backgroundColor: Colors.red,
           onPressed: () async {
-            // updateStats(authenticationHelper);
-            Position position = await getUserCurrentLocation();
-            getdirections(position);
-            getUserCurrentLocation().then(
+            await getUserCurrentLocation().then(
                   (value) async {
                 print("${value.latitude} ${value.longitude}");
-
+                // ignore: await_only_futures
+                await getdirections(value);
+                await updateStats(AuthenticationHelper());
+                
+                print("getusercurrentlocation then returns");
+                print("add iso polygon");
                 _polygon.add(Polygon(
                   // given polygonId
                   polygonId: PolygonId('1'),
@@ -292,6 +294,7 @@ class MapSampleState extends State<MapSample> {
                   // given width of border
                   strokeWidth: 4,
                 ));
+                print("add user marker");
                 _markers.add(
                   Marker(
                     markerId: MarkerId("2"),
@@ -301,6 +304,7 @@ class MapSampleState extends State<MapSample> {
                     ),
                   ),
                 );
+                print("add route line");
                 _polyline.add(
                     Polyline(
                       polylineId: PolylineId('route'),
@@ -314,10 +318,12 @@ class MapSampleState extends State<MapSample> {
                   target: LatLng(value.latitude, value.longitude),
                   zoom: 16,
                 );
+                print("move camera");
                 final GoogleMapController controller = await _controller.future;
                 controller.animateCamera(
                   CameraUpdate.newCameraPosition(cameraPosition),
                 );
+                print("setstate");
                 setState(() {});
               },
             );
@@ -331,25 +337,26 @@ class MapSampleState extends State<MapSample> {
 
 
 //API request and its returning a lat and long for the isochrone
-// Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
-//   ApiHandler apiHandler = ApiHandler();
-//   Response response =
-//       await apiHandler.callApi("aggregator_getp", http.Client());
-//   if (response.statusCode == 201) {
-//     Map responseJson = ApiHandler().getResponseAsMap(response);
-//     print(responseJson);
-//     List Isochrone = jsonDecode(responseJson["Isochrone"]);
-//     print(Isochrone);
-//     print(Isochrone[0]["lat"]);
-//     List<LatLng> tempPoints = [];
-//     for (int i = 0; i < Isochrone.length; i++) {
-//       tempPoints.add(LatLng(Isochrone[i]["lat"], Isochrone[i]["lon"]));
-//     }
-//
-//     setState(() => points = tempPoints);
-//     print(points);
-//     // statistics["IncidentType"] =
-//     //     disasterCatToString(statistics["IncidentType"]);
-//   }
-// }
+Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
+  print("requesting polygon");
+  ApiHandler apiHandler = ApiHandler();
+  Response response =
+      await apiHandler.callApi("aggregator_getp", http.Client());
+  if (response.statusCode == 201) {
+    Map responseJson = ApiHandler().getResponseAsMap(response);
+    print(responseJson);
+    List Isochrone = jsonDecode(responseJson["Isochrone"]);
+    print(Isochrone);
+    print(Isochrone[0]["lat"]);
+    List<LatLng> tempPoints = [];
+    for (int i = 0; i < Isochrone.length; i++) {
+      tempPoints.add(LatLng(Isochrone[i]["lat"], Isochrone[i]["lon"]));
+    }
+
+    setState(() => points = tempPoints);
+    print(points);
+    // statistics["IncidentType"] =
+    //     disasterCatToString(statistics["IncidentType"]);
+  }
+}
 }
