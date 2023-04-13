@@ -35,6 +35,19 @@ public class ConvexHull {
     
     public ArrayList<Point> convexHull(Point[] points) {
         int n = points.length;
+        ArrayList<Point> earlyHull = new ArrayList<Point>();
+        if(n >= 1){
+            earlyHull.add(points[0]);
+        }
+        if(n >= 2){
+            earlyHull.add(points[1]);
+        }
+        if(n >= 3){
+            earlyHull.add(points[2]);
+        }
+        if(n <= 3){
+            return earlyHull;
+        }
         System.out.println("length: " + n);
         ArrayList<Point> hull = new ArrayList<Point>();
         
@@ -45,6 +58,12 @@ public class ConvexHull {
                 min = i;
             }
         }
+
+        Point temp = points[0];
+        points[0] = points[min];
+        points[min] = temp;
+        min = 0;
+
         System.out.println("min: " + min) ;
         final Integer innerMin = Integer.valueOf(min);
         // Sort points by polar angle with respect to min point
@@ -60,17 +79,23 @@ public class ConvexHull {
         
         // Add the first two points to the hull
         hull.add(points[0]);
-        hull.add(points[1 % n]);
+        hull.add(points[1]);
         
         // Add remaining points to the hull
-        for (int i = 2; i < n; i++) {
-            Point p = points[i];
-            while (hull.size() > 1 && orientation(hull.get(hull.size() - 2), hull.get(hull.size() - 1), p) != 2) {
-                hull.remove(hull.size() - 1);
-                System.out.println("removed");
+        int prevIndex = 1;
+        int minIndex = 2;
+        while(prevIndex != 0){
+            minIndex = (prevIndex + 1)%n;
+            for(int i = 0; i < n; i++) {
+                if(minIndex != i && orientation(points[prevIndex], points[i], points[minIndex]) == 2){
+                    minIndex = i;
+                }
             }
-            hull.add(p);
+            hull.add(points[minIndex]);
+            prevIndex = minIndex;
+            System.out.println("stuck in loop");
         }
+        System.out.println("GOT NEW HULL");
         
         return hull;
     }
