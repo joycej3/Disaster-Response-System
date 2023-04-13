@@ -274,58 +274,32 @@ class CoordinatorMapState extends State<CoordinatorMap> {
           foregroundColor: Colors.white,
           backgroundColor: Colors.red,
           onPressed: () async {
-            updateStats(authenticationHelper);
-            getdirections();
-            getUserCurrentLocation().then(
-                  (value) async {
-                print("${value.latitude} ${value.longitude}");
-
-                _polygon.add(
-                    Polygon(
-                      // given polygonId
-                      polygonId: PolygonId('1'),
-                      // initialize the list of points to display polygon
-                      points: points,
-                      // given color to polygon
-                      fillColor: Colors.redAccent.withOpacity(0.3),
-                      // given border color to polygon
-                      strokeColor: Colors.redAccent.withOpacity(0.00001),
-                      geodesic: true,
-                      // given width of border
-                      strokeWidth: 4,
-                    )
-                );
-                // _markers.add(
-                //   Marker(
-                //     markerId: MarkerId("2"),
-                //     position: LatLng(value.latitude, value.longitude),
-                //     infoWindow: InfoWindow(
-                //       title: 'My Current Location',
-                //     ),
-                //   ),
-                // );
-                //
-                // _polyline.add(
-                //     Polyline(
-                //       polylineId: PolylineId('route'),
-                //       visible: true,
-                //       points: routePoints,
-                //       color: Colors.red,
-                //       width: 4,
-                //     )
-                // );
-                CameraPosition cameraPosition = CameraPosition(
-                  // target: LatLng(value.latitude, value.longitude),
-                  target: points[0],
-                  zoom: 16,
-                );
-                final GoogleMapController controller = await _controller.future;
-                controller.animateCamera(
-                  CameraUpdate.newCameraPosition(cameraPosition),
-                );
-                setState(() {});
-              },
+            await updateStats(authenticationHelper);
+            _polygon.add(
+                Polygon(
+                  // given polygonId
+                  polygonId: PolygonId('1'),
+                  // initialize the list of points to display polygon
+                  points: points,
+                  // given color to polygon
+                  fillColor: Colors.redAccent.withOpacity(0.3),
+                  // given border color to polygon
+                  strokeColor: Colors.redAccent.withOpacity(0.00001),
+                  geodesic: true,
+                  // given width of border
+                  strokeWidth: 4,
+                )
             );
+            CameraPosition cameraPosition = CameraPosition(
+              // target: LatLng(value.latitude, value.longitude),
+              target: points[0],
+              zoom: 16,
+            );
+            final GoogleMapController controller = await _controller.future;
+            controller.animateCamera(
+              CameraUpdate.newCameraPosition(cameraPosition),
+            );
+            setState(() {});
           },
           child: Icon(Icons.location_searching),
         ),
