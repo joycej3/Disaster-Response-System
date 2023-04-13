@@ -76,6 +76,7 @@ class MapSampleState extends State<MapSample> {
 
 
   List<LatLng> closestbusstops = [
+
   ];
 
   // created list of locations to display polygon
