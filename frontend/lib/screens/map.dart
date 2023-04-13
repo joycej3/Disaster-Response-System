@@ -35,35 +35,43 @@ class MapSampleState extends State<MapSample> {
   // test how many times a ray, starting from the point and going in any fixed direction, intersects the
   // edges of the polygon. If the point is on the outside of the
   // polygon the ray will intersect its edge an even number of times.
-  bool _checkIfValidMarker(LatLng tap, List<LatLng> vertices) {
+  bool isPointInsidePolygon(LatLng point, List<LatLng> vertices) {
     int intersectCount = 0;
-    for (int j = 0; j < vertices.length - 1; j++) {
-      if (rayCastIntersect(tap, vertices[j], vertices[j + 1])) {
+    for (int i = 0; i < vertices.length; i++) {
+      LatLng vertex1 = vertices[i];
+      LatLng vertex2 = vertices[(i + 1) % vertices.length];
+      if (_rayCastIntersect(point, vertex1, vertex2)) {
         intersectCount++;
       }
     }
-
-    return ((intersectCount % 2) == 1); // odd = inside, even = outside;
+    return (intersectCount % 2) == 1;
   }
 
-  bool rayCastIntersect(LatLng tap, LatLng vertA, LatLng vertB) {
-    double aY = vertA.latitude;
-    double bY = vertB.latitude;
-    double aX = vertA.longitude;
-    double bX = vertB.longitude;
-    double pY = tap.latitude;
-    double pX = tap.longitude;
-
-    if ((aY > pY && bY > pY) || (aY < pY && bY < pY) || (aX < pX && bX < pX)) {
-      return false; // a and b can't both be above or below pt.y, and a or
-      // b must be east of pt.x
+  bool _rayCastIntersect(LatLng point, LatLng vertex1, LatLng vertex2) {
+    double lat1 = vertex1.latitude;
+    double lng1 = vertex1.longitude;
+    double lat2 = vertex2.latitude;
+    double lng2 = vertex2.longitude;
+    double lat = point.latitude;
+    double lng = point.longitude;
+    if ((lng1 > lng && lng2 > lng) || (lng1 < lng && lng2 < lng) ||
+        (lat1 < lat && lat2 < lat)) {
+      return false;
     }
-
-    double m = (aY - bY) / (aX - bX); // Rise over run
-    double bee = (-aX) * m + aY; // y = mx + b
-    double x = (pY - bee) / m;
-
-    return x > pX;
+    if (lng1 > lng && lng2 < lng) {
+      double latIntersect =
+          (lng - lng1) / (lng2 - lng1) * (lat2 - lat1) + lat1;
+      if (latIntersect > lat) {
+        return true;
+      }
+    } else if (lng1 < lng && lng2 > lng) {
+      double latIntersect =
+          (lng - lng1) / (lng2 - lng1) * (lat2 - lat1) + lat1;
+      if (latIntersect > lat) {
+        return true;
+      }
+    }
+    return false;
   }
 
 
@@ -72,9 +80,9 @@ class MapSampleState extends State<MapSample> {
 
   // created list of locations to display polygon
   List<LatLng> points = [
-    LatLng(53.33644, -6.269),
-    LatLng(53.33644, -6.278),
-    LatLng(53.338, -6.269),
+    LatLng(53.343006467644706, -6.255319118499757),
+    LatLng(53.34255808983304, -6.259911060333252),
+    LatLng(53.34104638132426, -6.253141164779664),
   ];
 
   List<LatLng> routePoints = [
@@ -94,9 +102,13 @@ class MapSampleState extends State<MapSample> {
     double shortestdist=10000000;
     double tempendLat=0;
     double tempendLng=0;
+    List<LatLng> polypoints = points;
+    polypoints.add(points[0]);
+    print(polypoints);
 
     for (int i = 0; i < closestbusstops.length; i++) {
-      if (_checkIfValidMarker(closestbusstops[i], points ) ) {
+
+      if (!isPointInsidePolygon(closestbusstops[i], polypoints ) ) {
         double distance = Geolocator.distanceBetween(
           position.latitude,
           position.longitude,
@@ -212,7 +224,7 @@ class MapSampleState extends State<MapSample> {
         BusStops.latLngList[i].latitude,
         BusStops.latLngList[i].longitude,
       );
-      if (distance <= 500) {
+      if (distance <= 300) {
         // Display only bus stops within 500 meters
         _markers.add(
           Marker(
@@ -226,6 +238,7 @@ class MapSampleState extends State<MapSample> {
         );
 
         closestbusstops.add(BusStops.latLngList[i]);
+
       }
     }
     // Call setState() to update the UI with the new markers
