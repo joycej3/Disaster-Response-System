@@ -44,7 +44,7 @@ public class WorkerController {
 	@IsWorker
 	public Map getSuggestion(@RequestParam String id) {
 		System.out.println("Requested decision for disaster: " + id);
-		if(database.disasterIdToOngoingDisasterModel.containsKey(id)){
+		if(database.disasterIdToOngoingDisasterModel.containsKey(id) && Integer.parseInt((String) database.disasterIdToOngoingDisaster.get(id).get("ReportCount")) >= 20){
 			System.out.println("Ongoing disaster");
 			HashMap<String, Double> stuff = database.disasterIdToOngoingDisasterModel.get(id);
 			stuff.keySet().forEach(key -> {
