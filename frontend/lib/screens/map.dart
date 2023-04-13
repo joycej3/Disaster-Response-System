@@ -31,6 +31,10 @@ class MapSampleState extends State<MapSample> {
   Set<Polyline> _polyline = <Polyline>{};
   Set<Polygon> _polygon = <Polygon>{};
 
+  // To check if point is inside or outside a polygon,
+  // test how many times a ray, starting from the point and going in any fixed direction, intersects the
+  // edges of the polygon. If the point is on the outside of the
+  // polygon the ray will intersect its edge an even number of times.
   bool _checkIfValidMarker(LatLng tap, List<LatLng> vertices) {
     int intersectCount = 0;
     for (int j = 0; j < vertices.length - 1; j++) {
@@ -57,7 +61,7 @@ class MapSampleState extends State<MapSample> {
 
     double m = (aY - bY) / (aX - bX); // Rise over run
     double bee = (-aX) * m + aY; // y = mx + b
-    double x = (pY - bee) / m; // algebra is neat!
+    double x = (pY - bee) / m;
 
     return x > pX;
   }
@@ -87,7 +91,7 @@ class MapSampleState extends State<MapSample> {
     final double startLat = position.latitude;
     final double startLng = position.longitude;
 
-    double shortestdist=10000;
+    double shortestdist=10000000;
     double tempendLat=0;
     double tempendLng=0;
 
