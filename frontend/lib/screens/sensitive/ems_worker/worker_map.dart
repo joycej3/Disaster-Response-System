@@ -488,7 +488,7 @@ class WorkerMapState extends State<WorkerMap> {
   //
   // ];
   //
-  void getdirections() async {
+  void getdirections(Position position) async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
         apiKey: '5b3ce3597851110001cf62481a41962da766498d8ebd2fcda0ced7d5');
@@ -496,8 +496,8 @@ class WorkerMapState extends State<WorkerMap> {
 
 
     // Example coordinates to test between
-    const double startLat = 53.344740;
-    const double startLng = -6.2584452;
+    double startLat = position.latitude;
+    double startLng = position.longitude;
     double endLat = points[0].latitude;
     double endLng = points[0].longitude;
 
@@ -729,7 +729,8 @@ class WorkerMapState extends State<WorkerMap> {
       }
 
       setState(() => points = tempPoints);
-      getdirections();
+      Position position = await getUserCurrentLocation();
+      getdirections(position);
       print(points);
       // statistics["IncidentType"] =
       //     disasterCatToString(statistics["IncidentType"]);
