@@ -488,7 +488,7 @@ class WorkerMapState extends State<WorkerMap> {
   //
   // ];
   //
-  void getdirections(Position position) async {
+  Future<void> getdirections(Position position) async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
         apiKey: '5b3ce3597851110001cf62481a41962da766498d8ebd2fcda0ced7d5');
@@ -534,7 +534,7 @@ class WorkerMapState extends State<WorkerMap> {
       color: Colors.red,
       width: 4,
     );
-
+    return;
   }
 
   // getUserCurrentLocation() -
@@ -653,12 +653,12 @@ class WorkerMapState extends State<WorkerMap> {
           foregroundColor: Colors.white,
           backgroundColor: Colors.red,
           onPressed: () async {
-            updateStats(authenticationHelper);
-            // getdirections();
             getUserCurrentLocation().then(
                   (value) async {
                 print("${value.latitude} ${value.longitude}");
-
+                
+                await updateStats(authenticationHelper);
+                await getdirections(value);
                 _polygon.add(
                     Polygon(
                       // given polygonId
