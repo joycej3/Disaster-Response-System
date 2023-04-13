@@ -276,8 +276,8 @@ class MapSampleState extends State<MapSample> {
                   (value) async {
                 print("${value.latitude} ${value.longitude}");
                 // ignore: await_only_futures
-                await getdirections(value);
                 await updateStats(AuthenticationHelper());
+                await getdirections(value);
                 
                 print("getusercurrentlocation then returns");
                 print("add iso polygon");
