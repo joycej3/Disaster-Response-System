@@ -36,10 +36,12 @@ void main() {
       //GIVEN
       ApiHandler handler = ApiHandler();
       MockClient client = MockClient();
-      http.Response retResponse = http.Response('{"test": "lorum"}', 200);
+      http.Response retResponse = http.Response('{"ip": "lorum"}', 200);
 
       //WHEN
       when(client.get(any)).thenAnswer((_) async =>
+      retResponse);
+      when(client.get(any, headers: anyNamed("headers"))).thenAnswer((_) async =>
       retResponse);
 
       //THEN
@@ -54,13 +56,15 @@ void main() {
         //GIVEN
         ApiHandler handler = ApiHandler();
         MockClient client = MockClient();
-        http.Response retResponse =  http.Response('{"test": "lorum"}', 200);
+        http.Response retResponse =  http.Response('{"ip": "lorum"}', 200);
         var params = {'emergency': "fire",
             'injury': "I am injured",
             'time': 12,
             'location': ""};
 
         //WHEN
+        when(client.get(any)).thenAnswer((_) async =>
+        retResponse);
         when(client.post(any, headers: anyNamed("headers"), body: anyNamed("body"))).thenAnswer((_) async =>
         retResponse);
 
@@ -70,7 +74,7 @@ void main() {
 
   test(
       ' GIVEN an ApiHandler and client WHEN callApi is called with hello_world THEN 404'
-          ' response is returned and fallback is attempted.',
+          ' response is returned',
           () async {
         //GIVEN
         ApiHandler handler = ApiHandler();
@@ -82,7 +86,6 @@ void main() {
         retResponse);
 
         //THEN
-        expect(await handler.callApi("hello_world", client), retResponse);
-        verify(client.get(any)).called(2);
+        expect(() => handler.callApi("hello_world", client), throwsA(isA<Exception>()));
       });
 }
