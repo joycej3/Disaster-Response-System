@@ -47,12 +47,7 @@ class _LoginFormState extends State<LoginForm> {
 
                 // // email
                 SizedBox(height: 15),
-                // Padding(
-                //   padding: EdgeInsets.fromLTRB(60, 0, 0, 0),
-                //   child: SizedBox(
-                //     width: 340,
-                //     height: 40,
-                // child:
+
                 TextFormField(
                   style: TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
@@ -80,13 +75,6 @@ class _LoginFormState extends State<LoginForm> {
                     filled: true,
                     fillColor: Colors.redAccent,
                   ),
-
-                  //   border: OutlineInputBorder(
-                  //     borderRadius: BorderRadius.all(
-                  //       const Radius.circular(100.0),
-                  //     ),
-                  //   ),
-                  // ),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your email';
@@ -97,8 +85,6 @@ class _LoginFormState extends State<LoginForm> {
                     email = val;
                   },
                 ),
-                //   ),
-                // ),
                 //gap between email and password
                 SizedBox(
                   height: 30,

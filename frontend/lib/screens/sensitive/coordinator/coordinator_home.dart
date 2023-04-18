@@ -70,7 +70,6 @@ class CoordinatorHomeState extends State<CoordinatorHome> {
         ),
         backgroundColor: Color.lerp(Colors.blueAccent, Colors.blue, 5),
       ),
-      // backgroundColor: Color.fromRGBO(26, 180, 217, 1)),)
     );
   }
 }

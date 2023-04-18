@@ -1,69 +1,6 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'dart:async';
-//
-// // Create a Google Maps widget.
-// class CoordinatorMap extends StatefulWidget {
-//   const CoordinatorMap({Key? key}) : super(key: key);
-//
-//   @override
-//   State<CoordinatorMap> createState() => CoordinatorMapState();
-// }
-//
-// class CoordinatorMapState extends State<CoordinatorMap> {
-//   final Completer<GoogleMapController> _controller =
-//       Completer<GoogleMapController>();
-//
-//   static const CameraPosition dublin = CameraPosition(
-//     target: LatLng(53.3458, -6.2543577),
-//     zoom: 14,
-//   );
-//
-//   static const CameraPosition trinity = CameraPosition(
-//       bearing: 50, target: LatLng(53.342120, -6.151300), tilt: 50, zoom: 15);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         home: Theme(
-//             data: ThemeData.from(
-//               colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
-//             ),
-//             child: Scaffold(
-//               body: GoogleMap(
-//                 mapType: MapType.hybrid,
-//                 initialCameraPosition: dublin,
-//                 onMapCreated: (GoogleMapController controller) {
-//                   _controller.complete(controller);
-//                 },
-//               ),
-//               floatingActionButton: FloatingActionButton.extended(
-//                 onPressed: _goToCollege,
-//                 backgroundColor: Colors.white,
-//                 foregroundColor: Colors.blue,
-//                 label: const Text(
-//                   'View Disaster Zone',
-//                 ),
-//                 icon: const Icon(
-//                   Icons.emergency_share_sharp,
-//                   color: Colors.blue,
-//                 ),
-//               ),
-//               floatingActionButtonLocation:
-//                   FloatingActionButtonLocation.centerFloat,
-//             )));
-//   }
-//
-//   Future<void> _goToCollege() async {
-//     final GoogleMapController controller = await _controller.future;
-//     controller.animateCamera(CameraUpdate.newCameraPosition(trinity));
-//   }
-// }
 
 import 'dart:convert';
 import 'dart:io';
-import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
@@ -98,30 +35,9 @@ class CoordinatorMapState extends State<CoordinatorMap> {
   Set<Polygon> _polygon = Set <Polygon>();
 
   // created list of locations to display polygon
-  List<LatLng> points = [
-    // LatLng(53.344740, -6.2584452),
-    // LatLng(53.337656, -6.256319),
-    // LatLng(53.3458, -6.254358),
-  ];
+  List<LatLng> points = [];
+  List<LatLng> routePoints = [];
 
-  List<LatLng> routePoints = [
-    // LatLng(53.344740, -6.2584452),
-    // LatLng(53.337656, -6.256319),
-    // LatLng(53.3458, -6.254358),
-  ];
-
-  // final List<LatLng> _latLngList = <LatLng>[
-  //   LatLng(53.34143382, -6.251562178),
-  //   LatLng(53.31992266, -6.233092929),
-  //   LatLng(53.32019859, -6.233516844),
-  //   LatLng(53.34094273, -6.249945298),
-  //   LatLng(53.33936739, -6.252232409),
-  //   LatLng(53.34777958, -6.242395312),
-  //   LatLng(53.32835551, -6.228375428),
-  //   LatLng(53.36197541, -6.260427638),
-  //
-  // ];
-  //
   void getdirections() async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
@@ -258,9 +174,7 @@ class CoordinatorMapState extends State<CoordinatorMap> {
           child: SafeArea(
             child: GoogleMap(
               initialCameraPosition: dublin,
-              //polylines: _polyline,
               polygons: _polygon,
-              //markers: Set<Marker>.of(_markers),
               mapType: MapType.normal,
               myLocationEnabled: true,
               compassEnabled: true,
@@ -291,7 +205,6 @@ class CoordinatorMapState extends State<CoordinatorMap> {
                 )
             );
             CameraPosition cameraPosition = CameraPosition(
-              // target: LatLng(value.latitude, value.longitude),
               target: points[0],
               zoom: 16,
             );
@@ -326,8 +239,6 @@ class CoordinatorMapState extends State<CoordinatorMap> {
 
       setState(() => points = tempPoints);
       print(points);
-      // statistics["IncidentType"] =
-      //     disasterCatToString(statistics["IncidentType"]);
     }
   }
 

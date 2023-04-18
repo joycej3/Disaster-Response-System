@@ -44,7 +44,6 @@ class StatsPage extends State<Stats> {
               child: Text(
                 'Please view real-time disaster information',
                 style: TextStyle(fontSize: 18, color: Colors.black),
-                //softWrap: true,
                 textAlign: TextAlign.center,
               )),
           Text(
