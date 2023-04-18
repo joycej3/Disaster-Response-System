@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import scala.collection.generic.BitOperations.Int;
 
-@Disabled
+
 public class DecisionModelTest{
     @Test
     public void getSuggestionsTest(){
@@ -32,17 +32,17 @@ public class DecisionModelTest{
         values.put("weather_sunshine", 0d);
 
         Map<String, Integer> shouldPredict = new HashMap<>();
-        shouldPredict.put("Ambulances", 2);
-        shouldPredict.put("Paramedics", 22);
-        shouldPredict.put("Fire Trucks", 7 );
-        shouldPredict.put("Police", 32);
-        shouldPredict.put("Fire-Fighters", 44);
+        shouldPredict.put("ambulances", 2);
+        shouldPredict.put("paramedics", 22);
+        shouldPredict.put("fire_engines", 7 );
+        shouldPredict.put("police", 32);
+        shouldPredict.put("fire_fighters", 44);
 
         //WHEN
         Map<String, Integer> predicted = model.getSuggestions(values);
 
         //THEN
-        assertEquals(predicted, shouldPredict);
+        assertEquals(shouldPredict, predicted);
 
     }
 }
