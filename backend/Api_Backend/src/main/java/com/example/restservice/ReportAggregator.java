@@ -1,7 +1,6 @@
 package com.example.restservice;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
-import jakarta.persistence.criteria.CriteriaBuilder.Case;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -34,13 +32,11 @@ public class ReportAggregator {
 			public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
 				System.out.println("aggregator:child added");
 				System.out.println("prevchildkey: " + prevChildKey);
-                //System.out.println(dataSnapshot.toString());
                 DatabaseReference ref = dataSnapshot.getRef();
                 DataSnapshot dataSnapshotChild = dataSnapshot.child("Reports");
                 List<Map<String, Object>> dataList = getMapFromSnapshot(dataSnapshotChild);
                 System.out.print(dataList);
 				aggregate(dataSnapshotChild, ref, dataList , dataSnapshot);
-				//System.out.println(recentEmergency);
 
 			}
 
@@ -85,7 +81,7 @@ public class ReportAggregator {
     }
 
     private Map <String, Object> mapReplace(Map<String, Object> map){
-        // System.out.println(map.get("Injured"));
+     
         boolean injured = Boolean.parseBoolean((String) map.get("Injured"));
         map.replace("Injured", injured);
 
@@ -93,7 +89,7 @@ public class ReportAggregator {
         Double lon = Double.parseDouble((String) map.get("Lon"));
         map.replace("Lat", lat);
         map.replace("Lon", lon);
-        // System.out.println("Map: " + map);
+ 
         map.replace("ReportCategory", Integer.parseInt((String) map.get("ReportCategory")));
         map.replace("Time", Long.parseLong((String) map.get("Time")));
         return map;
@@ -117,14 +113,10 @@ public class ReportAggregator {
         long lastReported = getLastReported(dataList);
         String neighbourhood = getNeighbourhood(dataList);
 
-        // System.out.println("hull: " + hull.toString());
         for (Point p : hull) {
             System.out.println("(" + p.lat + ", " + p.lon + ")");
         }
-        // System.out.println("emergencyCat: " + incidentType);
-        // System.out.println("known injury: " + knownInjury);
-        // System.out.println("pop: " + population);
-        // System.out.println("area: " + area);
+       
         Gson gson = new Gson();
         String jsonHull = gson.toJson(hull);
 
