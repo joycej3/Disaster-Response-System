@@ -169,7 +169,7 @@ class MapSampleState extends State<MapSample> {
       },
     );
     Position position = await Geolocator.getCurrentPosition();
-     
+    
     print("got position");
     // Call loadData() here to update the markers every time the user's location changes
     loadData(position);
@@ -225,8 +225,8 @@ class MapSampleState extends State<MapSample> {
         BusStops.latLngList[i].latitude,
         BusStops.latLngList[i].longitude,
       );
-      if (distance <= 300) {
-        // Display only bus stops within 500 meters
+      if (distance <= 600) {
+        // Display only bus stops within 600 meters
         _markers.add(
           Marker(
             markerId: MarkerId(i.toString()),
