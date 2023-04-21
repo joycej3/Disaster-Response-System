@@ -5,6 +5,10 @@
 
 - [ ] [Tech Architecture](https://lucid.app/lucidchart/8e5f34cd-68ef-4993-b4ad-31f349c93d6f/edit?invitationId=inv_d47aa8a7-0187-4c71-b24a-6fa74d7fba5c)
 
+# Running the application
+- Follow `backend/README.md` to set up backend servers which manage API's and load balancing
+- Follow `frontend/README.md` to run the frontend application
+
 ## Add your files
 
 - [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
