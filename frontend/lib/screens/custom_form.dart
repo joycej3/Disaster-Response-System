@@ -67,7 +67,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     fontSize: 26),
               ),
               SizedBox(height: 15),
-              //EmergencyCategoryDropdown(),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
                   errorBorder: OutlineInputBorder(
@@ -120,8 +119,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     fontSize: 26),
               ),
               SizedBox(height: 15),
-              //SizedBox(child: Tex)),
-              //injuryCategoryDropdown(),
+
               DropdownButtonFormField<String>(
                   decoration: InputDecoration(
                     errorBorder: OutlineInputBorder(

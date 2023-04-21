@@ -86,11 +86,7 @@ class MapSampleState extends State<MapSample> {
     LatLng(53.33947247, -6.250816458),
   ];
 
-  List<LatLng> routePoints = [
-    // LatLng(53.344740, -6.2584452),
-    // LatLng(53.337656, -6.256319),
-    // LatLng(53.3458, -6.254358),
-  ];
+  List<LatLng> routePoints = [];
   Future<void> getdirections(Position position) async {
     // Initialize the openrouteservice with your API key.
     final OpenRouteService client = OpenRouteService(
@@ -125,8 +121,6 @@ class MapSampleState extends State<MapSample> {
     final double endLat= tempendLat;
     final double endLng = tempendLng;
 
-    //const double endLat =  53.33658044;
-    //const double endLng = -6.273174332;
     // Form Route between coordinates
     final List<ORSCoordinate> routeCoordinates =
     await client.directionsRouteCoordsGet(
@@ -336,27 +330,25 @@ class MapSampleState extends State<MapSample> {
   }
 
 
-//API request and its returning a lat and long for the isochrone
-Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
-  print("requesting polygon");
-  ApiHandler apiHandler = ApiHandler();
-  Response response =
-      await apiHandler.callApi("aggregator_getp", http.Client());
-  if (response.statusCode == 201) {
-    Map responseJson = ApiHandler().getResponseAsMap(response);
-    print(responseJson);
-    List Isochrone = jsonDecode(responseJson["Isochrone"]);
-    print(Isochrone);
-    print(Isochrone[0]["lat"]);
-    List<LatLng> tempPoints = [];
-    for (int i = 0; i < Isochrone.length; i++) {
-      tempPoints.add(LatLng(Isochrone[i]["lat"], Isochrone[i]["lon"]));
-    }
+  //API request and its returning a lat and long for the isochrone
+  Future<void> updateStats(AuthenticationHelper authenticationHelper) async {
+    print("requesting polygon");
+    ApiHandler apiHandler = ApiHandler();
+    Response response =
+        await apiHandler.callApi("aggregator_getp", http.Client());
+    if (response.statusCode == 201) {
+      Map responseJson = ApiHandler().getResponseAsMap(response);
+      print(responseJson);
+      List Isochrone = jsonDecode(responseJson["Isochrone"]);
+      print(Isochrone);
+      print(Isochrone[0]["lat"]);
+      List<LatLng> tempPoints = [];
+      for (int i = 0; i < Isochrone.length; i++) {
+        tempPoints.add(LatLng(Isochrone[i]["lat"], Isochrone[i]["lon"]));
+      }
 
-    setState(() => points = tempPoints);
-    print(points);
-    // statistics["IncidentType"] =
-    //     disasterCatToString(statistics["IncidentType"]);
+      setState(() => points = tempPoints);
+      print(points);
+    }
   }
-}
 }

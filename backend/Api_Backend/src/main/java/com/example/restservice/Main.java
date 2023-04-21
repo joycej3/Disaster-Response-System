@@ -1,20 +1,8 @@
 package com.example.restservice;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
-import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,12 +52,11 @@ public class Main {
 	public ResponseEntity<String> firebase_push(@RequestBody Emergency emergency) {
 		System.out.println("Attempting firebase push");
 		System.out.println(emergency);
-		//database.emergencyRef.push().setValueAsync(emergency);
 		try {
 			reportClassifier.classifyReport(new EmergencyRecord(emergency.emergency, reportClassifier.injuryToBool(emergency.injury), emergency.time,
 			 emergency.lat, emergency.lon, reportClassifier.categoryToNumber(emergency.emergency)));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 

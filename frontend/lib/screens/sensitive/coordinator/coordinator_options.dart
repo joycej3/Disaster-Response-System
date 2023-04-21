@@ -13,11 +13,7 @@ class CoordinatorOptions extends StatefulWidget {
   CoordinatorOptionsState createState() => CoordinatorOptionsState();
 }
 
-//ambulance 12
-//paramedics 120
-//fireengines 21
-//police 95
-//firefighters 963
+
 String ambNum = '';
 
 class CoordinatorOptionsState extends State<CoordinatorOptions> {
@@ -62,7 +58,6 @@ class CoordinatorOptionsState extends State<CoordinatorOptions> {
               child: Text(
                 'Please review ML Model Suggestions',
                 style: TextStyle(fontSize: 18, color: Colors.black),
-                //softWrap: true,
                 textAlign: TextAlign.center,
               )),
           Text(
